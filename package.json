@@ -62,7 +62,7 @@
     "chokidar-cli": "1.2.0",
     "codecov": "1.0.1",
     "cross-env": "1.0.8",
-    "eslint": "2.12.0",
+    "eslint": "2.13.0",
     "eslint-plugin-ava": "2.5.0",
     "greenkeeper-postpublish": "1.0.0",
     "jquery": "2.2.4",
