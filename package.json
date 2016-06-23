@@ -70,7 +70,7 @@
     "nyc": "6.6.1",
     "parallelshell": "2.0.0",
     "rimraf": "2.5.2",
-    "rollup": "0.32.1",
+    "rollup": "0.32.2",
     "rollup-plugin-babel": "2.5.1",
     "rollup-plugin-commonjs": "3.0.0",
     "rollup-plugin-node-resolve": "1.7.0",
