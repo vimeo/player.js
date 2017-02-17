@@ -1139,7 +1139,7 @@ an object passed to the `Vimeo.Player` constructor.
 
 option      | default  | description
 ----------- | -------- | -----------
-id _or_ url |          | **Required.** Either the id or the url of the video.
+id _or_ url |          | **Required.** Either the id or the url of the video (private videos require passing the url).
 autopause   | `true`   | Pause this video automatically when another one plays.
 autoplay    | `false`  | Automatically start playback of the video. Note that this won’t work on some devices.
 byline      | `true`   | Show the byline on the video.
