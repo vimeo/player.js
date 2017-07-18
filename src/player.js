@@ -1,12 +1,17 @@
-import './lib/compatibility-check';
-
 import 'es6-collections';
 import Promise from 'native-promise-only';
 
+import { isNode, checkCompatibility } from './lib/compatibility-check';
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks';
 import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl } from './lib/functions';
 import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from './lib/embed';
 import { parseMessageData, postMessage, processData } from './lib/postmessage';
+
+if (! isNode) {
+    checkCompatibility();
+    initializeEmbeds();
+    resizeEmbeds();
+}
 
 const playerMap = new WeakMap();
 const readyMap = new WeakMap();
@@ -846,8 +851,5 @@ class Player {
         return this.set('volume', volume);
     }
 }
-
-initializeEmbeds();
-resizeEmbeds();
 
 export default Player;
