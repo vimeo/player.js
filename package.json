@@ -21,8 +21,7 @@
     "preversion": "npm test",
     "version": "npm run build && git add -A dist",
     "postversion": "git branch -f latest master",
-    "push-release": "git push origin master latest && git push --tags",
-    "postpublish": "greenkeeper-postpublish"
+    "push-release": "git push origin master latest && git push --tags"
   },
   "main": "dist/player.js",
   "jsnext:main": "src/player.js",
