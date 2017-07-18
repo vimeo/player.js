@@ -36,6 +36,9 @@ test('isVimeoUrl identifies *.vimeo.com only', (t) => {
     t.true(isVimeoUrl('http://vimeo.com') === true);
     t.true(isVimeoUrl('https://vimeo.com') === true);
     t.true(isVimeoUrl('//vimeo.com') === true);
+    t.true(isVimeoUrl('http://www.vimeo.com') === true);
+    t.true(isVimeoUrl('https://www.vimeo.com') === true);
+    t.true(isVimeoUrl('//www.vimeo.com') === true);
     t.true(isVimeoUrl('http://player.vimeo.com') === true);
     t.true(isVimeoUrl('//player.vimeo.com') === true);
     t.true(isVimeoUrl('https://player.vimeo.com') === true);
