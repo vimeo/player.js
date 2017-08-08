@@ -11,6 +11,17 @@ test('parseMessageData parses strings', (t) => {
     t.deepEqual(parseMessageData('{ "method": "getColor" }'), { method: 'getColor' });
 });
 
+test('postMessage doesn\'t fail if contentWindow is null', (t) => {
+    const player = {
+        element: {
+            contentWindow: null
+        },
+        origin: 'playerOrigin'
+    };
+
+    postMessage(player, 'testMethod');
+});
+
 test('postMessage called correctly with just a method', (t) => {
     const postMessageSpy = sinon.spy();
     const player = {

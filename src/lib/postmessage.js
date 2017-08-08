@@ -28,7 +28,10 @@ export function parseMessageData(data) {
  * @return {void}
  */
 export function postMessage(player, method, params) {
-    if (!player.element.contentWindow.postMessage) {
+    // Under some circumstances this method can be
+    // called while the `player.element.contentWindow` is already destroyed
+    // and this throws an exception;
+    if (!player.element.contentWindow || !player.element.contentWindow.postMessage) {
         return;
     }
 
