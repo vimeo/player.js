@@ -180,8 +180,8 @@ it will also import the Player constructor directly:
     + [getLoop](#getloop-promiseboolean-error)
     + [setLoop](#setlooploop-boolean-promiseboolean-error)
     + [getPaused](#getpaused-promiseboolean-error)
-    + [getPlaybackRate](#getPlaybackRate-promisenumber-error)
-    + [setPlaybackRate](#setPlaybackRate-number-promisenumber-rangeerrorerror)
+    + [getPlaybackRate](#getplaybackrate-promisenumber-error)
+    + [setPlaybackRate](#setplaybackrateplaybackrate-number-promisenumber-rangeerrorerror)
     + [getTextTracks](#gettexttracks-promiseobject-error)
     + [getVideoEmbedCode](#getvideoembedcode-promisestring-error)
     + [getVideoId](#getvideoid-promisenumber-error)
@@ -808,7 +808,7 @@ player.setPlaybackRate(0.5).then(function(volume) {
 }).catch(function(error) {
     switch (error.name) {
         case 'RangeError':
-            // the volume was less than 0.5 or greater than 2
+            // the playback rate was less than 0.5 or greater than 2
             break;
 
         default:
