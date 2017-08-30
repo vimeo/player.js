@@ -181,6 +181,7 @@ it will also import the Player constructor directly:
     + [setLoop](#setlooploop-boolean-promiseboolean-error)
     + [getPaused](#getpaused-promiseboolean-error)
     + [getPlaybackRate](#getPlaybackRate-promisenumber-error)
+    + [setPlaybackRate](#setPlaybackRate-number-promisenumber-rangeerrorerror)
     + [getTextTracks](#gettexttracks-promiseobject-error)
     + [getVideoEmbedCode](#getvideoembedcode-promisestring-error)
     + [getVideoId](#getvideoid-promisenumber-error)
@@ -783,7 +784,7 @@ player.getPaused().then(function(paused) {
 });
 ```
 
-### getPlaybackRate(): Promise&lt;boolean, Error&gt;
+### getPlaybackRate(): Promise&lt;number, Error&gt;
 
 Get the playback rate of the player on a scale from `0.5` to `2`.
 
