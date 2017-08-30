@@ -15,7 +15,6 @@ class Player {
      /**
      * Create a Player.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {(HTMLIFrameElement|HTMLElement|string|jQuery)} element A reference to the Vimeo
      *        player iframe, and id, or a jQuery object.
      * @param {object} [options] oEmbed parameters to use when creating an embed in the element.
@@ -125,7 +124,6 @@ class Player {
     /**
      * Get a promise for a method.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {string} name The API method to call.
      * @param {Object} [args={}] Arguments to send via postMessage.
      * @return {Promise}
@@ -149,7 +147,6 @@ class Player {
     /**
      * Get a promise for the value of a player property.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {string} name The property name
      * @return {Promise}
      */
@@ -174,7 +171,6 @@ class Player {
     /**
      * Get a promise for setting the value of a player property.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {string} name The API method to call.
      * @param {mixed} value The value to set.
      * @return {Promise}
@@ -205,7 +201,6 @@ class Player {
      * callback with a single parameter, `data`, that contains the data for
      * that event.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {string} eventName The name of the event.
      * @param {function(*)} callback The function to call when the event fires.
      * @return {void}
@@ -239,7 +234,6 @@ class Player {
      * listeners for that event if a `callback` isn’t passed, or only that
      * specific callback if it is passed.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {string} eventName The name of the event.
      * @param {function} [callback] The specific callback to remove.
      * @return {void}
@@ -276,7 +270,6 @@ class Player {
      * the video is successfully loaded, or it will be rejected if it could
      * not be loaded.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {number} id The id of the video.
      * @return {LoadVideoPromise}
      */
@@ -296,7 +289,6 @@ class Player {
      * need to wait for `ready` to trigger to begin adding event listeners
      * or calling other methods.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {ReadyPromise}
      */
     ready() {
@@ -317,7 +309,6 @@ class Player {
     /**
      * Add a cue point to the player.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {number} time The time for the cue point.
      * @param {object} [data] Arbitrary data to be returned with the cue point.
      * @return {AddCuePointPromise}
@@ -339,7 +330,6 @@ class Player {
     /**
      * Remove a cue point from the video.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {string} id The id of the cue point to remove.
      * @return {RemoveCuePointPromise}
      */
@@ -372,7 +362,6 @@ class Player {
      * When set via the API, the track language will not change the viewer’s
      * stored preference.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {string} language The two‐letter language code.
      * @param {string} [kind] The kind of track to enable (captions or subtitles).
      * @return {EnableTextTrackPromise}
@@ -397,7 +386,6 @@ class Player {
     /**
      * Disable the currently-active text track.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {DisableTextTrackPromise}
      */
     disableTextTrack() {
@@ -413,7 +401,6 @@ class Player {
     /**
      * Pause the video if it’s playing.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {PausePromise}
      */
     pause() {
@@ -432,7 +419,6 @@ class Player {
      * viewer has tapped on the play button in the player, however, you
      * will be able to use this function.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {PlayPromise}
      */
     play() {
@@ -448,7 +434,6 @@ class Player {
     /**
      * Return the player to its initial state.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {UnloadPromise}
      */
     unload() {
@@ -466,7 +451,6 @@ class Player {
     /**
      * Get the autopause behavior for this player.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetAutopausePromise}
      */
     getAutopause() {
@@ -489,7 +473,6 @@ class Player {
      * for doing so, we recommend that you leave autopause set to the
      * default (`true`).
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {boolean} autopause
      * @return {SetAutopausePromise}
      */
@@ -506,7 +489,6 @@ class Player {
     /**
      * Get the color for this player.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetColorPromise}
      */
     getColor() {
@@ -529,7 +511,6 @@ class Player {
      * color may fail if the owner of the video has set their embed
      * preferences to force a specific color.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {string} color The hex or rgb color string to set.
      * @return {SetColorPromise}
      */
@@ -556,7 +537,6 @@ class Player {
     /**
      * Get an array of the cue points added to the video.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetCuePointsPromise}
      */
     getCuePoints() {
@@ -572,7 +552,6 @@ class Player {
     /**
      * Get the current playback position in seconds.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetCurrentTimePromise}
      */
     getCurrentTime() {
@@ -596,7 +575,6 @@ class Player {
      * to as close to that time as possible. The exact time will be the
      * fulfilled value of the promise.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {number} currentTime
      * @return {SetCurrentTimePromise}
      */
@@ -615,7 +593,6 @@ class Player {
      * nearest second before playback begins, and to the nearest thousandth
      * of a second after playback begins.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetDurationPromise}
      */
     getDuration() {
@@ -632,7 +609,6 @@ class Player {
      * Get the ended state of the video. The video has ended if
      * `currentTime === duration`.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetEndedPromise}
      */
     getEnded() {
@@ -648,7 +624,6 @@ class Player {
     /**
      * Get the loop state of the player.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetLoopPromise}
      */
     getLoop() {
@@ -665,7 +640,6 @@ class Player {
      * Set the loop state of the player. When set to `true`, the player
      * will start over immediately once playback ends.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {boolean} loop
      * @return {SetLoopPromise}
      */
@@ -682,7 +656,6 @@ class Player {
     /**
      * Get the paused state of the player.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetLoopPromise}
      */
     getPaused() {
@@ -732,7 +705,6 @@ class Player {
     /**
      * Get an array of the text tracks that exist for the video.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetTextTracksPromise}
      */
     getTextTracks() {
@@ -748,7 +720,6 @@ class Player {
     /**
      * Get the `<iframe>` embed code for the video.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetVideoEmbedCodePromise}
      */
     getVideoEmbedCode() {
@@ -764,7 +735,6 @@ class Player {
     /**
      * Get the id of the video.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetVideoIdPromise}
      */
     getVideoId() {
@@ -780,7 +750,6 @@ class Player {
     /**
      * Get the title of the video.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetVideoTitlePromise}
      */
     getVideoTitle() {
@@ -797,7 +766,6 @@ class Player {
      * Get the native width of the currently‐playing video. The width of
      * the highest‐resolution available will be used before playback begins.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetVideoWidthPromise}
      */
     getVideoWidth() {
@@ -814,7 +782,6 @@ class Player {
      * Get the native height of the currently‐playing video. The height of
      * the highest‐resolution available will be used before playback begins.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetVideoHeightPromise}
      */
     getVideoHeight() {
@@ -831,7 +798,6 @@ class Player {
     /**
      * Get the vimeo.com url for the video.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetVideoUrlPromise}
      */
     getVideoUrl() {
@@ -850,7 +816,6 @@ class Player {
      * Most mobile devices do not support an independent volume from the
      * system volume. In those cases, this method will always return `1`.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @return {GetVolumePromise}
      */
     getVolume() {
@@ -872,7 +837,6 @@ class Player {
      * Most mobile devices do not support setting the volume. An error will
      * *not* be triggered in that situation.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {number} volume
      * @return {SetVolumePromise}
      */

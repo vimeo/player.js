@@ -21,7 +21,6 @@ export function parseMessageData(data) {
 /**
  * Post a message to the specified target.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {Player} player The player object to use.
  * @param {string} method The API method to call.
  * @param {object} params The parameters to send to the player.
@@ -52,7 +51,6 @@ export function postMessage(player, method, params) {
 /**
  * Parse the data received from a message event.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {Player} player The player that received the message.
  * @param {(Object|string)} data The message data. Strings will be parsed into JSON.
  * @return {void}

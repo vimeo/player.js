@@ -7,7 +7,6 @@ export const callbackMap = new WeakMap();
 /**
  * Store a callback for a method or event for a player.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {Player} player The player object.
  * @param {string} name The method or event name.
  * @param {(function(this:Player, *): void|{resolve: function, reject: function})} callback
@@ -28,7 +27,6 @@ export function storeCallback(player, name, callback) {
 /**
  * Get the callbacks for a player and event or method.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {Player} player The player object.
  * @param {string} name The method or event name
  * @return {function[]}
@@ -41,7 +39,6 @@ export function getCallbacks(player, name) {
 /**
  * Remove a stored callback for a method or event for a player.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {Player} player The player object.
  * @param {string} name The method or event name
  * @param {function} [callback] The specific callback to remove.
@@ -94,7 +91,6 @@ export function shiftCallbacks(player, name) {
 /**
  * Move callbacks associated with an element to another element.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {HTMLElement} oldElement The old element.
  * @param {HTMLElement} newElement The new element.
  * @return {void}

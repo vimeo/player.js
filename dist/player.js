@@ -623,7 +623,6 @@ var callbackMap = new WeakMap();
 /**
  * Store a callback for a method or event for a player.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {Player} player The player object.
  * @param {string} name The method or event name.
  * @param {(function(this:Player, *): void|{resolve: function, reject: function})} callback
@@ -644,7 +643,6 @@ function storeCallback(player, name, callback) {
 /**
  * Get the callbacks for a player and event or method.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {Player} player The player object.
  * @param {string} name The method or event name
  * @return {function[]}
@@ -657,7 +655,6 @@ function getCallbacks(player, name) {
 /**
  * Remove a stored callback for a method or event for a player.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {Player} player The player object.
  * @param {string} name The method or event name
  * @param {function} [callback] The specific callback to remove.
@@ -710,7 +707,6 @@ function shiftCallbacks(player, name) {
 /**
  * Move callbacks associated with an element to another element.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {HTMLElement} oldElement The old element.
  * @param {HTMLElement} newElement The new element.
  * @return {void}
@@ -729,7 +725,6 @@ function swapCallbacks(oldElement, newElement) {
 /**
  * Get the name of the method for a given getter or setter.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {string} prop The name of the property.
  * @param {string} type Either “get” or “set”.
  * @return {string}
@@ -745,7 +740,6 @@ function getMethodName(prop, type) {
 /**
  * Check to see if the object is a DOM Element.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {*} element The object to check.
  * @return {boolean}
  */
@@ -756,7 +750,6 @@ function isDomElement(element) {
 /**
  * Check to see whether the value is a number.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @see http://dl.dropboxusercontent.com/u/35146/js/tests/isNumber.html
  * @param {*} value The value to check.
  * @param {boolean} integer Check if the value is an integer.
@@ -770,7 +763,6 @@ function isInteger(value) {
 /**
  * Check to see if the URL is a Vimeo url.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {string} url The url string.
  * @return {boolean}
  */
@@ -783,7 +775,6 @@ function isVimeoUrl(url) {
  * Get the Vimeo URL from an element.
  * The element must have either a data-vimeo-id or data-vimeo-url attribute.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {object} oEmbedParameters The oEmbed parameters.
  * @return {string}
  */
@@ -822,7 +813,6 @@ var oEmbedParameters = ['id', 'url', 'width', 'maxwidth', 'height', 'maxheight',
 /**
  * Get the 'data-vimeo'-prefixed attributes from an element as an object.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {HTMLElement} element The element.
  * @param {Object} [defaults={}] The default values to use.
  * @return {Object<string, string>}
@@ -844,7 +834,6 @@ function getOEmbedParameters(element) {
 /**
  * Make an oEmbed call for the specified URL.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {string} videoUrl The vimeo.com url for the video.
  * @param {Object} [params] Parameters to pass to oEmbed.
  * @return {Promise}
@@ -899,7 +888,6 @@ function getOEmbedData(videoUrl) {
 /**
  * Create an embed from oEmbed data inside an element.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {object} data The oEmbed data.
  * @param {HTMLElement} element The element to put the iframe in.
  * @return {HTMLIFrameElement} The iframe embed.
@@ -927,7 +915,6 @@ function createEmbed(_ref, element) {
 /**
  * Initialize all embeds within a specific element
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {HTMLElement} [parent=document] The parent element.
  * @return {void}
  */
@@ -964,7 +951,6 @@ function initializeEmbeds() {
 /**
  * Resize embeds when messaged by the player.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {HTMLElement} [parent=document] The parent element.
  * @return {void}
  */
@@ -1025,7 +1011,6 @@ function parseMessageData(data) {
 /**
  * Post a message to the specified target.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {Player} player The player object to use.
  * @param {string} method The API method to call.
  * @param {object} params The parameters to send to the player.
@@ -1056,7 +1041,6 @@ function postMessage(player, method, params) {
 /**
  * Parse the data received from a message event.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {Player} player The player that received the message.
  * @param {(Object|string)} data The message data. Strings will be parsed into JSON.
  * @return {void}
@@ -1115,7 +1099,6 @@ var Player = function () {
     /**
     * Create a Player.
     *
-    * @author Brad Dougherty <brad@vimeo.com>
     * @param {(HTMLIFrameElement|HTMLElement|string|jQuery)} element A reference to the Vimeo
     *        player iframe, and id, or a jQuery object.
     * @param {object} [options] oEmbed parameters to use when creating an embed in the element.
@@ -1232,7 +1215,6 @@ var Player = function () {
     /**
      * Get a promise for a method.
      *
-     * @author Brad Dougherty <brad@vimeo.com>
      * @param {string} name The API method to call.
      * @param {Object} [args={}] Arguments to send via postMessage.
      * @return {Promise}
@@ -1264,7 +1246,6 @@ var Player = function () {
         /**
          * Get a promise for the value of a player property.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {string} name The property name
          * @return {Promise}
          */
@@ -1294,7 +1275,6 @@ var Player = function () {
         /**
          * Get a promise for setting the value of a player property.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {string} name The API method to call.
          * @param {mixed} value The value to set.
          * @return {Promise}
@@ -1330,7 +1310,6 @@ var Player = function () {
          * callback with a single parameter, `data`, that contains the data for
          * that event.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {string} eventName The name of the event.
          * @param {function(*)} callback The function to call when the event fires.
          * @return {void}
@@ -1367,7 +1346,6 @@ var Player = function () {
          * listeners for that event if a `callback` isn’t passed, or only that
          * specific callback if it is passed.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {string} eventName The name of the event.
          * @param {function} [callback] The specific callback to remove.
          * @return {void}
@@ -1407,7 +1385,6 @@ var Player = function () {
          * the video is successfully loaded, or it will be rejected if it could
          * not be loaded.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {number} id The id of the video.
          * @return {LoadVideoPromise}
          */
@@ -1430,7 +1407,6 @@ var Player = function () {
          * need to wait for `ready` to trigger to begin adding event listeners
          * or calling other methods.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {ReadyPromise}
          */
 
@@ -1454,7 +1430,6 @@ var Player = function () {
         /**
          * Add a cue point to the player.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {number} time The time for the cue point.
          * @param {object} [data] Arbitrary data to be returned with the cue point.
          * @return {AddCuePointPromise}
@@ -1481,7 +1456,6 @@ var Player = function () {
         /**
          * Remove a cue point from the video.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {string} id The id of the cue point to remove.
          * @return {RemoveCuePointPromise}
          */
@@ -1517,7 +1491,6 @@ var Player = function () {
          * When set via the API, the track language will not change the viewer’s
          * stored preference.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {string} language The two‐letter language code.
          * @param {string} [kind] The kind of track to enable (captions or subtitles).
          * @return {EnableTextTrackPromise}
@@ -1545,7 +1518,6 @@ var Player = function () {
         /**
          * Disable the currently-active text track.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {DisableTextTrackPromise}
          */
 
@@ -1564,7 +1536,6 @@ var Player = function () {
         /**
          * Pause the video if it’s playing.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {PausePromise}
          */
 
@@ -1586,7 +1557,6 @@ var Player = function () {
          * viewer has tapped on the play button in the player, however, you
          * will be able to use this function.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {PlayPromise}
          */
 
@@ -1605,7 +1575,6 @@ var Player = function () {
         /**
          * Return the player to its initial state.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {UnloadPromise}
          */
 
@@ -1626,7 +1595,6 @@ var Player = function () {
         /**
          * Get the autopause behavior for this player.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetAutopausePromise}
          */
 
@@ -1652,7 +1620,6 @@ var Player = function () {
          * for doing so, we recommend that you leave autopause set to the
          * default (`true`).
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {boolean} autopause
          * @return {SetAutopausePromise}
          */
@@ -1672,7 +1639,6 @@ var Player = function () {
         /**
          * Get the color for this player.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetColorPromise}
          */
 
@@ -1698,7 +1664,6 @@ var Player = function () {
          * color may fail if the owner of the video has set their embed
          * preferences to force a specific color.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {string} color The hex or rgb color string to set.
          * @return {SetColorPromise}
          */
@@ -1728,7 +1693,6 @@ var Player = function () {
         /**
          * Get an array of the cue points added to the video.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetCuePointsPromise}
          */
 
@@ -1747,7 +1711,6 @@ var Player = function () {
         /**
          * Get the current playback position in seconds.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetCurrentTimePromise}
          */
 
@@ -1774,7 +1737,6 @@ var Player = function () {
          * to as close to that time as possible. The exact time will be the
          * fulfilled value of the promise.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {number} currentTime
          * @return {SetCurrentTimePromise}
          */
@@ -1796,7 +1758,6 @@ var Player = function () {
          * nearest second before playback begins, and to the nearest thousandth
          * of a second after playback begins.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetDurationPromise}
          */
 
@@ -1816,7 +1777,6 @@ var Player = function () {
          * Get the ended state of the video. The video has ended if
          * `currentTime === duration`.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetEndedPromise}
          */
 
@@ -1835,7 +1795,6 @@ var Player = function () {
         /**
          * Get the loop state of the player.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetLoopPromise}
          */
 
@@ -1855,7 +1814,6 @@ var Player = function () {
          * Set the loop state of the player. When set to `true`, the player
          * will start over immediately once playback ends.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {boolean} loop
          * @return {SetLoopPromise}
          */
@@ -1875,7 +1833,6 @@ var Player = function () {
         /**
          * Get the paused state of the player.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetLoopPromise}
          */
 
@@ -1934,7 +1891,6 @@ var Player = function () {
         /**
          * Get an array of the text tracks that exist for the video.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetTextTracksPromise}
          */
 
@@ -1953,7 +1909,6 @@ var Player = function () {
         /**
          * Get the `<iframe>` embed code for the video.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetVideoEmbedCodePromise}
          */
 
@@ -1972,7 +1927,6 @@ var Player = function () {
         /**
          * Get the id of the video.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetVideoIdPromise}
          */
 
@@ -1991,7 +1945,6 @@ var Player = function () {
         /**
          * Get the title of the video.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetVideoTitlePromise}
          */
 
@@ -2011,7 +1964,6 @@ var Player = function () {
          * Get the native width of the currently‐playing video. The width of
          * the highest‐resolution available will be used before playback begins.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetVideoWidthPromise}
          */
 
@@ -2031,7 +1983,6 @@ var Player = function () {
          * Get the native height of the currently‐playing video. The height of
          * the highest‐resolution available will be used before playback begins.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetVideoHeightPromise}
          */
 
@@ -2051,7 +2002,6 @@ var Player = function () {
         /**
          * Get the vimeo.com url for the video.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetVideoUrlPromise}
          */
 
@@ -2073,7 +2023,6 @@ var Player = function () {
          * Most mobile devices do not support an independent volume from the
          * system volume. In those cases, this method will always return `1`.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @return {GetVolumePromise}
          */
 
@@ -2098,7 +2047,6 @@ var Player = function () {
          * Most mobile devices do not support setting the volume. An error will
          * *not* be triggered in that situation.
          *
-         * @author Brad Dougherty <brad@vimeo.com>
          * @param {number} volume
          * @return {SetVolumePromise}
          */

@@ -5,7 +5,6 @@
 /**
  * Get the name of the method for a given getter or setter.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {string} prop The name of the property.
  * @param {string} type Either “get” or “set”.
  * @return {string}
@@ -21,7 +20,6 @@ export function getMethodName(prop, type) {
 /**
  * Check to see if the object is a DOM Element.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {*} element The object to check.
  * @return {boolean}
  */
@@ -32,7 +30,6 @@ export function isDomElement(element) {
 /**
  * Check to see whether the value is a number.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @see http://dl.dropboxusercontent.com/u/35146/js/tests/isNumber.html
  * @param {*} value The value to check.
  * @param {boolean} integer Check if the value is an integer.
@@ -46,7 +43,6 @@ export function isInteger(value) {
 /**
  * Check to see if the URL is a Vimeo url.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {string} url The url string.
  * @return {boolean}
  */
@@ -58,7 +54,6 @@ export function isVimeoUrl(url) {
  * Get the Vimeo URL from an element.
  * The element must have either a data-vimeo-id or data-vimeo-url attribute.
  *
- * @author Brad Dougherty <brad@vimeo.com>
  * @param {object} oEmbedParameters The oEmbed parameters.
  * @return {string}
  */
