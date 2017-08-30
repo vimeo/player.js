@@ -180,6 +180,7 @@ it will also import the Player constructor directly:
     + [getLoop](#getloop-promiseboolean-error)
     + [setLoop](#setlooploop-boolean-promiseboolean-error)
     + [getPaused](#getpaused-promiseboolean-error)
+    + [getPlaybackRate](#getPlaybackRate-promisenumber-error)
     + [getTextTracks](#gettexttracks-promiseobject-error)
     + [getVideoEmbedCode](#getvideoembedcode-promisestring-error)
     + [getVideoId](#getvideoid-promisenumber-error)
@@ -779,6 +780,40 @@ player.getPaused().then(function(paused) {
     // paused = whether or not the player is paused
 }).catch(function(error) {
     // an error occurred
+});
+```
+
+### getPlaybackRate(): Promise&lt;boolean, Error&gt;
+
+Get the playback rate of the player on a scale from `0.5` to `2`.
+
+```js
+player.getPlaybackRate().then(function(playbackRate) {
+    // playbackRate = a numeric value of the current playback rate
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
+### setPlaybackRate(playbackRate: number): Promise&lt;number, (RangeError|Error)&gt;
+
+Set the playback rate of the player on a scale from `0.5` to `2`. When set
+via the API, the playback rate will not be synchronized to other
+players or stored as the viewer's preference.
+
+```js
+player.setPlaybackRate(0.5).then(function(volume) {
+    // playback rate was set
+}).catch(function(error) {
+    switch (error.name) {
+        case 'RangeError':
+            // the volume was less than 0.5 or greater than 2
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
 });
 ```
 

@@ -1886,6 +1886,46 @@ var Player = function () {
         }
 
         /**
+         * A promise to get the playback rate of the player.
+         *
+         * @promise GetPlaybackRatePromise
+         * @fulfill {number} The playback rate of the player on a scale from 0.5 to 2.
+         */
+        /**
+         * Get the playback rate of the player on a scale from `0.5` to `2`.
+         *
+         * @return {GetPlaybackRatePromise}
+         */
+
+    }, {
+        key: 'getPlaybackRate',
+        value: function getPlaybackRate() {
+            return this.get('playbackRate');
+        }
+
+        /**
+         * A promise to set the playbackrate of the player.
+         *
+         * @promise SetPlaybackRatePromise
+         * @fulfill {number} The playback rate was set.
+         * @reject {RangeError} The playback rate was less than 0.5 or greater than 2.
+         */
+        /**
+         * Set the playback rate of the player on a scale from `0.5` to `2`. When set
+         * via the API, the playback rate will not be synchronized to other
+         * players or stored as the viewer's preference.
+         *
+         * @param {number} playbackRate
+         * @return {SetPlaybackRatePromise}
+         */
+
+    }, {
+        key: 'setPlaybackRate',
+        value: function setPlaybackRate(playbackRate) {
+            return this.set('playbackRate', playbackRate);
+        }
+
+        /**
          * A promise to get the text tracks of a video.
          *
          * @promise GetTextTracksPromise
