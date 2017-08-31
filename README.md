@@ -803,7 +803,7 @@ via the API, the playback rate will not be synchronized to other
 players or stored as the viewer's preference.
 
 ```js
-player.setPlaybackRate(0.5).then(function(volume) {
+player.setPlaybackRate(0.5).then(function(playbackRate) {
     // playback rate was set
 }).catch(function(error) {
     switch (error.name) {
