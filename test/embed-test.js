@@ -21,9 +21,9 @@ test('getOEmbedParameters builds off of a defaults object', (t) => {
     });
 });
 
-test('getOEmbedData doesn’t operate on non-Vimeo urls', (t) => {
+test('getOEmbedData doesn’t operate on non-Vimeo urls', async (t) => {
     t.plan(1);
-    t.throws(getOEmbedData('https://notvimeo.com'), TypeError);
+    await t.throws(getOEmbedData('https://notvimeo.com'), TypeError);
 });
 
 test('createEmbed should throw if there’s no element', (t) => {

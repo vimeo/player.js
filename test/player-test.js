@@ -132,11 +132,11 @@ test('player object includes all api methods', (t) => {
     t.true(typeof player.setVolume === 'function');
 });
 
-test('set requires a value', (t) => {
+test('set requires a value', async (t) => {
     const iframe = document.querySelector('.two');
     const player = new Player(iframe);
 
-    t.throws(player.set('color'), TypeError);
+    await t.throws(player.set('color'), TypeError);
 });
 
 test('on requires an event and a callback', (t) => {

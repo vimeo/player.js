@@ -108,7 +108,7 @@ prefixed with `data-vimeo` (`data-vimeo-portrait="false"`, for example).
 
 ## Browser Support
 
-The Player API library is supported in IE 9+, Chrome, Firefox, Safari, and
+The Player API library is supported in IE 11+, Chrome, Firefox, Safari, and
 Opera.
 
 ## Migrate from Froogaloop

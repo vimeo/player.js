@@ -68,8 +68,6 @@ test('postMessage called correctly with a method and params object', (t) => {
     }, 'playerOrigin'));
 });
 
-test.todo('postMessage stringifies the message in IE 9');
-
 test('processData calls the proper callbacks for an event', (t) => {
     const player = { element: {} };
     const callbacks = [sinon.spy(), sinon.spy()];
@@ -138,7 +136,7 @@ test('processData resolves multiple of the same method calls with the proper dat
     t.true(idThree === 'b9a2834a-6461-4785-8301-7e6501c3cf4c');
 });
 
-test('processData rejects a method promise on an error event', (t) => {
+test('processData rejects a method promise on an error event', async (t) => {
     const player = { element: {} };
     const callback = {};
     const methodPromise = new Promise((resolve, reject) => {
@@ -158,7 +156,7 @@ test('processData rejects a method promise on an error event', (t) => {
     });
 
     t.true(getCallbacks(player, 'getColor').length === 0);
-    t.throws(methodPromise, (error) => {
+    await t.throws(methodPromise, (error) => {
         return error.name === 'TypeError' && error.message === 'The color should be 3- or 6-digit hex value.';
     });
 });
