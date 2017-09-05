@@ -808,7 +808,7 @@ function getVimeoUrl() {
  * @module lib/embed
  */
 
-var oEmbedParameters = ['id', 'url', 'width', 'maxwidth', 'height', 'maxheight', 'portrait', 'title', 'byline', 'color', 'autoplay', 'autopause', 'loop', 'responsive'];
+var oEmbedParameters = ['id', 'url', 'width', 'maxwidth', 'height', 'maxheight', 'portrait', 'title', 'byline', 'color', 'autoplay', 'autopause', 'loop', 'responsive', 'speed'];
 
 /**
  * Get the 'data-vimeo'-prefixed attributes from an element as an object.
