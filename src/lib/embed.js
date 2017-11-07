@@ -80,6 +80,18 @@ export function getOEmbedData(videoUrl, params = {}) {
 
             try {
                 const json = JSON.parse(xhr.responseText);
+
+                // Hacky way of supporting 'background' parameter until full offical support.
+                if (params.background && json.html) {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(json.html, 'text/html');
+                    const iframe = doc.getElementsByTagName('iframe')[0];
+
+                    iframe.src += iframe.src.indexOf('?') === -1 ? '?' : '&';
+                    iframe.src += 'background=1';
+
+                    json.html = doc.body.innerHTML;
+                }
                 resolve(json);
             }
             catch (error) {

@@ -5,7 +5,8 @@
   "license": "MIT",
   "author": "Brad Dougherty <brad@vimeo.com>",
   "contributors": [
-    "Brad Dougherty <brad@vimeo.com> (https://brad.is)"
+    "Brad Dougherty <brad@vimeo.com> (https://brad.is)",
+    "Vicky Koblinski <vickykoblinski@gmail.com> (https://vicky.sh)"
   ],
   "scripts": {
     "clean": "rimraf dist/*",
