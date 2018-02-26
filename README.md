@@ -202,6 +202,7 @@ it will also import the Player constructor directly:
     + [cuechange](#cuechange)
     + [cuepoint](#cuepoint)
     + [volumechange](#volumechange)
+    + [playbackratechange](#playbackratechange)
     + [error](#error)
     + [loaded](#loaded)
 * [Embed Options](#embed-options)
@@ -1140,6 +1141,18 @@ event will never fire on those devices.
     volume: 0.5
 }
 ```
+
+### playbackratechange
+
+Triggered when the playback rate of the video in the player changes. The ability to change rate can be disabled by the creator
+and the event will not fire for those videos. The new playback rate is returned with the event.
+
+```js
+{
+    playbackRate: 1.5
+}
+```
+
 
 ### error
 
