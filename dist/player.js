@@ -912,6 +912,7 @@ function createEmbed(_ref, element) {
 
     var div = document.createElement('div');
     div.innerHTML = html;
+    div.firstChild.setAttribute('allow', 'autoplay');
 
     element.appendChild(div.firstChild);
     element.setAttribute('data-vimeo-initialized', 'true');
