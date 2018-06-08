@@ -34,7 +34,7 @@ Already have a player on the page? Pass the element to the `Vimeo.Player`
 constructor and you’re ready to go.
 
 ```html
-<iframe src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<iframe src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay; encrypted-media"></iframe>
 
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
