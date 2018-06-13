@@ -23,7 +23,7 @@
     "postversion": "git branch -f latest master",
     "push-release": "git push origin master latest && git push --tags"
   },
-  "main": "dist/player.js",
+  "main": "dist/player.cjs.js",
   "module": "dist/player.es.js",
   "jsnext:main": "dist/player.es.js",
   "directories": {

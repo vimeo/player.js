@@ -90,6 +90,15 @@ const generateBundle = () => {
         const esSize = maxmin(es.code, es.code, true).replace(/^(.*? → )/, '');
         console.log(`Created bundle ${chalk.cyan('player.es.js')}: ${esSize}`);
 
+        const cjs = bundle.generate({
+            format: 'cjs',
+            banner
+        });
+
+        fs.writeFileSync('dist/player.cjs.js', cjs.code);
+        const cjsSize = maxmin(cjs.code, cjs.code, true).replace(/^(.*? → )/, '');
+        console.log(`Created bundle ${chalk.cyan('player.cjs.js')}: ${cjsSize}`);
+
         return minified;
     })
     .then(() => {
