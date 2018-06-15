@@ -1,6 +1,6 @@
 {
   "name": "@vimeo/player",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "description": "Interact with and control an embedded Vimeo Player.",
   "license": "MIT",
   "author": "Brad Dougherty <brad@vimeo.com>",

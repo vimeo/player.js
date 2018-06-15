@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.6.1 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.6.2 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -839,60 +839,6 @@ function getOEmbedParameters(element) {
 }
 
 /**
- * Make an oEmbed call for the specified URL.
- *
- * @param {string} videoUrl The vimeo.com url for the video.
- * @param {Object} [params] Parameters to pass to oEmbed.
- * @return {Promise}
- */
-function getOEmbedData(videoUrl) {
-    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    return new Promise(function (resolve, reject) {
-        if (!isVimeoUrl(videoUrl)) {
-            throw new TypeError('\u201C' + videoUrl + '\u201D is not a vimeo.com url.');
-        }
-
-        var url = 'https://vimeo.com/api/oembed.json?url=' + encodeURIComponent(videoUrl);
-
-        for (var param in params) {
-            if (params.hasOwnProperty(param)) {
-                url += '&' + param + '=' + encodeURIComponent(params[param]);
-            }
-        }
-
-        var xhr = 'XDomainRequest' in window ? new XDomainRequest() : new XMLHttpRequest();
-        xhr.open('GET', url, true);
-
-        xhr.onload = function () {
-            if (xhr.status === 404) {
-                reject(new Error('\u201C' + videoUrl + '\u201D was not found.'));
-                return;
-            }
-
-            if (xhr.status === 403) {
-                reject(new Error('\u201C' + videoUrl + '\u201D is not embeddable.'));
-                return;
-            }
-
-            try {
-                var json = JSON.parse(xhr.responseText);
-                resolve(json);
-            } catch (error) {
-                reject(error);
-            }
-        };
-
-        xhr.onerror = function () {
-            var status = xhr.status ? ' (' + xhr.status + ')' : '';
-            reject(new Error('There was an error fetching the embed code from Vimeo' + status + '.'));
-        };
-
-        xhr.send();
-    });
-}
-
-/**
  * Create an embed from oEmbed data inside an element.
  *
  * @param {object} data The oEmbed data.
@@ -917,6 +863,70 @@ function createEmbed(_ref, element) {
     element.setAttribute('data-vimeo-initialized', 'true');
 
     return element.querySelector('iframe');
+}
+
+/**
+ * Make an oEmbed call for the specified URL.
+ *
+ * @param {string} videoUrl The vimeo.com url for the video.
+ * @param {Object} [params] Parameters to pass to oEmbed.
+ * @param {HTMLElement} element The element.
+ * @return {Promise}
+ */
+function getOEmbedData(videoUrl) {
+    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var element = arguments[2];
+
+    return new Promise(function (resolve, reject) {
+        if (!isVimeoUrl(videoUrl)) {
+            throw new TypeError('\u201C' + videoUrl + '\u201D is not a vimeo.com url.');
+        }
+
+        var url = 'https://vimeo.com/api/oembed.json?url=' + encodeURIComponent(videoUrl) + '&domain=' + window.location.hostname;
+
+        for (var param in params) {
+            if (params.hasOwnProperty(param)) {
+                url += '&' + param + '=' + encodeURIComponent(params[param]);
+            }
+        }
+
+        var xhr = 'XDomainRequest' in window ? new XDomainRequest() : new XMLHttpRequest();
+        xhr.open('GET', url, true);
+
+        xhr.onload = function () {
+            if (xhr.status === 404) {
+                reject(new Error('\u201C' + videoUrl + '\u201D was not found.'));
+                return;
+            }
+
+            if (xhr.status === 403) {
+                reject(new Error('\u201C' + videoUrl + '\u201D is not embeddable.'));
+                return;
+            }
+
+            try {
+                var json = JSON.parse(xhr.responseText);
+                // Check api response for 403 on oembed
+                if (json.domain_status_code === 403) {
+                    // We still want to create the embed to give users visual feedback
+                    createEmbed(json, element);
+                    reject(new Error('\u201C' + videoUrl + '\u201D is not embeddable.'));
+                    return;
+                }
+
+                resolve(json);
+            } catch (error) {
+                reject(error);
+            }
+        };
+
+        xhr.onerror = function () {
+            var status = xhr.status ? ' (' + xhr.status + ')' : '';
+            reject(new Error('There was an error fetching the embed code from Vimeo' + status + '.'));
+        };
+
+        xhr.send();
+    });
 }
 
 /**
@@ -946,7 +956,7 @@ function initializeEmbeds() {
             var params = getOEmbedParameters(element);
             var url = getVimeoUrl(params);
 
-            getOEmbedData(url, params).then(function (data) {
+            getOEmbedData(url, params, element).then(function (data) {
                 return createEmbed(data, element);
             }).catch(handleError);
         } catch (error) {
@@ -1192,7 +1202,7 @@ var Player = function () {
                 var params = getOEmbedParameters(element, options);
                 var url = getVimeoUrl(params);
 
-                getOEmbedData(url, params).then(function (data) {
+                getOEmbedData(url, params, element).then(function (data) {
                     var iframe = createEmbed(data, element);
                     // Overwrite element with the new iframe,
                     // but store reference to the original element

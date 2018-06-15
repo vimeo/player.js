@@ -96,7 +96,7 @@ class Player {
                 const params = getOEmbedParameters(element, options);
                 const url = getVimeoUrl(params);
 
-                getOEmbedData(url, params).then((data) => {
+                getOEmbedData(url, params, element).then((data) => {
                     const iframe = createEmbed(data, element);
                     // Overwrite element with the new iframe,
                     // but store reference to the original element
