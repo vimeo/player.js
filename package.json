@@ -57,7 +57,7 @@
     "@babel/register": "^7.0.0-beta",
     "@babel/runtime": "^7.0.0-beta",
     "@vimeo/eslint-config-player": "^5.0.1",
-    "ava": "1.0.0-beta.6",
+    "ava": "1.0.1",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.3",
     "chokidar-cli": "^1.2.0",
