@@ -73,8 +73,18 @@ class Player {
                 }
 
                 const data = parseMessageData(event.data);
-                const isReadyEvent = 'event' in data && data.event === 'ready';
-                const isPingResponse = 'method' in data && data.method === 'ping';
+                const isError = data && data.event === 'error';
+                const isReadyError = isError && data.data && data.data.method === 'ready';
+
+                if (isReadyError) {
+                    const error = new Error(data.data.message);
+                    error.name = data.data.name;
+                    reject(error);
+                    return;
+                }
+
+                const isReadyEvent = data && data.event === 'ready';
+                const isPingResponse = data && data.method === 'ping';
 
                 if (isReadyEvent || isPingResponse) {
                     this.element.setAttribute('data-ready', 'true');
@@ -107,7 +117,7 @@ class Player {
                     playerMap.set(this.element, this);
 
                     return data;
-                }).catch((error) => reject(error));
+                }).catch(reject);
             }
         });
 
@@ -143,9 +153,7 @@ class Player {
                 });
 
                 postMessage(this, name, args);
-            }).catch((error) => {
-                reject(error);
-            });
+            }).catch(reject);
         });
     }
 
@@ -169,7 +177,7 @@ class Player {
                 });
 
                 postMessage(this, name);
-            });
+            }).catch(reject);
         });
     }
 
@@ -181,23 +189,24 @@ class Player {
      * @return {Promise}
      */
     set(name, value) {
-        return Promise.resolve(value).then((val) => {
+        return new Promise((resolve, reject) => {
             name = getMethodName(name, 'set');
 
-            if (val === undefined || val === null) {
+            if (value === undefined || value === null) {
                 throw new TypeError('There must be a value to set.');
             }
 
+            // We are storing the resolve/reject handlers to call later, so we
+            // can’t return here.
+            // eslint-disable-next-line promise/always-return
             return this.ready().then(() => {
-                return new Promise((resolve, reject) => {
-                    storeCallback(this, name, {
-                        resolve,
-                        reject
-                    });
-
-                    postMessage(this, name, val);
+                storeCallback(this, name, {
+                    resolve,
+                    reject
                 });
-            });
+
+                postMessage(this, name, value);
+            }).catch(reject);
         });
     }
 

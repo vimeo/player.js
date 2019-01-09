@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.6.5 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.6.6 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -1077,8 +1077,18 @@ function () {
         }
 
         var data = parseMessageData(event.data);
-        var isReadyEvent = 'event' in data && data.event === 'ready';
-        var isPingResponse = 'method' in data && data.method === 'ping';
+        var isError = data && data.event === 'error';
+        var isReadyError = isError && data.data && data.data.method === 'ready';
+
+        if (isReadyError) {
+          var error = new Error(data.data.message);
+          error.name = data.data.name;
+          reject(error);
+          return;
+        }
+
+        var isReadyEvent = data && data.event === 'ready';
+        var isPingResponse = data && data.method === 'ping';
 
         if (isReadyEvent || isPingResponse) {
           _this.element.setAttribute('data-ready', 'true');
@@ -1108,9 +1118,7 @@ function () {
           swapCallbacks(element, iframe);
           playerMap.set(_this.element, _this);
           return data;
-        }).catch(function (error) {
-          return reject(error);
-        });
+        }).catch(reject);
       }
     }); // Store a copy of this Player in the map
 
@@ -1149,9 +1157,7 @@ function () {
             reject: reject
           });
           postMessage(_this2, name, args);
-        }).catch(function (error) {
-          reject(error);
-        });
+        }).catch(reject);
       });
     }
     /**
@@ -1177,7 +1183,7 @@ function () {
             reject: reject
           });
           postMessage(_this3, name);
-        });
+        }).catch(reject);
       });
     }
     /**
@@ -1193,22 +1199,23 @@ function () {
     value: function set(name, value) {
       var _this4 = this;
 
-      return npo_src.resolve(value).then(function (val) {
+      return new npo_src(function (resolve, reject) {
         name = getMethodName(name, 'set');
 
-        if (val === undefined || val === null) {
+        if (value === undefined || value === null) {
           throw new TypeError('There must be a value to set.');
-        }
+        } // We are storing the resolve/reject handlers to call later, so we
+        // can’t return here.
+        // eslint-disable-next-line promise/always-return
+
 
         return _this4.ready().then(function () {
-          return new npo_src(function (resolve, reject) {
-            storeCallback(_this4, name, {
-              resolve: resolve,
-              reject: reject
-            });
-            postMessage(_this4, name, val);
+          storeCallback(_this4, name, {
+            resolve: resolve,
+            reject: reject
           });
-        });
+          postMessage(_this4, name, value);
+        }).catch(reject);
       });
     }
     /**
