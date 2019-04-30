@@ -58,7 +58,7 @@
     "@vimeo/eslint-config-player": "^5.0.1",
     "ava": "1.2.1",
     "chalk": "^2.4.2",
-    "chokidar": "^2.1.2",
+    "chokidar": "^3.0.0",
     "chokidar-cli": "^1.2.2",
     "codecov": "^3.2.0",
     "cross-env": "^5.2.0",
