@@ -61,7 +61,7 @@
     "chokidar": "^2.1.2",
     "chokidar-cli": "^1.2.2",
     "codecov": "^3.2.0",
-    "cross-env": "^5.2.0",
+    "cross-env": "^6.0.0",
     "eslint": "^5.14.1",
     "eslint-plugin-ava": "^5.0.0",
     "eslint-plugin-compat": "^2.7.0",
