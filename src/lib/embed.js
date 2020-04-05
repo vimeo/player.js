@@ -90,7 +90,7 @@ export function getOEmbedData(videoUrl, params = {}, element) {
         let url = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(videoUrl)}`;
 
         for (const param in params) {
-            if (params.hasOwnProperty(param)) {
+            if (Object.prototype.hasOwnProperty.call(params, param)) {
                 url += `&${param}=${encodeURIComponent(params[param])}`;
             }
         }
