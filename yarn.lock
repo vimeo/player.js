@@ -6152,10 +6152,10 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-weakmap-polyfill@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/weakmap-polyfill/-/weakmap-polyfill-2.0.1.tgz#ff0278c7f75bb0c492fc3343257f3e87114d709a"
-  integrity sha512-Jy177Lvb1LCrPQDWJsXyyqf4eOhcdvQHFGoCqSv921kVF5i42MVbr4e2WEwetuTLBn1NX0IhPzTmMu0N3cURqQ==
+weakmap-polyfill@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/weakmap-polyfill/-/weakmap-polyfill-2.0.2.tgz#654da7a05591f576532d58c9d5bfa1d6b48a4b73"
+  integrity sha512-Lyc5GL7aY3E91T5upv+0fd+OZe8gpTa4gyFo+9J5k6HGfYQpLGTAUg/TmAKFoSf+3F05iXLbqd2wIxV9ztr6ig==
 
 webidl-conversions@^4.0.2:
   version "4.0.2"
