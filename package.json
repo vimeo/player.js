@@ -44,7 +44,7 @@
   ],
   "dependencies": {
     "native-promise-only": "0.8.1",
-    "weakmap-polyfill": "2.0.1"
+    "weakmap-polyfill": "2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
