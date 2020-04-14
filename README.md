@@ -214,6 +214,7 @@ it will also import the Player constructor directly:
     + [error](#error)
     + [loaded](#loaded)
     + [durationchange](#durationchange)
+    + [fullscreenchange](#fullscreenchange)
 * [Embed Options](#embed-options)
 
 ## Create a Player
@@ -1311,11 +1312,22 @@ Triggered when a new video is loaded in the player.
 ```
 
 ### durationchange
+
 Triggered when the duration attribute has been updated.
 
 ```js
 {
     duration: 60
+}
+```
+
+### fullscreenchange
+
+Triggered when the player enters or exits fullscreen.
+
+```js
+{
+    fullscreen: true
 }
 ```
 
