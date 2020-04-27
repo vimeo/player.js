@@ -63,7 +63,7 @@
     "codecov": "^3.6.5",
     "cross-env": "^7.0.0",
     "eslint": "^6.8.0",
-    "eslint-plugin-ava": "^6.0.0",
+    "eslint-plugin-ava": "^10.3.0",
     "eslint-plugin-compat": "^3.5.1",
     "esm": "^3.2.25",
     "greenkeeper-postpublish": "^2.0.0",
