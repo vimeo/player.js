@@ -536,6 +536,44 @@ class Player {
     }
 
     /**
+     * A representation of a chapter.
+     *
+     * @typedef {Object} VimeoChapter
+     * @property {number} startTime The start time of the chapter.
+     * @property {object} title The title of the chapter.
+     * @property {number} index The place in the order of Chapters. Starts at 1.
+     */
+    /**
+     * A promise to get chapters for the video.
+     *
+     * @promise GetChaptersPromise
+     * @fulfill {VimeoChapter[]} The chapters for the video.
+     */
+    /**
+     * Get an array of all the chapters for the video.
+     *
+     * @return {GetChaptersPromise}
+     */
+    getChapters() {
+        return this.get('chapters');
+    }
+
+    /**
+     * A promise to get the currently active chapter.
+     *
+     * @promise GetCurrentChaptersPromise
+     * @fulfill {VimeoChapter|undefined} The current chapter for the video.
+     */
+    /**
+     * Get the currently active chapter for the video.
+     *
+     * @return {GetCurrentChaptersPromise}
+     */
+    getCurrentChapter() {
+        return this.get('currentChapter');
+    }
+
+    /**
      * A promise to get the color of the player.
      *
      * @promise GetColorPromise

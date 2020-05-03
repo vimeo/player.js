@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.10.1 | (c) 2020 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.11.0 | (c) 2020 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -1599,6 +1599,51 @@
       key: "getBuffered",
       value: function getBuffered() {
         return this.get('buffered');
+      }
+      /**
+       * A representation of a chapter.
+       *
+       * @typedef {Object} VimeoChapter
+       * @property {number} startTime The start time of the chapter.
+       * @property {object} title The title of the chapter.
+       * @property {number} index The place in the order of Chapters. Starts at 1.
+       */
+
+      /**
+       * A promise to get chapters for the video.
+       *
+       * @promise GetChaptersPromise
+       * @fulfill {VimeoChapter[]} The chapters for the video.
+       */
+
+      /**
+       * Get an array of all the chapters for the video.
+       *
+       * @return {GetChaptersPromise}
+       */
+
+    }, {
+      key: "getChapters",
+      value: function getChapters() {
+        return this.get('chapters');
+      }
+      /**
+       * A promise to get the currently active chapter.
+       *
+       * @promise GetCurrentChaptersPromise
+       * @fulfill {VimeoChapter|undefined} The current chapter for the video.
+       */
+
+      /**
+       * Get the currently active chapter for the video.
+       *
+       * @return {GetCurrentChaptersPromise}
+       */
+
+    }, {
+      key: "getCurrentChapter",
+      value: function getCurrentChapter() {
+        return this.get('currentChapter');
       }
       /**
        * A promise to get the color of the player.

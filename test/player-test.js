@@ -129,6 +129,8 @@ test('player object includes all api methods', (t) => {
     t.true(typeof player.unload === 'function');
     t.true(typeof player.getAutopause === 'function');
     t.true(typeof player.setAutopause === 'function');
+    t.true(typeof player.getChapters === 'function');
+    t.true(typeof player.getCurrentChapter === 'function');
     t.true(typeof player.getColor === 'function');
     t.true(typeof player.setColor === 'function');
     t.true(typeof player.getCurrentTime === 'function');

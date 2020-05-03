@@ -167,6 +167,8 @@ it will also import the Player constructor directly:
     + [getAutopause](#getautopause-promiseboolean-unsupportederrorerror)
     + [setAutopause](#setautopauseautopause-boolean-promiseboolean-unsupportederrorerror)
     + [getBuffered](#getbuffered-promisearray-error)
+    + [getChapters](#getchapters-promisearray-error)
+    + [getCurrentChapter](#getcurrentchapter-promiseobject-error)
     + [getColor](#getcolor-promisestring-error)
     + [setColor](#setcolorcolor-string-promisestring-contrasterrortypeerrorerror)
     + [addCuePoint](#addcuepointtime-number-data-object-promisestring-unsupportederrorrangeerrorerror)
@@ -205,6 +207,7 @@ it will also import the Player constructor directly:
     + [seeking](#seeking)
     + [seeked](#seeked)
     + [texttrackchange](#texttrackchange)
+    + [chapterchange](#chapterchange)
     + [cuechange](#cuechange)
     + [cuepoint](#cuepoint)
     + [volumechange](#volumechange)
@@ -584,6 +587,39 @@ Get the buffered time ranges of the video.
 ```js
 player.getBuffered().then(function(buffered) {
     // buffered = an array of the buffered video time ranges.
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
+### getChapters(): Promise&lt;array, Error&gt;
+
+Get an array of the chapters that are on the video.
+
+```js
+player.getChapters().then(function(chapters) {
+    // chapters = an array of chapters objects
+}).catch(function(error) {
+    // an error occurred
+});
+```
+Each chapters object looks like this:
+
+```js
+{
+    "startTime": 15,
+    "title": "Chapter Title",
+    "index": 1
+}
+```
+
+### getCurrentChapter(): Promise&lt;object, Error&gt;
+
+Get the current chapter. A chapter is "current" when the `currentTime` of the video is equal to or after its `startTime` and before the `startTime` of the next chapter or the end of the video.
+
+```js
+player.getCurrentChapter().then(function(chapter) {
+    // chapter = a chapter object
 }).catch(function(error) {
     // an error occurred
 });
@@ -1210,6 +1246,20 @@ will be null if text tracks are turned off.
     language: "en"
 }
 ```
+
+### chapterchange
+
+Triggered when the current chapter changes.
+
+```js
+{
+    startTime: 15,
+    title: "Chapter 1",
+    index: 1
+}
+```
+
+The `index` property of each chapter is the place it holds in the order of all the chapters. It starts at 1.
 
 ### cuechange
 
