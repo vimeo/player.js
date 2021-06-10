@@ -1207,4 +1207,5 @@ if (!isNode) {
     resizeEmbeds();
 }
 
+export { isVimeoUrl }
 export default Player;
