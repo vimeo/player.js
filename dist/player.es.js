@@ -267,7 +267,7 @@ var npo_src = createCommonjsModule(function (module) {
   // special form of UMD for polyfilling across evironments
   context[name] = context[name] || definition();
 
-  if ( module.exports) {
+  if (module.exports) {
     module.exports = context[name];
   }
 })("Promise", typeof commonjsGlobal != "undefined" ? commonjsGlobal : commonjsGlobal, function DEF() {
@@ -717,7 +717,7 @@ function swapCallbacks(oldElement, newElement) {
 /**
  * @module lib/embed
  */
-var oEmbedParameters = ['autopause', 'autoplay', 'background', 'byline', 'color', 'controls', 'dnt', 'height', 'id', 'loop', 'maxheight', 'maxwidth', 'muted', 'playsinline', 'portrait', 'responsive', 'speed', 'texttrack', 'title', 'transparent', 'url', 'width'];
+var oEmbedParameters = ['autopause', 'autoplay', 'background', 'byline', 'color', 'controls', 'dnt', 'height', 'id', 'keyboard', 'loop', 'maxheight', 'maxwidth', 'muted', 'playsinline', 'portrait', 'responsive', 'speed', 'texttrack', 'title', 'transparent', 'url', 'width'];
 /**
  * Get the 'data-vimeo'-prefixed attributes from an element as an object.
  *
