@@ -435,7 +435,11 @@ Load a new video into this embed. The promise will be resolved if the video is
 successfully loaded, or it will be rejected if it could not be loaded.
 
 ```js
-player.loadVideo(76979871).then(function(id) {
+player.loadVideo({
+                    id: 76979871,
+                    h:'37110065a5'
+                })
+.then(function(id) {
     // the video successfully loaded
 }).catch(function(error) {
     switch (error.name) {
