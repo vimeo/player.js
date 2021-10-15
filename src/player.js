@@ -131,8 +131,7 @@ class Player {
 
         if (screenfull.isEnabled) {
             const exitFullscreen = () => screenfull.exit();
-
-            screenfull.on('fullscreenchange', () => {
+            this.fullscreenchangeHandler = () => {
                 if (screenfull.isFullscreen) {
                     storeCallback(this, 'event:exitFullscreen', exitFullscreen);
                 }
@@ -143,7 +142,9 @@ class Player {
                 this.ready().then(() => {
                     postMessage(this, 'fullscreenchange', screenfull.isFullscreen);
                 });
-            });
+            };
+
+            screenfull.on('fullscreenchange', this.fullscreenchangeHandler);
         }
 
         return this;
@@ -551,7 +552,8 @@ class Player {
                 // If not, just remove the iframe element.
                 if (this.element.parentNode.parentNode && this._originalElement && this._originalElement !== this.element.parentNode) {
                     this.element.parentNode.parentNode.removeChild(this.element.parentNode);
-                } else {
+                }
+                else {
                     this.element.parentNode.removeChild(this.element);
                 }
             }
@@ -566,13 +568,18 @@ class Player {
                     // If not, just remove the iframe element.
                     if (iframe.parentNode.parentNode && this._originalElement && this._originalElement !== iframe.parentNode) {
                         iframe.parentNode.parentNode.removeChild(iframe.parentNode);
-                    } else {
+                    }
+                    else {
                         iframe.parentNode.removeChild(iframe);
                     }
                 }
             }
 
             this._window.removeEventListener('message', this._onMessage);
+
+            if (screenfull.isEnabled) {
+                screenfull.off('fullscreenchange', this.fullscreenchangeHandler);
+            }
 
             resolve();
         });

@@ -45,7 +45,7 @@ test('isVimeoUrl identifies *.vimeo.com only', (t) => {
     t.true(isVimeoUrl('https://notvimeo.com') === false);
     t.true(isVimeoUrl('https://vimeo.someone.com') === false);
     t.true(isVimeoUrl('https://player.vimeo.com/video/123') === true);
-    t.true(isVimeoUrl('https://vimeo.com/2') === true);
+    t.true(isVimeoUrl('https://vimeo.com/336812660') === true);
     t.true(isVimeoUrl('https://vimeo.com.evil.net') === false);
     t.true(isVimeoUrl('http://player.vimeo.com.evil.com') === false);
     t.true(isVimeoUrl('https://player.vimeozcom') === false);
@@ -53,9 +53,9 @@ test('isVimeoUrl identifies *.vimeo.com only', (t) => {
 });
 
 test('getVimeoUrl correctly returns a url from the embed parameters', (t) => {
-    t.true(getVimeoUrl({ id: 2 }) === 'https://vimeo.com/2');
-    t.true(getVimeoUrl({ url: 'http://vimeo.com/2' }) === 'https://vimeo.com/2');
-    t.true(getVimeoUrl({ url: 'https://vimeo.com/2' }) === 'https://vimeo.com/2');
+    t.true(getVimeoUrl({ id: 336812660 }) === 'https://vimeo.com/336812660');
+    t.true(getVimeoUrl({ url: 'http://vimeo.com/336812660' }) === 'https://vimeo.com/336812660');
+    t.true(getVimeoUrl({ url: 'https://vimeo.com/336812660' }) === 'https://vimeo.com/336812660');
 
 });
 

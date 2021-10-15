@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.16.0 | (c) 2021 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.16.1 | (c) 2021 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -1253,7 +1253,7 @@
           return screenfull.exit();
         };
 
-        screenfull.on('fullscreenchange', function () {
+        this.fullscreenchangeHandler = function () {
           if (screenfull.isFullscreen) {
             storeCallback(_this, 'event:exitFullscreen', exitFullscreen);
           } else {
@@ -1264,7 +1264,9 @@
           _this.ready().then(function () {
             postMessage(_this, 'fullscreenchange', screenfull.isFullscreen);
           });
-        });
+        };
+
+        screenfull.on('fullscreenchange', this.fullscreenchangeHandler);
       }
 
       return this;
@@ -1760,6 +1762,10 @@
           }
 
           _this5._window.removeEventListener('message', _this5._onMessage);
+
+          if (screenfull.isEnabled) {
+            screenfull.off('fullscreenchange', _this5.fullscreenchangeHandler);
+          }
 
           resolve();
         });
