@@ -54,6 +54,8 @@ You can use the library to make the embed for you. All you need is an empty
 element and the video id or vimeo.com url (and optional
 [embed options](#embed-options)).
 
+**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Private", you will need to provide the full video URL as a `url` property.
+
 ```html
 <div id="made-in-ny"></div>
 
