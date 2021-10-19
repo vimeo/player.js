@@ -1,7 +1,7 @@
 # Vimeo Player API [![npm](https://img.shields.io/npm/v/@vimeo/player.svg?cacheSeconds=120)](https://www.npmjs.com/package/@vimeo/player) [![Coverage](https://img.shields.io/codecov/c/github/vimeo/player.js.svg?cacheSeconds=120)](https://codecov.io/gh/vimeo/player.js) ![Badge size](https://img.badgesize.io/https://raw.githubusercontent.com/vimeo/player.js/master/dist/player.min.js?compression=gzip&label=gzip)
 
 The Vimeo Player API allows you to interact with and control an embedded Vimeo
-Player.
+Player. 
 
 ## Installation
 
