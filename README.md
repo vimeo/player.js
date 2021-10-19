@@ -1650,4 +1650,4 @@ Triggered when the player enters picture-in-picture.
 
 ### leavepictureinpicture
 
-Triggered when the player leaves picture-in-picture. 
+Triggered when the player leaves picture-in-picture.  
