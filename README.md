@@ -1018,7 +1018,7 @@ player.getPaused().then(function(paused) {
 
 ### getPlaybackRate(): Promise&lt;number, Error&gt;
 
-Get the playback rate of the player on a scale from `0.5` to `2`.
+Get the playback rate of the player on a scale from `0` to `2`.
 
 ```js
 player.getPlaybackRate().then(function(playbackRate) {
@@ -1030,7 +1030,7 @@ player.getPlaybackRate().then(function(playbackRate) {
 
 ### setPlaybackRate(playbackRate: number): Promise&lt;number, (RangeError|Error)&gt;
 
-Set the playback rate of the player on a scale from `0.5` to `2` (available to PRO and Business accounts). When set
+Set the playback rate of the player on a scale from `0` to `2` (available to PRO and Business accounts). When set
 via the API, the playback rate will not be synchronized to other
 players or stored as the viewer's preference.
 
@@ -1040,7 +1040,7 @@ player.setPlaybackRate(0.5).then(function(playbackRate) {
 }).catch(function(error) {
     switch (error.name) {
         case 'RangeError':
-            // the playback rate was less than 0.5 or greater than 2
+            // the playback rate was less than 0 or greater than 2
             break;
 
         default:

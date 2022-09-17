@@ -936,10 +936,10 @@ class Player {
      * A promise to get the playback rate of the player.
      *
      * @promise GetPlaybackRatePromise
-     * @fulfill {number} The playback rate of the player on a scale from 0.5 to 2.
+     * @fulfill {number} The playback rate of the player on a scale from 0 to 2.
      */
     /**
-     * Get the playback rate of the player on a scale from `0.5` to `2`.
+     * Get the playback rate of the player on a scale from `0` to `2`.
      *
      * @return {GetPlaybackRatePromise}
      */
@@ -952,10 +952,10 @@ class Player {
      *
      * @promise SetPlaybackRatePromise
      * @fulfill {number} The playback rate was set.
-     * @reject {RangeError} The playback rate was less than 0.5 or greater than 2.
+     * @reject {RangeError} The playback rate was less than 0 or greater than 2.
      */
     /**
-     * Set the playback rate of the player on a scale from `0.5` to `2`. When set
+     * Set the playback rate of the player on a scale from `0` to `2`. When set
      * via the API, the playback rate will not be synchronized to other
      * players or stored as the viewer's preference.
      *
