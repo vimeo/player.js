@@ -335,6 +335,7 @@ option             | default  | description
 ------------------ | -------- | -----------
 id _or_ url        |          | **Required.** Either the id or the URL of the video. Note that if the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Private", instead of an id, a URL that includes the `h` parameter must be provided.
 autopause          | `true`   | Pause this video automatically when another one plays.
+autopip            |          | Enable the browser to enter picture-in-picture mode automatically when switching tabs or windows, where supported.
 autoplay           | `false`  | Automatically start playback of the video. Note that this won’t work on some devices.
 background         | `false`  | Enable the player's background mode which hides the controls, autoplays and loops the video (available to  Plus, PRO, or Business members).
 byline             | `true`   | Show the byline on the video.
@@ -348,7 +349,7 @@ loop               | `false`  | Play the video again when it reaches the end.
 maxheight          |          | Same as height, but video will not exceed the native size of the video.
 maxwidth           |          | Same as width, but video will not exceed the native size of the video.
 muted              | `false`  | Mute this video on load. Required to autoplay in certain browsers.
-pip                | `false`  | Show the picture-in-picture button in the controlbar and enable the picture-in-picture API.
+pip                |          | Show the picture-in-picture button in the controlbar and enable the picture-in-picture API.
 playsinline        | `true`   | Play video inline on mobile devices, to automatically go fullscreen on playback set this parameter to `false`.
 portrait           | `true`   | Show the portrait on the video.
 quality            |          | Vimeo Plus, PRO, and Business members can default an embedded video to a specific quality on desktop. Possible values: `4K`, `2K`, `1080p`, `720p`, `540p`, `360p` and `240p` https://help.vimeo.com/hc/en-us/articles/224983008-Setting-default-quality-for-embedded-videos

@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.17.1 | (c) 2022 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.18.0 | (c) 2022 Vimeo | MIT License | https://github.com/vimeo/player.js */
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -1064,6 +1064,66 @@ function initAppendVideoMetadata() {
       if (isVimeoEmbed(iframe.src) && isValidMessageSource) {
         var player = new Player(iframe);
         player.callMethod('appendVideoMetadata', window.location.href);
+      }
+    }
+  };
+
+  window.addEventListener('message', onMessage);
+}
+/**
+ * Seek to time indicated by vimeo_t query parameter if present in URL
+ *
+ * @param {HTMLElement} [parent=document] The parent element.
+ * @return {void}
+ */
+
+function checkUrlTimeParam() {
+  var parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
+
+  //  Prevent execution if users include the player.js script multiple times.
+  if (window.VimeoCheckedUrlTimeParam) {
+    return;
+  }
+
+  window.VimeoCheckedUrlTimeParam = true;
+
+  var handleError = function handleError(error) {
+    if ('console' in window && console.error) {
+      console.error("There was an error getting video Id: ".concat(error));
+    }
+  };
+
+  var onMessage = function onMessage(event) {
+    if (!isVimeoUrl(event.origin)) {
+      return;
+    }
+
+    var data = parseMessageData(event.data);
+
+    if (!data || data.event !== 'ready') {
+      return;
+    }
+
+    var iframes = parent.querySelectorAll('iframe');
+
+    for (var i = 0; i < iframes.length; i++) {
+      var iframe = iframes[i];
+      var isValidMessageSource = iframe.contentWindow === event.source;
+
+      if (isVimeoEmbed(iframe.src) && isValidMessageSource) {
+        (function () {
+          var player = new Player(iframe);
+          player.getVideoId().then(function (videoId) {
+            var matches = new RegExp("[?&]vimeo_t_".concat(videoId, "=([^&#]*)")).exec(window.location.href);
+
+            if (matches && matches[1]) {
+              var sec = decodeURI(matches[1]);
+              player.setCurrentTime(sec);
+            }
+
+            return;
+          }).catch(handleError);
+        })();
       }
     }
   };
@@ -2570,6 +2630,7 @@ if (!isNode) {
   initializeEmbeds();
   resizeEmbeds();
   initAppendVideoMetadata();
+  checkUrlTimeParam();
 }
 
 export default Player;

@@ -5,7 +5,15 @@ import Promise from 'native-promise-only';
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks';
 import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode } from './lib/functions';
-import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds, initAppendVideoMetadata } from './lib/embed';
+import {
+    getOEmbedParameters,
+    getOEmbedData,
+    createEmbed,
+    initializeEmbeds,
+    resizeEmbeds,
+    initAppendVideoMetadata,
+    checkUrlTimeParam
+} from './lib/embed';
 import { parseMessageData, postMessage, processData } from './lib/postmessage';
 import { initializeScreenfull } from './lib/screenfull.js';
 
@@ -1213,6 +1221,7 @@ if (!isNode) {
     initializeEmbeds();
     resizeEmbeds();
     initAppendVideoMetadata();
+    checkUrlTimeParam();
 }
 
 export default Player;
