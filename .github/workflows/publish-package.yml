@@ -13,6 +13,6 @@ jobs:
           # Setup .npmrc file to publish to npm
           registry-url: 'https://registry.npmjs.org'
       - run: yarn --frozen-lockfile
-      - run: yarn pack --dry-run
+      - run: yarn prepublishOnly
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_VIMEO_PUBLISH_TOKEN }}
