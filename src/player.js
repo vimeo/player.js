@@ -523,6 +523,22 @@ class Player {
     }
 
     /**
+     * A promise to prompt the viewer to initiate remote playback.
+     *
+     * @promise RemotePlaybackPromptPromise
+     * @fulfill {void}
+     * @reject {NotFoundError} No remote playback device is available.
+     */
+    /**
+     * Request to prompt the user to initiate remote playback.
+     *
+     * @return {RemotePlaybackPromptPromise}
+     */
+    remotePlaybackPrompt() {
+        return this.callMethod('remotePlaybackPrompt');
+    }
+
+    /**
      * A promise to unload the video.
      *
      * @promise UnloadPromise
@@ -1034,6 +1050,36 @@ class Player {
      */
     setQuality(quality) {
         return this.set('quality', quality);
+    }
+
+    /**
+     * A promise to get the remote playback availability.
+     *
+     * @promise RemotePlaybackAvailabilityPromise
+     * @fulfill {boolean} Whether remote playback is available.
+     */
+    /**
+     * Get the availability of remote playback.
+     *
+     * @return {RemotePlaybackAvailabilityPromise}
+     */
+    getRemotePlaybackAvailability() {
+        return this.get('remotePlaybackAvailability');
+    }
+
+    /**
+     * A promise to get the current remote playback state.
+     *
+     * @promise RemotePlaybackStatePromise
+     * @fulfill {string} The state of the remote playback: connecting, connected, or disconnected.
+     */
+    /**
+     * Get the current remote playback state.
+     *
+     * @return {RemotePlaybackStatePromise}
+     */
+    getRemotePlaybackState() {
+        return this.get('remotePlaybackState');
     }
 
     /**
