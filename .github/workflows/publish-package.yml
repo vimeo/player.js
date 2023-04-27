@@ -1,8 +1,6 @@
 name: Publish Package
 
-on:
-  release:
-    types: [published]
+on: pull_request
 
 jobs:
   publish:
@@ -14,7 +12,7 @@ jobs:
           node-version: 16
           # Setup .npmrc file to publish to npm
           registry-url: 'https://registry.npmjs.org'
-      - run: yarn --frozen-lockfile
-      - run: yarn publish --new-version ${{ github.event.release.tag_name }}
+      # - run: yarn --frozen-lockfile
+      - run: npm config list
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_VIMEO_PUBLISH_TOKEN }}
