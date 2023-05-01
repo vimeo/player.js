@@ -772,7 +772,7 @@ class Player {
      * @return {GetColor1Promise}
      */
     getColor1() {
-        return this.get('colorOne');
+        return this.get('color1');
     }
 
     /**
@@ -787,7 +787,7 @@ class Player {
      * @return {GetColor2Promise}
      */
     getColor2() {
-        return this.get('colorTwo');
+        return this.get('color2');
     }
 
     /**
@@ -802,7 +802,7 @@ class Player {
      * @return {GetColor3Promise}
      */
     getColor3() {
-        return this.get('colorThree');
+        return this.get('color3');
     }
 
     /**
@@ -817,7 +817,7 @@ class Player {
      * @return {GetColor4Promise}
      */
     getColor4() {
-        return this.get('colorFour');
+        return this.get('color4');
     }
 
     /**
@@ -873,7 +873,6 @@ class Player {
             colors[2] ? this.setColor3(colors[2]) : nullPromise,
             colors[3] ? this.setColor4(colors[3]) : nullPromise
         ];
-
         return Promise.all(colorPromises);
     }
 
@@ -897,7 +896,7 @@ class Player {
      * @return {SetColor1Promise}
      */
     setColor1(color) {
-        return this.set('colorOne', color);
+        return this.set('color1', color);
     }
 
     /**
@@ -921,7 +920,7 @@ class Player {
      * @return {SetColor2Promise}
      */
     setColor2(color) {
-        return this.set('colorTwo', color);
+        return this.set('color2', color);
     }
 
     /**
@@ -944,7 +943,7 @@ class Player {
      * @return {SetColor3Promise}
      */
     setColor3(color) {
-        return this.set('colorThree', color);
+        return this.set('color3', color);
     }
 
     /**
@@ -967,7 +966,7 @@ class Player {
      * @return {SetColor4Promise}
      */
     setColor4(color) {
-        return this.set('colorFour', color);
+        return this.set('color4', color);
     }
 
     /**

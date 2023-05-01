@@ -836,7 +836,7 @@
   /**
    * @module lib/embed
    */
-  var oEmbedParameters = ['autopause', 'autoplay', 'background', 'byline', 'color', 'color_one', 'color_two', 'color_three', 'color_four', 'controls', 'dnt', 'height', 'id', 'interactive_params', 'keyboard', 'loop', 'maxheight', 'maxwidth', 'muted', 'playsinline', 'portrait', 'responsive', 'speed', 'texttrack', 'title', 'transparent', 'url', 'width'];
+  var oEmbedParameters = ['autopause', 'autoplay', 'background', 'byline', 'color', 'color1', 'color2', 'color3', 'color4', 'colors', 'controls', 'dnt', 'height', 'id', 'interactive_params', 'keyboard', 'loop', 'maxheight', 'maxwidth', 'muted', 'playsinline', 'portrait', 'responsive', 'speed', 'texttrack', 'title', 'transparent', 'url', 'width'];
   /**
    * Get the 'data-vimeo'-prefixed attributes from an element as an object.
    *
@@ -2092,7 +2092,7 @@
     }, {
       key: "getColor1",
       value: function getColor1() {
-        return this.get('colorOne');
+        return this.get('color1');
       }
       /**
        * A promise to get the accent color of the player.
@@ -2110,7 +2110,7 @@
     }, {
       key: "getColor2",
       value: function getColor2() {
-        return this.get('colorTwo');
+        return this.get('color2');
       }
       /**
        * A promise to get the text/icon color of the player.
@@ -2128,7 +2128,7 @@
     }, {
       key: "getColor3",
       value: function getColor3() {
-        return this.get('colorThree');
+        return this.get('color3');
       }
       /**
        * A promise to get the background color of the player.
@@ -2146,7 +2146,7 @@
     }, {
       key: "getColor4",
       value: function getColor4() {
-        return this.get('colorFour');
+        return this.get('color4');
       }
       /**
        * A promise to set the accent color of the player.
@@ -2202,15 +2202,11 @@
       key: "setColors",
       value: function setColors() {
         var colors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-        var nullPromise = function nullPromise() {
-          return new npo_src(function (resolve) {
-            return resolve(null);
-          });
-        };
-
-        var colorsPromises = [colors[0] ? this.setColor1(colors[0]) : nullPromise(), colors[1] ? this.setColor2(colors[1]) : nullPromise(), colors[2] ? this.setColor3(colors[2]) : nullPromise(), colors[3] ? this.setColor4(colors[3]) : nullPromise()];
-        return npo_src.all(colorsPromises);
+        var nullPromise = new npo_src(function (resolve) {
+          return resolve(null);
+        });
+        var colorPromises = [colors[0] ? this.setColor1(colors[0]) : nullPromise, colors[1] ? this.setColor2(colors[1]) : nullPromise, colors[2] ? this.setColor3(colors[2]) : nullPromise, colors[3] ? this.setColor4(colors[3]) : nullPromise];
+        return npo_src.all(colorPromises);
       }
       /**
        * A promise to set the primary color of the player.
@@ -2236,7 +2232,7 @@
     }, {
       key: "setColor1",
       value: function setColor1(color) {
-        return this.set('colorOne', color);
+        return this.set('color1', color);
       }
       /**
        * A promise to set the accent color of the player.
@@ -2263,7 +2259,7 @@
     }, {
       key: "setColor2",
       value: function setColor2(color) {
-        return this.set('colorTwo', color);
+        return this.set('color2', color);
       }
       /**
        * A promise to set the text/icon color of the player.
@@ -2289,7 +2285,7 @@
     }, {
       key: "setColor3",
       value: function setColor3(color) {
-        return this.set('colorThree', color);
+        return this.set('color3', color);
       }
       /**
        * A promise to set the background color of the player.
@@ -2315,7 +2311,7 @@
     }, {
       key: "setColor4",
       value: function setColor4(color) {
-        return this.set('colorFour', color);
+        return this.set('color4', color);
       }
       /**
        * A representation of a cue point.
