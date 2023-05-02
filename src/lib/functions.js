@@ -102,3 +102,26 @@ export function getVimeoUrl(oEmbedParameters = {}) {
 
     throw new TypeError(`“${idOrUrl}” is not a vimeo.com url.`);
 }
+
+/* eslint-disable max-params */
+/**
+ * A utility method for attaching and detaching event handlers
+ *
+ * @param {EventTarget} target
+ * @param {string | string[]} eventName
+ * @param {function} callback
+ * @param {'addEventListener' | 'on'} onName
+ * @param {'removeEventListener' | 'off'} offName
+ * @return {{cancel: (function(): void)}}
+ */
+export const subscribe = (target, eventName, callback, onName = 'addEventListener', offName = 'removeEventListener') => {
+    const eventNames = typeof eventName === 'string' ? [eventName] : eventName;
+
+    eventNames.forEach((evName) => {
+        target[onName](evName, callback);
+    });
+
+    return {
+        cancel: () => eventNames.forEach((evName) => target[offName](evName, callback))
+    };
+};

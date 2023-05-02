@@ -9,8 +9,9 @@ module.exports = {
     plugins: ['ava'],
     extends: 'plugin:ava/recommended',
     parserOptions: {
-        'ecmaVersion': 8,
+        'ecmaVersion': 12,
     },
+    parser: '@babel/eslint-parser',
     rules: {
         'ava/no-cb-test': ERROR,
         'no-restricted-syntax': OFF,

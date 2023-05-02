@@ -1,9 +1,781 @@
 /*! @vimeo/player v2.19.0 | (c) 2023 Vimeo | MIT License | https://github.com/vimeo/player.js */
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var runtime_1 = createCommonjsModule(function (module) {
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+var runtime = function (exports) {
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined$1; // More compressible than void 0.
+
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+    return obj[key];
+  }
+
+  try {
+    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+    define({}, "");
+  } catch (err) {
+    define = function (obj, key, value) {
+      return obj[key] = value;
+    };
+  }
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []); // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+    return generator;
+  }
+
+  exports.wrap = wrap; // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+
+  function tryCatch(fn, obj, arg) {
+    try {
+      return {
+        type: "normal",
+        arg: fn.call(obj, arg)
+      };
+    } catch (err) {
+      return {
+        type: "throw",
+        arg: err
+      };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed"; // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+
+  var ContinueSentinel = {}; // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+
+  function Generator() {}
+
+  function GeneratorFunction() {}
+
+  function GeneratorFunctionPrototype() {} // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+
+
+  var IteratorPrototype = {};
+
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+
+  if (NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"); // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function (method) {
+      define(prototype, method, function (arg) {
+        return this._invoke(method, arg);
+      });
+    });
+  }
+
+  exports.isGeneratorFunction = function (genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor ? ctor === GeneratorFunction || // For the native GeneratorFunction constructor, the best we can
+    // do is to check its .name property.
+    (ctor.displayName || ctor.name) === "GeneratorFunction" : false;
+  };
+
+  exports.mark = function (genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      define(genFun, toStringTagSymbol, "GeneratorFunction");
+    }
+
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  }; // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+
+
+  exports.awrap = function (arg) {
+    return {
+      __await: arg
+    };
+  };
+
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+
+        if (value && typeof value === "object" && hasOwn.call(value, "__await")) {
+          return PromiseImpl.resolve(value.__await).then(function (value) {
+            invoke("next", value, resolve, reject);
+          }, function (err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return PromiseImpl.resolve(value).then(function (unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function (error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function (resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise = // If enqueue has been called before, then we want to wait until
+      // all previous Promises have been resolved before calling invoke,
+      // so that results are always delivered in the correct order. If
+      // enqueue has not been called before, then it is important to
+      // call invoke immediately, without waiting on a callback to fire,
+      // so that the async generator function has the opportunity to do
+      // any necessary setup in a predictable way. This predictability
+      // is why the Promise constructor synchronously invokes its
+      // executor callback, and why async functions synchronously
+      // execute code before the first await. Since we implement simple
+      // async functions in terms of async generators, it is especially
+      // important to get this right, even though it requires care.
+      previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, // Avoid propagating failures to Promises returned by later
+      // invocations of the iterator.
+      callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+    } // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+
+
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+
+  exports.AsyncIterator = AsyncIterator; // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+
+  exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    if (PromiseImpl === void 0) PromiseImpl = Promise;
+    var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
+    return exports.isGeneratorFunction(outerFn) ? iter // If outerFn is a generator, return the full iterator.
+    : iter.next().then(function (result) {
+      return result.done ? result.value : iter.next();
+    });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        } // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+
+
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+        var record = tryCatch(innerFn, self, context);
+
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done ? GenStateCompleted : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+        } else if (record.type === "throw") {
+          state = GenStateCompleted; // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  } // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+
+
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+
+    if (method === undefined$1) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined$1;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError("The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (!info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value; // Resume execution at the desired location (see delegateYield).
+
+      context.next = delegate.nextLoc; // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined$1;
+      }
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    } // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+
+
+    context.delegate = null;
+    return ContinueSentinel;
+  } // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+
+
+  defineIteratorMethods(Gp);
+  define(Gp, toStringTagSymbol, "Generator"); // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+
+  Gp[iteratorSymbol] = function () {
+    return this;
+  };
+
+  Gp.toString = function () {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = {
+      tryLoc: locs[0]
+    };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{
+      tryLoc: "root"
+    }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function (object) {
+    var keys = [];
+
+    for (var key in object) {
+      keys.push(key);
+    }
+
+    keys.reverse(); // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      } // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+
+
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1,
+            next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined$1;
+          next.done = true;
+          return next;
+        };
+
+        return next.next = next;
+      }
+    } // Return an iterator with no values.
+
+
+    return {
+      next: doneResult
+    };
+  }
+
+  exports.values = values;
+
+  function doneResult() {
+    return {
+      value: undefined$1,
+      done: true
+    };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+    reset: function (skipTempReset) {
+      this.prev = 0;
+      this.next = 0; // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+
+      this.sent = this._sent = undefined$1;
+      this.done = false;
+      this.delegate = null;
+      this.method = "next";
+      this.arg = undefined$1;
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" && hasOwn.call(this, name) && !isNaN(+name.slice(1))) {
+            this[name] = undefined$1;
+          }
+        }
+      }
+    },
+    stop: function () {
+      this.done = true;
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+    dispatchException: function (exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined$1;
+        }
+
+        return !!caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+    abrupt: function (type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+
+        if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry && (type === "break" || type === "continue") && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+    complete: function (record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" || record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+    finish: function (finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+    "catch": function (tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+
+          return thrown;
+        }
+      } // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+
+
+      throw new Error("illegal catch attempt");
+    },
+    delegateYield: function (iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined$1;
+      }
+
+      return ContinueSentinel;
+    }
+  }; // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+
+  return exports;
+}( // If this script is executing as a CommonJS module, use module.exports
+// as the regeneratorRuntime namespace. Otherwise create a new empty
+// object. Either way, the resulting object will be used to initialize
+// the regeneratorRuntime variable at the top of this file.
+ module.exports );
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
+});
+
+var regenerator = runtime_1;
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+var asyncToGenerator = _asyncToGenerator;
+
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
   }
 }
+
+var classCallCheck = _classCallCheck;
 
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
@@ -20,6 +792,8 @@ function _createClass(Constructor, protoProps, staticProps) {
   if (staticProps) _defineProperties(Constructor, staticProps);
   return Constructor;
 }
+
+var createClass = _createClass;
 
 /**
  * @module lib/functions
@@ -129,12 +903,6 @@ var postMessageSupport = typeof window !== 'undefined' && typeof window.postMess
 
 if (!isNode && (!arrayIndexOfSupport || !postMessageSupport)) {
   throw new Error('Sorry, the Vimeo Player API is not available in this browser.');
-}
-
-var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-function createCommonjsModule(fn, module) {
-	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
 
 /*!
@@ -1236,6 +2004,767 @@ function initializeScreenfull() {
   return screenfull;
 }
 
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+var assertThisInitialized = _assertThisInitialized;
+
+var setPrototypeOf = createCommonjsModule(function (module) {
+function _setPrototypeOf(o, p) {
+  module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+module.exports = _setPrototypeOf;
+});
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) setPrototypeOf(subClass, superClass);
+}
+
+var inherits = _inherits;
+
+var _typeof_1 = createCommonjsModule(function (module) {
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    module.exports = _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    module.exports = _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+module.exports = _typeof;
+});
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof_1(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return assertThisInitialized(self);
+}
+
+var possibleConstructorReturn = _possibleConstructorReturn;
+
+var getPrototypeOf = createCommonjsModule(function (module) {
+function _getPrototypeOf(o) {
+  module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+module.exports = _getPrototypeOf;
+});
+
+function _isNativeFunction(fn) {
+  return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}
+
+var isNativeFunction = _isNativeFunction;
+
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+
+  try {
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+var isNativeReflectConstruct = _isNativeReflectConstruct;
+
+var construct = createCommonjsModule(function (module) {
+function _construct(Parent, args, Class) {
+  if (isNativeReflectConstruct()) {
+    module.exports = _construct = Reflect.construct;
+  } else {
+    module.exports = _construct = function _construct(Parent, args, Class) {
+      var a = [null];
+      a.push.apply(a, args);
+      var Constructor = Function.bind.apply(Parent, a);
+      var instance = new Constructor();
+      if (Class) setPrototypeOf(instance, Class.prototype);
+      return instance;
+    };
+  }
+
+  return _construct.apply(null, arguments);
+}
+
+module.exports = _construct;
+});
+
+var wrapNativeSuper = createCommonjsModule(function (module) {
+function _wrapNativeSuper(Class) {
+  var _cache = typeof Map === "function" ? new Map() : undefined;
+
+  module.exports = _wrapNativeSuper = function _wrapNativeSuper(Class) {
+    if (Class === null || !isNativeFunction(Class)) return Class;
+
+    if (typeof Class !== "function") {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+
+    if (typeof _cache !== "undefined") {
+      if (_cache.has(Class)) return _cache.get(Class);
+
+      _cache.set(Class, Wrapper);
+    }
+
+    function Wrapper() {
+      return construct(Class, arguments, getPrototypeOf(this).constructor);
+    }
+
+    Wrapper.prototype = Object.create(Class.prototype, {
+      constructor: {
+        value: Wrapper,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    return setPrototypeOf(Wrapper, Class);
+  };
+
+  return _wrapNativeSuper(Class);
+}
+
+module.exports = _wrapNativeSuper;
+});
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+var defineProperty = _defineProperty;
+
+/* eslint-disable max-params */
+
+/**
+ * A utility method for attaching and detaching event handlers
+ *
+ * @param {EventTarget} target
+ * @param {string} eventName
+ * @param {function} callback
+ * @param {'addEventListener' | 'on'} onName
+ * @param {'removeEventListener' | 'off'} offName
+ * @return {{cancel: (function(): void)}}
+ */
+var subscribe = function subscribe(target, eventName, callback) {
+  var onName = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'addEventListener';
+  var offName = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'removeEventListener';
+  var eventNames = typeof eventName === 'string' ? [eventName] : eventName;
+  eventNames.forEach(function (evName) {
+    target[onName](evName, callback);
+  });
+  return {
+    cancel: function cancel() {
+      return eventNames.forEach(function (evName) {
+        return target[offName](evName, callback);
+      });
+    }
+  };
+};
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return possibleConstructorReturn(this, result); }; }
+
+function _isNativeReflectConstruct$1() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+/** @typedef {import('./timing-src-connector.types').PlayerControls} PlayerControls */
+
+/** @typedef {import('./timing-object.types').TimingObject} TimingObject */
+
+/** @typedef {import('./timing-src-connector.types').TimingSrcConnectorOptions} TimingSrcConnectorOptions */
+
+/** @typedef {(msg: string) => any} Logger */
+
+/** @typedef {import('timing-object.types').TConnectionState} TConnectionState */
+
+/**
+ * @type {TimingSrcConnectorOptions}
+ *
+ * For details on these properties and their effects, see the typescript definition referenced above.
+ */
+
+var defaultOptions = {
+  role: 'viewer',
+  autoPlayMuted: true,
+  allowedDrift: 0.3,
+  maxAllowedDrift: 1,
+  minCheckInterval: 0.1,
+  maxRateAdjustment: 0.2,
+  maxTimeToCatchUp: 1
+};
+/**
+ * There's a proposed W3C spec for the Timing Object which would introduce a new set of APIs that would simplify time-synchronization tasks for browser applications.
+ *
+ * Proposed spec: https://webtiming.github.io/timingobject/
+ * V3 Spec: https://timingsrc.readthedocs.io/en/latest/
+ * Demuxed talk: https://www.youtube.com/watch?v=cZSjDaGDmX8
+ *
+ * This class makes it easy to connect Vimeo.Player to a provided TimingObject via Vimeo.Player.setTimingSrc(myTimingObject, options) and the synchronization will be handled automatically.
+ *
+ * There are 5 general responsibilities in TimingSrcConnector:
+ *
+ * 1. `updatePlayer()` which sets the player's currentTime, playbackRate and pause/play state based on current state of the TimingObject.
+ * 2. `updateTimingObject()` which sets the TimingObject's position and velocity from the player's state.
+ * 3. `playerUpdater` which listens for change events on the TimingObject and will respond by calling updatePlayer.
+ * 4. `timingObjectUpdater` which listens to the player events of seeked, play and pause and will respond by calling `updateTimingObject()`.
+ * 5. `maintainPlaybackPosition` this is code that constantly monitors the player to make sure it's always in sync with the TimingObject. This is needed because videos will generally not play with precise time accuracy and there will be some drift which becomes more noticeable over longer periods (as noted in the timing-object spec). More details on this method below.
+ */
+
+var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
+  inherits(TimingSrcConnector, _EventTarget);
+
+  var _super = _createSuper(TimingSrcConnector);
+
+  /**
+   * @param {PlayerControls} player
+   * @param {TimingObject} timingObject
+   * @param {TimingSrcConnectorOptions} options
+   * @param {Logger} logger
+   */
+  function TimingSrcConnector(_player, timingObject) {
+    var _this;
+
+    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var logger = arguments.length > 3 ? arguments[3] : undefined;
+
+    classCallCheck(this, TimingSrcConnector);
+
+    _this = _super.call(this);
+
+    defineProperty(assertThisInitialized(_this), "logger", void 0);
+
+    defineProperty(assertThisInitialized(_this), "speedAdjustment", 0);
+
+    defineProperty(assertThisInitialized(_this), "adjustSpeed", /*#__PURE__*/function () {
+      var _ref = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee(player, newAdjustment) {
+        var newPlaybackRate;
+        return regenerator.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this.speedAdjustment === newAdjustment)) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 2:
+                _context.next = 4;
+                return player.getPlaybackRate();
+
+              case 4:
+                _context.t0 = _context.sent;
+                _context.t1 = _this.speedAdjustment;
+                _context.t2 = _context.t0 - _context.t1;
+                _context.t3 = newAdjustment;
+                newPlaybackRate = _context.t2 + _context.t3;
+
+                _this.log("New playbackRate:  ".concat(newPlaybackRate));
+
+                _context.next = 12;
+                return player.setPlaybackRate(newPlaybackRate);
+
+              case 12:
+                _this.speedAdjustment = newAdjustment;
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x, _x2) {
+        return _ref.apply(this, arguments);
+      };
+    }());
+
+    _this.logger = logger;
+
+    _this.init(timingObject, _player, _objectSpread(_objectSpread({}, defaultOptions), options));
+
+    return _this;
+  }
+
+  createClass(TimingSrcConnector, [{
+    key: "disconnect",
+    value: function disconnect() {
+      this.dispatchEvent(new Event('disconnect'));
+    }
+    /**
+     * @param {TimingObject} timingObject
+     * @param {PlayerControls} player
+     * @param {TimingSrcConnectorOptions} options
+     * @return {Promise<void>}
+     */
+
+  }, {
+    key: "init",
+    value: function () {
+      var _init = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee2(timingObject, player, options) {
+        var _this2 = this;
+
+        var playerUpdater, positionSync, timingObjectUpdater;
+        return regenerator.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.waitForTOReadyState(timingObject, 'open');
+
+              case 2:
+                if (!(options.role === 'viewer')) {
+                  _context2.next = 10;
+                  break;
+                }
+
+                _context2.next = 5;
+                return this.updatePlayer(timingObject, player, options);
+
+              case 5:
+                playerUpdater = subscribe(timingObject, 'change', function () {
+                  return _this2.updatePlayer(timingObject, player, options);
+                });
+                positionSync = this.maintainPlaybackPosition(timingObject, player, options);
+                this.addEventListener('disconnect', function () {
+                  positionSync.cancel();
+                  playerUpdater.cancel();
+                });
+                _context2.next = 14;
+                break;
+
+              case 10:
+                _context2.next = 12;
+                return this.updateTimingObject(timingObject, player);
+
+              case 12:
+                timingObjectUpdater = subscribe(player, ['seeked', 'play', 'pause', 'ratechange'], function () {
+                  return _this2.updateTimingObject(timingObject, player);
+                }, 'on', 'off');
+                this.addEventListener('disconnect', function () {
+                  return timingObjectUpdater.cancel();
+                });
+
+              case 14:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function init(_x3, _x4, _x5) {
+        return _init.apply(this, arguments);
+      }
+
+      return init;
+    }()
+    /**
+     * @param {TimingObject} timingObject
+     * @param {PlayerControls} player
+     * @return {Promise<void>}
+     */
+
+  }, {
+    key: "updateTimingObject",
+    value: function () {
+      var _updateTimingObject = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee3(timingObject, player) {
+        return regenerator.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.t0 = timingObject;
+                _context3.next = 3;
+                return player.getCurrentTime();
+
+              case 3:
+                _context3.t1 = _context3.sent;
+                _context3.next = 6;
+                return player.getPaused();
+
+              case 6:
+                if (!_context3.sent) {
+                  _context3.next = 10;
+                  break;
+                }
+
+                _context3.t2 = 0;
+                _context3.next = 13;
+                break;
+
+              case 10:
+                _context3.next = 12;
+                return player.getPlaybackRate();
+
+              case 12:
+                _context3.t2 = _context3.sent;
+
+              case 13:
+                _context3.t3 = _context3.t2;
+                _context3.t4 = {
+                  position: _context3.t1,
+                  velocity: _context3.t3
+                };
+
+                _context3.t0.update.call(_context3.t0, _context3.t4);
+
+              case 16:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      function updateTimingObject(_x6, _x7) {
+        return _updateTimingObject.apply(this, arguments);
+      }
+
+      return updateTimingObject;
+    }()
+    /**
+     * @param {TimingObject} timingObject
+     * @param {PlayerControls} player
+     * @param {TimingSrcConnectorOptions} options
+     * @return {Promise<void>}
+     */
+
+  }, {
+    key: "updatePlayer",
+    value: function () {
+      var _updatePlayer = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee5(timingObject, player, options) {
+        var _timingObject$query, position, velocity;
+
+        return regenerator.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _timingObject$query = timingObject.query(), position = _timingObject$query.position, velocity = _timingObject$query.velocity;
+
+                if (typeof position === 'number') {
+                  player.setCurrentTime(position);
+                }
+
+                if (!(typeof velocity === 'number')) {
+                  _context5.next = 25;
+                  break;
+                }
+
+                if (!(velocity === 0)) {
+                  _context5.next = 11;
+                  break;
+                }
+
+                _context5.next = 6;
+                return player.getPaused();
+
+              case 6:
+                _context5.t0 = _context5.sent;
+
+                if (!(_context5.t0 === false)) {
+                  _context5.next = 9;
+                  break;
+                }
+
+                player.pause();
+
+              case 9:
+                _context5.next = 25;
+                break;
+
+              case 11:
+                if (!(velocity > 0)) {
+                  _context5.next = 25;
+                  break;
+                }
+
+                _context5.next = 14;
+                return player.getPaused();
+
+              case 14:
+                _context5.t1 = _context5.sent;
+
+                if (!(_context5.t1 === true)) {
+                  _context5.next = 19;
+                  break;
+                }
+
+                _context5.next = 18;
+                return player.play().catch( /*#__PURE__*/function () {
+                  var _ref2 = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee4(err) {
+                    return regenerator.wrap(function _callee4$(_context4) {
+                      while (1) {
+                        switch (_context4.prev = _context4.next) {
+                          case 0:
+                            if (!(err.name === 'NotAllowedError' && options.autoPlayMuted)) {
+                              _context4.next = 5;
+                              break;
+                            }
+
+                            _context4.next = 3;
+                            return player.setMuted(true);
+
+                          case 3:
+                            _context4.next = 5;
+                            return player.play().catch(function (err2) {
+                              return console.error('Couldn\'t play the video from TimingSrcConnector. Error:', err2);
+                            });
+
+                          case 5:
+                          case "end":
+                            return _context4.stop();
+                        }
+                      }
+                    }, _callee4);
+                  }));
+
+                  return function (_x11) {
+                    return _ref2.apply(this, arguments);
+                  };
+                }());
+
+              case 18:
+                this.updatePlayer(timingObject, player, options);
+
+              case 19:
+                _context5.next = 21;
+                return player.getPlaybackRate();
+
+              case 21:
+                _context5.t2 = _context5.sent;
+                _context5.t3 = velocity;
+
+                if (!(_context5.t2 !== _context5.t3)) {
+                  _context5.next = 25;
+                  break;
+                }
+
+                player.setPlaybackRate(velocity);
+
+              case 25:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function updatePlayer(_x8, _x9, _x10) {
+        return _updatePlayer.apply(this, arguments);
+      }
+
+      return updatePlayer;
+    }()
+    /**
+     * Since video players do not play with 100% time precision, we need to closely monitor
+     * our player to be sure it remains in sync with the TimingObject.
+     *
+     * If out of sync, we use the current conditions and the options provided to determine
+     * whether to re-sync via setting currentTime or adjusting the playbackRate
+     *
+     * @param {TimingObject} timingObject
+     * @param {PlayerControls} player
+     * @param {TimingSrcConnectorOptions} options
+     * @return {{cancel: (function(): void)}}
+     */
+
+  }, {
+    key: "maintainPlaybackPosition",
+    value: function maintainPlaybackPosition(timingObject, player, options) {
+      var _this3 = this;
+
+      var allowedDrift = options.allowedDrift,
+          maxAllowedDrift = options.maxAllowedDrift,
+          minCheckInterval = options.minCheckInterval,
+          maxRateAdjustment = options.maxRateAdjustment,
+          maxTimeToCatchUp = options.maxTimeToCatchUp;
+      var syncInterval = Math.min(maxTimeToCatchUp, Math.max(minCheckInterval, maxAllowedDrift)) * 1000;
+
+      var check = /*#__PURE__*/function () {
+        var _ref3 = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee6() {
+          var diff, diffAbs, min, max, adjustment;
+          return regenerator.wrap(function _callee6$(_context6) {
+            while (1) {
+              switch (_context6.prev = _context6.next) {
+                case 0:
+                  _context6.t0 = timingObject.query().velocity === 0;
+
+                  if (_context6.t0) {
+                    _context6.next = 6;
+                    break;
+                  }
+
+                  _context6.next = 4;
+                  return player.getPaused();
+
+                case 4:
+                  _context6.t1 = _context6.sent;
+                  _context6.t0 = _context6.t1 === true;
+
+                case 6:
+                  if (!_context6.t0) {
+                    _context6.next = 8;
+                    break;
+                  }
+
+                  return _context6.abrupt("return");
+
+                case 8:
+                  _context6.t2 = timingObject.query().position;
+                  _context6.next = 11;
+                  return player.getCurrentTime();
+
+                case 11:
+                  _context6.t3 = _context6.sent;
+                  diff = _context6.t2 - _context6.t3;
+                  diffAbs = Math.abs(diff);
+
+                  _this3.log("Drift: ".concat(diff));
+
+                  if (!(diffAbs > maxAllowedDrift)) {
+                    _context6.next = 22;
+                    break;
+                  }
+
+                  _context6.next = 18;
+                  return _this3.adjustSpeed(player, 0);
+
+                case 18:
+                  player.setCurrentTime(timingObject.query().position);
+
+                  _this3.log('Resync by currentTime');
+
+                  _context6.next = 29;
+                  break;
+
+                case 22:
+                  if (!(diffAbs > allowedDrift)) {
+                    _context6.next = 29;
+                    break;
+                  }
+
+                  min = diffAbs / maxTimeToCatchUp;
+                  max = maxRateAdjustment;
+                  adjustment = min < max ? (max - min) / 2 : max;
+                  _context6.next = 28;
+                  return _this3.adjustSpeed(player, adjustment * Math.sign(diff));
+
+                case 28:
+                  _this3.log('Resync by playbackRate');
+
+                case 29:
+                case "end":
+                  return _context6.stop();
+              }
+            }
+          }, _callee6);
+        }));
+
+        return function check() {
+          return _ref3.apply(this, arguments);
+        };
+      }();
+
+      var interval = setInterval(function () {
+        return check();
+      }, syncInterval * 1000);
+      return {
+        cancel: function cancel() {
+          return clearInterval(interval);
+        }
+      };
+    }
+    /**
+     * @param {string} msg
+     */
+
+  }, {
+    key: "log",
+    value: function log(msg) {
+      var _this$logger;
+
+      (_this$logger = this.logger) === null || _this$logger === void 0 ? void 0 : _this$logger.call(this, "TimingSrcConnector: ".concat(msg));
+    }
+  }, {
+    key: "waitForTOReadyState",
+
+    /**
+     * @param {TimingObject} timingObject
+     * @param {TConnectionState} state
+     * @return {Promise<void>}
+     */
+    value: function waitForTOReadyState(timingObject, state) {
+      return new Promise(function (resolve) {
+        var check = function check() {
+          if (timingObject.readyState === state) {
+            resolve();
+          } else {
+            timingObject.addEventListener('readystatechange', check, {
+              once: true
+            });
+          }
+        };
+
+        check();
+      });
+    }
+  }]);
+
+  return TimingSrcConnector;
+}( /*#__PURE__*/wrapNativeSuper(EventTarget));
+
 var playerMap = new WeakMap();
 var readyMap = new WeakMap();
 var screenfull = {};
@@ -1254,7 +2783,7 @@ var Player = /*#__PURE__*/function () {
 
     var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-    _classCallCheck(this, Player);
+    classCallCheck(this, Player);
 
     /* global jQuery */
     if (window.jQuery && element instanceof jQuery) {
@@ -1389,7 +2918,7 @@ var Player = /*#__PURE__*/function () {
    */
 
 
-  _createClass(Player, [{
+  createClass(Player, [{
     key: "callMethod",
     value: function callMethod(name) {
       var _this2 = this;
@@ -2717,6 +4246,65 @@ var Player = /*#__PURE__*/function () {
     value: function setVolume(volume) {
       return this.set('volume', volume);
     }
+    /** @typedef {import('./lib/timing-object.types').TimingObject} TimingObject */
+
+    /** @typedef {import('./lib/timing-src-connector.types').TimingSrcConnectorOptions} TimingSrcConnectorOptions */
+
+    /** @typedef {import('./lib/timing-src-connector').TimingSrcConnector} TimingSrcConnector */
+
+    /**
+     * Connects a TimingObject to the video player (https://webtiming.github.io/timingobject/)
+     *
+     * @param {TimingObject} timingObject
+     * @param {TimingSrcConnectorOptions} options
+     *
+     * @return {Promise<TimingSrcConnector>}
+     */
+
+  }, {
+    key: "setTimingSrc",
+    value: function () {
+      var _setTimingSrc = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee(timingObject, options) {
+        var _this6 = this;
+
+        var connector;
+        return regenerator.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (timingObject) {
+                  _context.next = 2;
+                  break;
+                }
+
+                throw new TypeError('A Timing Object must be provided.');
+
+              case 2:
+                _context.next = 4;
+                return this.ready();
+
+              case 4:
+                connector = new TimingSrcConnector(this, timingObject, options);
+                postMessage(this, 'notifyTimingObjectConnect');
+                connector.addEventListener('disconnect', function () {
+                  return postMessage(_this6, 'notifyTimingObjectDisconnect');
+                });
+                return _context.abrupt("return", connector);
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function setTimingSrc(_x, _x2) {
+        return _setTimingSrc.apply(this, arguments);
+      }
+
+      return setTimingSrc;
+    }()
   }]);
 
   return Player;

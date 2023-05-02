@@ -16,6 +16,7 @@ import {
 } from './lib/embed';
 import { parseMessageData, postMessage, processData } from './lib/postmessage';
 import { initializeScreenfull } from './lib/screenfull.js';
+import { TimingSrcConnector } from './lib/timing-src-connector';
 
 const playerMap = new WeakMap();
 const readyMap = new WeakMap();
@@ -1311,6 +1312,31 @@ class Player {
      */
     setVolume(volume) {
         return this.set('volume', volume);
+    }
+
+    /** @typedef {import('./lib/timing-object.types').TimingObject} TimingObject */
+    /** @typedef {import('./lib/timing-src-connector.types').TimingSrcConnectorOptions} TimingSrcConnectorOptions */
+    /** @typedef {import('./lib/timing-src-connector').TimingSrcConnector} TimingSrcConnector */
+
+    /**
+     * Connects a TimingObject to the video player (https://webtiming.github.io/timingobject/)
+     *
+     * @param {TimingObject} timingObject
+     * @param {TimingSrcConnectorOptions} options
+     *
+     * @return {Promise<TimingSrcConnector>}
+     */
+    async setTimingSrc(timingObject, options) {
+        if (!timingObject) {
+            throw new TypeError('A Timing Object must be provided.');
+        }
+
+        await this.ready();
+        const connector = new TimingSrcConnector(this, timingObject, options);
+        postMessage(this, 'notifyTimingObjectConnect');
+        connector.addEventListener('disconnect', () => postMessage(this, 'notifyTimingObjectDisconnect'));
+
+        return connector;
     }
 }
 

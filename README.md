@@ -213,6 +213,7 @@ it will also import the Player constructor directly:
     + [getVideoUrl](#getvideourl-promisestring-privacyerrorerror)
     + [getVolume](#getvolume-promisenumber-error)
     + [setVolume](#setvolumevolume-number-promisenumber-rangeerrorerror)
+    + [setTimingSrc](#settimingsrctimingobject-timingobject-options-timingsrcconnectoroptions-promisetimingsrcconnector)
     + [getQualities](#getqualities-promiseobject-error)
     + [getQuality](#getquality-promisestring-error)
     + [setQuality](#setqualityquality-string-promisestring-typeerrorerror)
@@ -1308,6 +1309,41 @@ player.setVolume(0.5).then(function(volume) {
     }
 });
 ```
+
+### setTimingSrc(timingObject: TimingObject, options?: TimingSrcConnectorOptions): Promise&lt;TimingSrcConnector&gt;
+
+Syncs a Timing Object to the video player (https://webtiming.github.io/timingobject/)
+
+
+```console
+npm install @vimeo/player timing-object
+```
+
+```html
+<div id="handstick"></div>
+```
+
+```js
+import Player from '@vimeo/player';
+import {TimingObject} from 'timing-object';
+
+const player = new Player('handstick', {
+    id: 19231868,
+    width: 640
+});
+
+const timingObject = new TimingObject();
+
+player.setTimingSrc(timingObject)
+// any update to the timing object will reflect in the player
+
+player.setTimingSrc(timingObject, {role: 'controller'})
+// any update to the player will reflect in the timing object
+```
+See [TimingSrcConnectorOptions](src/lib/timing-src-connector.types.ts) for available options.
+
+See this [demo app](https://salmoro.github.io/vimeo-timing-object-demo/dist) which syncs video playback in real-time for all viewers.
+
 
 ### getQualities(): Promise&lt;object[], Error&gt;
 

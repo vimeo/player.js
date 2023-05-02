@@ -7,6 +7,10 @@ const ERROR = 2;
 module.exports = {
     extends: '@vimeo/eslint-config-player/es6',
     plugins: ['compat'],
+    parserOptions: {
+        ecmaVersion: 12
+    },
+    parser: '@babel/eslint-parser',
     rules: {
         'compat/compat': ERROR
     },
@@ -14,7 +18,7 @@ module.exports = {
         XDomainRequest: false
     },
     settings: {
-        'polyfills': [
+        polyfills: [
             'Promise'
         ]
     }
