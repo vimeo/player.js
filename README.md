@@ -801,11 +801,11 @@ player.getColor().then(function(color) {
 ### getColors(): Promise&lt;string[], Error&gt;
 
 Get all colors used for this player.
-The return value is an array of colorOne, colorTwo, colorThree, and colorFour.
+The return value is an array of primary, accent, text/icon, and background.
 
 ```js
 player.getColors().then(function(colors) {
-    // colors = [colorOne, colorTwo, colorThree, colorFour]
+    // colors = [primary, accent, text/icon, background]
 }).catch(function(error) {
     // an error occurred
 });
@@ -848,7 +848,7 @@ color.
 ```js
 player.setColors(['abc', 'def', '123', '456']).then(function(color) {
     // colors were successfully set
-    // Array order: [colorOne, colorTwo, colorThree, colorFour]
+    // Array order: [primary, accent, text/icon, background]
 }).catch(function(error) {
     switch (error.name) {
 
