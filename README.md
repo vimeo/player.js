@@ -181,16 +181,16 @@ it will also import the Player constructor directly:
     + [getChapters](#getchapters-promisearray-error)
     + [getCurrentChapter](#getcurrentchapter-promiseobject-error)
     + [getColor](#getcolor-promisestring-error)
-    + [getColor1](#getcolor1-promisestring-error)
-    + [getColor2](#getcolor2-promisestring-error)
-    + [getColor3](#getcolor3-promisestring-error)
-    + [getColor4](#getcolor4-promisestring-error)
+    + [getColorOne](#getcolorone-promisestring-error)
+    + [getColorTwo](#getcolortwo-promisestring-error)
+    + [getColorThree](#getcolorthree-promisestring-error)
+    + [getColorFour](#getcolorfour-promisestring-error)
     + [getColors](#getcolors-promisestring-error)
     + [setColor](#setcolorcolor-string-promisestring-contrasterrortypeerrorerror)
-    + [setColor1](#setcolor1color-string-promisestring-contrasterrortypeerrorerror)
-    + [setColor2](#setcolor2color-string-promisestring-contrasterrortypeerrorerror)
-    + [setColor3](#setcolor3color-string-promisestring-contrasterrortypeerrorerror)
-    + [setColor4](#setcolor4color-string-promisestring-contrasterrortypeerrorerror)
+    + [setColorOne](#setcoloronecolor-string-promisestring-contrasterrortypeerrorerror)
+    + [setColorTwo](#setcolortwocolor-string-promisestring-contrasterrortypeerrorerror)
+    + [setColorThree](#setcolorthreecolor-string-promisestring-contrasterrortypeerrorerror)
+    + [setColorFour](#setcolorfourcolor-string-promisestring-contrasterrortypeerrorerror)
     + [setColors](#setcolorscolors-string-promisestring-contrasterrortypeerrorerror)
     + [addCuePoint](#addcuepointtime-number-data-object-promisestring-unsupportederrorrangeerrorerror)
     + [removeCuePoint](#removecuepointid-string-promisestring-unsupportederrorinvalidcuepointerror)
@@ -741,7 +741,7 @@ player.getCurrentChapter().then(function(chapter) {
 
 ### getColor(): Promise&lt;string, Error&gt;
 
-Get the accent color for this player. Note that this is deprecated in place of `getColor2()`.
+Get the accent color for this player. Note that this is deprecated in place of `getColorTwo()`.
 
 ```js
 player.getColor().then(function(color) {
@@ -751,48 +751,48 @@ player.getColor().then(function(color) {
 });
 
 ```
-### getColor1(): Promise&lt;string, Error&gt;
+### getColorOne(): Promise&lt;string, Error&gt;
 
 Get the primary color for this player.
 
 ```js
-player.getColor1().then(function(color) {
+player.getColorOne().then(function(color) {
     // color = the hex color of the player
 }).catch(function(error) {
     // an error occurred
 });
 
 ```
-### getColor2(): Promise&lt;string, Error&gt;
+### getColorTwo(): Promise&lt;string, Error&gt;
 
 Get the accent color for this player. Note that this updates the same color as `getColor()`.
 
 ```js
-player.getColor2().then(function(color) {
+player.getColorTwo().then(function(color) {
     // color = the hex color of the player
 }).catch(function(error) {
     // an error occurred
 });
 
 ```
-### getColor3(): Promise&lt;string, Error&gt;
+### getColorThree(): Promise&lt;string, Error&gt;
 
 Get the text/icon color for this player.
 
 ```js
-player.getColor3().then(function(color) {
+player.getColorThree().then(function(color) {
     // color = the hex color of the player
 }).catch(function(error) {
     // an error occurred
 });
 
 ```
-### getColor4(): Promise&lt;string, Error&gt;
+### getColorFour(): Promise&lt;string, Error&gt;
 
 Get the background color for this player.
 
 ```js
-player.getColor4().then(function(color) {
+player.getColorFour().then(function(color) {
     // color = the hex color of the player
 }).catch(function(error) {
     // an error occurred
@@ -802,11 +802,11 @@ player.getColor4().then(function(color) {
 ### getColors(): Promise&lt;string[], Error&gt;
 
 Get all colors used for this player.
-The return value is an array of color1, color2, color3, and color4.
+The return value is an array of colorOne, colorTwo, colorThree, and colorFour.
 
 ```js
 player.getColors().then(function(colors) {
-    // colors = [color1, color2, color3, color4]
+    // colors = [colorOne, colorTwo, colorThree, colorFour]
 }).catch(function(error) {
     // an error occurred
 });
@@ -816,7 +816,7 @@ player.getColors().then(function(colors) {
 
 Set the accent color of this player to a hex or rgb string. Setting the color may fail
 if the owner of the video has set their embed preferences to force a specific
-color. Note that this setter is deprecated and should be replaced with `setColor2()`.
+color. Note that this setter is deprecated and should be replaced with `setColorTwo()`.
 
 ```js
 player.setColor('#00adef').then(function(color) {
@@ -839,14 +839,14 @@ player.setColor('#00adef').then(function(color) {
 });
 
 ```
-### setColor1(color: string): Promise&lt;string, (ContrastError|TypeError|Error)&gt;
+### setColorOne(color: string): Promise&lt;string, (ContrastError|TypeError|Error)&gt;
 
 Set the primary color of this player to a hex or rgb string. Setting the color may fail
 if the owner of the video has set their embed preferences to force a specific
 color.
 
 ```js
-player.setColor1('#00adef').then(function(color) {
+player.setColorOne('#00adef').then(function(color) {
     // color was successfully set
 }).catch(function(error) {
     switch (error.name) {
@@ -866,14 +866,14 @@ player.setColor1('#00adef').then(function(color) {
 });
 
 ```
-### setColor2(color: string): Promise&lt;string, (ContrastError|TypeError|Error)&gt;
+### setColorTwo(color: string): Promise&lt;string, (ContrastError|TypeError|Error)&gt;
 
 Set the accent color of this player to a hex or rgb string. Setting the color may fail
 if the owner of the video has set their embed preferences to force a specific
 color. Note this updates the same color as `setColor()`.
 
 ```js
-player.setColor2('#00adef').then(function(color) {
+player.setColorTwo('#00adef').then(function(color) {
     // color was successfully set
 }).catch(function(error) {
     switch (error.name) {
@@ -893,14 +893,14 @@ player.setColor2('#00adef').then(function(color) {
 });
 
 ```
-### setColor3(color: string): Promise&lt;string, (ContrastError|TypeError|Error)&gt;
+### setColorThree(color: string): Promise&lt;string, (ContrastError|TypeError|Error)&gt;
 
 Set the text/icon color of this player to a hex or rgb string. Setting the color may fail
 if the owner of the video has set their embed preferences to force a specific
 color.
 
 ```js
-player.setColor3('#00adef').then(function(color) {
+player.setColorThree('#00adef').then(function(color) {
     // color was successfully set
 }).catch(function(error) {
     switch (error.name) {
@@ -920,14 +920,14 @@ player.setColor3('#00adef').then(function(color) {
 });
 ```
 
-### setColor4(color: string): Promise&lt;string, (ContrastError|TypeError|Error)&gt;
+### setColorFour(color: string): Promise&lt;string, (ContrastError|TypeError|Error)&gt;
 
 Set the background color of this player to a hex or rgb string. Setting the color may fail
 if the owner of the video has set their embed preferences to force a specific
 color.
 
 ```js
-player.setColor4('#00adef').then(function(color) {
+player.setColorFour('#00adef').then(function(color) {
     // color was successfully set
 }).catch(function(error) {
     switch (error.name) {
@@ -956,7 +956,7 @@ color.
 ```js
 player.setColors(['abc', 'def', '123', '456']).then(function(color) {
     // colors were successfully set
-    // Array order: [color1, color2, color3, color4]
+    // Array order: [colorOne, colorTwo, colorThree, colorFour]
 }).catch(function(error) {
     switch (error.name) {
 

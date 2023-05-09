@@ -830,7 +830,7 @@ function processData(player, data) {
 /**
  * @module lib/embed
  */
-var oEmbedParameters = ['autopause', 'autoplay', 'background', 'byline', 'color', 'color1', 'color2', 'color3', 'color4', 'colors', 'controls', 'dnt', 'height', 'id', 'interactive_params', 'keyboard', 'loop', 'maxheight', 'maxwidth', 'muted', 'playsinline', 'portrait', 'responsive', 'speed', 'texttrack', 'title', 'transparent', 'url', 'width'];
+var oEmbedParameters = ['autopause', 'autoplay', 'background', 'byline', 'color', 'color_one', 'color_two', 'color_three', 'color_four', 'colors', 'controls', 'dnt', 'height', 'id', 'interactive_params', 'keyboard', 'loop', 'maxheight', 'maxwidth', 'muted', 'playsinline', 'portrait', 'responsive', 'speed', 'texttrack', 'title', 'transparent', 'url', 'width'];
 /**
  * Get the 'data-vimeo'-prefixed attributes from an element as an object.
  *
@@ -2042,7 +2042,7 @@ var Player = /*#__PURE__*/function () {
      */
 
     /**
-     * Get the accent color for this player. Note this is deprecated in place of `getColor2`.
+     * Get the accent color for this player. Note this is deprecated in place of `getColorTwo`.
      *
      * @return {GetColorPromise}
      */
@@ -2060,7 +2060,7 @@ var Player = /*#__PURE__*/function () {
      */
 
     /**
-     * Get all the colors for this player in an array: [color1, color2, color3, color4]
+     * Get all the colors for this player in an array: [colorOne, colorTwo, colorThree, colorFour]
      *
      * @return {GetColorPromise}
      */
@@ -2068,79 +2068,79 @@ var Player = /*#__PURE__*/function () {
   }, {
     key: "getColors",
     value: function getColors() {
-      return npo_src.all([this.getColor1(), this.getColor2(), this.getColor3(), this.getColor4()]);
+      return npo_src.all([this.getColorOne(), this.getColorTwo(), this.getColorThree(), this.getColorFour()]);
     }
     /**
      * A promise to get the primary color of the player.
      *
-     * @promise GetColor1Promise
+     * @promise GetColorOnePromise
      * @fulfill {string} The hex color of the player.
      */
 
     /**
      * Get the primary color for this player.
      *
-     * @return {GetColor1Promise}
+     * @return {GetColorOnePromise}
      */
 
   }, {
-    key: "getColor1",
-    value: function getColor1() {
-      return this.get('color1');
+    key: "getColorOne",
+    value: function getColorOne() {
+      return this.get('colorOne');
     }
     /**
      * A promise to get the accent color of the player.
      *
-     * @promise GetColor2Promise
+     * @promise GetColorTwoPromise
      * @fulfill {string} The hex color of the player.
      */
 
     /**
      * Get the accent color for this player. Note this should be used in place of `getColor`.
      *
-     * @return {GetColor2Promise}
+     * @return {GetColorTwoPromise}
      */
 
   }, {
-    key: "getColor2",
-    value: function getColor2() {
-      return this.get('color2');
+    key: "getColorTwo",
+    value: function getColorTwo() {
+      return this.get('colorTwo');
     }
     /**
      * A promise to get the text/icon color of the player.
      *
-     * @promise GetColor3Promise
+     * @promise GetColorThreePromise
      * @fulfill {string} The hex color of the player.
      */
 
     /**
      * Get the text/icon color for this player.
      *
-     * @return {GetColor3Promise}
+     * @return {GetColorThreePromise}
      */
 
   }, {
-    key: "getColor3",
-    value: function getColor3() {
-      return this.get('color3');
+    key: "getColorThree",
+    value: function getColorThree() {
+      return this.get('colorThree');
     }
     /**
      * A promise to get the background color of the player.
      *
-     * @promise GetColor4Promise
+     * @promise GetColorFourPromise
      * @fulfill {string} The hex color of the player.
      */
 
     /**
      * Get the background color for this player.
      *
-     * @return {GetColor4Promise}
+     * @return {GetColorFourPromise}
      */
 
   }, {
-    key: "getColor4",
-    value: function getColor4() {
-      return this.get('color4');
+    key: "getColorFour",
+    value: function getColorFour() {
+      return this.get('colorFour');
     }
     /**
      * A promise to set the accent color of the player.
@@ -2158,7 +2158,7 @@ var Player = /*#__PURE__*/function () {
      * Set the accent color of this player to a hex or rgb string. Setting the
      * color may fail if the owner of the video has set their embed
      * preferences to force a specific color.
-     * Note this is deprecated in place of `setColor2`.
+     * Note this is deprecated in place of `setColorTwo`.
      *
      * @param {string} color The hex or rgb color string to set.
      * @return {SetColorPromise}
@@ -2185,7 +2185,7 @@ var Player = /*#__PURE__*/function () {
      * Set the colors of this player to a hex or rgb string. Setting the
      * color may fail if the owner of the video has set their embed
      * preferences to force a specific color.
-     * The colors should be passed in as an array: [color1, color2, color3, color4].
+     * The colors should be passed in as an array: [colorOne, colorTwo, colorThree, colorFour].
      * If a color should not be set, the index in the array can be left as null.
      *
      * @param {string[]} colors Array of the hex or rgb color strings to set.
@@ -2199,13 +2199,13 @@ var Player = /*#__PURE__*/function () {
       var nullPromise = new npo_src(function (resolve) {
         return resolve(null);
       });
-      var colorPromises = [colors[0] ? this.setColor1(colors[0]) : nullPromise, colors[1] ? this.setColor2(colors[1]) : nullPromise, colors[2] ? this.setColor3(colors[2]) : nullPromise, colors[3] ? this.setColor4(colors[3]) : nullPromise];
+      var colorPromises = [colors[0] ? this.setColorOne(colors[0]) : nullPromise, colors[1] ? this.setColorTwo(colors[1]) : nullPromise, colors[2] ? this.setColorThree(colors[2]) : nullPromise, colors[3] ? this.setColorFour(colors[3]) : nullPromise];
       return npo_src.all(colorPromises);
     }
     /**
      * A promise to set the primary color of the player.
      *
-     * @promise SetColor1Promise
+     * @promise SetColorOnePromise
      * @fulfill {string} The color was successfully set.
      * @reject {TypeError} The string was not a valid hex or rgb color.
      * @reject {ContrastError} The color was set, but the contrast is
@@ -2220,18 +2220,18 @@ var Player = /*#__PURE__*/function () {
      * preferences to force a specific color.
      *
      * @param {string} color The hex or rgb color string to set.
-     * @return {SetColor1Promise}
+     * @return {SetColorOnePromise}
      */
 
   }, {
-    key: "setColor1",
-    value: function setColor1(color) {
-      return this.set('color1', color);
+    key: "setColorOne",
+    value: function setColorOne(color) {
+      return this.set('colorOne', color);
     }
     /**
      * A promise to set the accent color of the player.
      *
-     * @promise SetColor2Promise
+     * @promise SetColorTwoPromise
      * @fulfill {string} The color was successfully set.
      * @reject {TypeError} The string was not a valid hex or rgb color.
      * @reject {ContrastError} The color was set, but the contrast is
@@ -2247,18 +2247,18 @@ var Player = /*#__PURE__*/function () {
      * Note this should be used in place of `setColor`.
      *
      * @param {string} color The hex or rgb color string to set.
-     * @return {SetColor2Promise}
+     * @return {SetColorTwoPromise}
      */
 
   }, {
-    key: "setColor2",
-    value: function setColor2(color) {
-      return this.set('color2', color);
+    key: "setColorTwo",
+    value: function setColorTwo(color) {
+      return this.set('colorTwo', color);
     }
     /**
      * A promise to set the text/icon color of the player.
      *
-     * @promise SetColor3Promise
+     * @promise SetColorThreePromise
      * @fulfill {string} The color was successfully set.
      * @reject {TypeError} The string was not a valid hex or rgb color.
      * @reject {ContrastError} The color was set, but the contrast is
@@ -2273,18 +2273,18 @@ var Player = /*#__PURE__*/function () {
      * preferences to force a specific color.
      *
      * @param {string} color The hex or rgb color string to set.
-     * @return {SetColor3Promise}
+     * @return {SetColorThreePromise}
      */
 
   }, {
-    key: "setColor3",
-    value: function setColor3(color) {
-      return this.set('color3', color);
+    key: "setColorThree",
+    value: function setColorThree(color) {
+      return this.set('colorThree', color);
     }
     /**
      * A promise to set the background color of the player.
      *
-     * @promise SetColor4Promise
+     * @promise SetColorFourPromise
      * @fulfill {string} The color was successfully set.
      * @reject {TypeError} The string was not a valid hex or rgb color.
      * @reject {ContrastError} The color was set, but the contrast is
@@ -2299,13 +2299,13 @@ var Player = /*#__PURE__*/function () {
      * preferences to force a specific color.
      *
      * @param {string} color The hex or rgb color string to set.
-     * @return {SetColor4Promise}
+     * @return {SetColorFourPromise}
      */
 
   }, {
-    key: "setColor4",
-    value: function setColor4(color) {
-      return this.set('color4', color);
+    key: "setColorFour",
+    value: function setColorFour(color) {
+      return this.set('colorFour', color);
     }
     /**
      * A representation of a cue point.
