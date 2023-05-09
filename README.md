@@ -175,6 +175,9 @@ it will also import the Player constructor directly:
     + [requestPictureInPicture](#requestpictureinpicture-promisevoid-error)
     + [exitPictureInPicture](#exitpictureinpicture-promisevoid-error)
     + [getPictureInPicture](#getpictureinpicture-promiseboolean-error)
+    + [remotePlaybackPrompt](#remoteplaybackprompt-promisevoid-error)
+    + [getRemotePlaybackAvailability](#getremoteplaybackavailability-promisestring-error)
+    + [getRemotePlaybackState](#getremoteplaybackstate-promiseboolean-error)
     + [getAutopause](#getautopause-promiseboolean-unsupportederrorerror)
     + [setAutopause](#setautopauseautopause-boolean-promiseboolean-unsupportederrorerror)
     + [getBuffered](#getbuffered-promisearray-error)
@@ -241,6 +244,10 @@ it will also import the Player constructor directly:
     + [resize](#resize)
     + [enterpictureinpicture](#enterpictureinpicture)
     + [leavepictureinpicture](#leavepictureinpicture)
+    + [remoteplaybackavailabilitychange](#remoteplaybackavailabilitychange)
+    + [remoteplaybackconnecting](#remoteplaybackconnecting)
+    + [remoteplaybackconnect](#remoteplaybackconnect)
+    + [remoteplaybackdisconnect](#remoteplaybackdisconnect)
     + [interactivehotspotclicked](#interactivehotspotclicked)
     + [interactiveoverlaypanelclicked](#interactiveoverlaypanelclicked)
 
@@ -641,6 +648,54 @@ player.getPictureInPicture().then(function(pip) {
 }).catch(function(error) {
     // an error occurred
 });
+```
+
+### remotePlaybackPrompt(): Promise&lt;void, Error&gt;
+
+Prompt the viewer to activate or deactivate a remote playback device, if one is available.
+
+*Note:* This method may require user interaction directly with the player before working properly and must be triggered by a user interaction. It is best to wait for initial playback before calling this method.
+
+```js
+player.remotePlaybackPrompt().then(function() {
+    // viewer has been prompted
+}).catch(function(error) {
+    switch (error.name) {
+        case 'NotFoundError':
+            // remote playback is not supported or there is no device available
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
+});
+```
+
+### getRemotePlaybackAvailability(): Promise&lt;string, Error&gt;
+
+Checks if there is a remote playback device available.
+
+```js
+player.getRemotePlaybackAvailability().then(function(remotePlaybackAvailable) {
+    // remotePlaybackAvailable = whether there is a remote playback device available or not
+}).catch(function(error) {
+    // an error occurred
+})
+```
+
+### getRemotePlaybackState(): Promise&lt;boolean, Error&gt;
+
+Get the current state of remote playback. Can be one of `connecting`, `connected`, or `disconnected`. These values are equivalent to the state values in the [Remote Playback API](http://developer.mozilla.org/en-US/docs/Web/API/RemotePlayback/state).
+
+```js
+player.getRemotePlaybackState().then(function(remotePlaybackState) {
+    // remotePlaybackState === 'connecting': player is attempting to connect to the remote device
+    // remotePlaybackState === 'connected': player successfully connected and is playing on the remote playback device
+    // remotePlaybackState === 'disconnected': player is not connected to a remote playback device
+}).catch(function(error) {
+    // an error occurred
+})
 ```
 
 ### getAutopause(): Promise&lt;boolean, (UnsupportedError|Error)&gt;
@@ -1670,6 +1725,24 @@ Triggered when the player enters picture-in-picture.
 ### leavepictureinpicture
 
 Triggered when the player leaves picture-in-picture.
+
+### remoteplaybackavailabilitychange
+
+Triggered when the availability of remote playback changes.
+
+Listening for this event is equivalent to the [RemotePlayback.watchAvailability() API](http://developer.mozilla.org/en-US/docs/Web/API/RemotePlayback/watchAvailability), except that there is no `cancelWatchAvailability()`. You can remove the listener for this event instead.
+
+### remoteplaybackconnecting
+
+Triggered when the player is attempting to connect to a remote playback device.
+
+### remoteplaybackconnect
+
+Triggered when the player has successfully connected to a remote playback device.
+
+### remoteplaybackdisconnect
+
+Triggered when the player has disconnected from a remote playback device.
 
 ### interactivehotspotclicked
 

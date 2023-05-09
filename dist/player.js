@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.18.0 | (c) 2023 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.19.0 | (c) 2023 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -1807,6 +1807,25 @@
         return this.get('pictureInPicture');
       }
       /**
+       * A promise to prompt the viewer to initiate remote playback.
+       *
+       * @promise RemotePlaybackPromptPromise
+       * @fulfill {void}
+       * @reject {NotFoundError} No remote playback device is available.
+       */
+
+      /**
+       * Request to prompt the user to initiate remote playback.
+       *
+       * @return {RemotePlaybackPromptPromise}
+       */
+
+    }, {
+      key: "remotePlaybackPrompt",
+      value: function remotePlaybackPrompt() {
+        return this.callMethod('remotePlaybackPrompt');
+      }
+      /**
        * A promise to unload the video.
        *
        * @promise UnloadPromise
@@ -2456,6 +2475,42 @@
       key: "setQuality",
       value: function setQuality(quality) {
         return this.set('quality', quality);
+      }
+      /**
+       * A promise to get the remote playback availability.
+       *
+       * @promise RemotePlaybackAvailabilityPromise
+       * @fulfill {boolean} Whether remote playback is available.
+       */
+
+      /**
+       * Get the availability of remote playback.
+       *
+       * @return {RemotePlaybackAvailabilityPromise}
+       */
+
+    }, {
+      key: "getRemotePlaybackAvailability",
+      value: function getRemotePlaybackAvailability() {
+        return this.get('remotePlaybackAvailability');
+      }
+      /**
+       * A promise to get the current remote playback state.
+       *
+       * @promise RemotePlaybackStatePromise
+       * @fulfill {string} The state of the remote playback: connecting, connected, or disconnected.
+       */
+
+      /**
+       * Get the current remote playback state.
+       *
+       * @return {RemotePlaybackStatePromise}
+       */
+
+    }, {
+      key: "getRemotePlaybackState",
+      value: function getRemotePlaybackState() {
+        return this.get('remotePlaybackState');
       }
       /**
        * A promise to get the seekable property of the video.

@@ -144,6 +144,7 @@ test('player object includes all api methods', async (t) => {
     t.true(player.removeCuePoint() instanceof Promise);
     t.true(player.requestFullscreen() instanceof Promise);
     t.true(player.exitFullscreen() instanceof Promise);
+    t.true(player.remotePlaybackPrompt() instanceof Promise);
 });
 
 test('set requires a value', async (t) => {

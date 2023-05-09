@@ -1,6 +1,6 @@
 {
   "name": "@vimeo/player",
-  "version": "2.18.0",
+  "version": "2.19.0",
   "description": "Interact with and control an embedded Vimeo Player.",
   "license": "MIT",
   "author": "Vimeo <https://vimeo.com>",
@@ -18,7 +18,8 @@
     "preversion": "npm test",
     "version": "npm run build && git add -A dist",
     "postversion": "git branch -f latest master",
-    "push-release": "git push origin master latest && git push --tags"
+    "push-release": "git push origin master latest && git push --tags",
+    "prepublishOnly": "npm run build && git add -A dist"
   },
   "main": "dist/player.js",
   "module": "dist/player.es.js",
@@ -31,6 +32,10 @@
     "dist"
   ],
   "repository": "vimeo/player.js",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "bugs": "https://github.com/vimeo/player.js/issues",
   "keywords": [
     "vimeo",
