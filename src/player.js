@@ -753,71 +753,11 @@ class Player {
      */
     getColors() {
         return Promise.all([
-            this.getColorOne(),
-            this.getColorTwo(),
-            this.getColorThree(),
-            this.getColorFour()
+            this.get('colorOne'),
+            this.get('colorTwo'),
+            this.get('colorThree'),
+            this.get('colorFour')
         ]);
-    }
-
-    /**
-     * A promise to get the primary color of the player.
-     *
-     * @promise GetColorOnePromise
-     * @fulfill {string} The hex color of the player.
-     */
-    /**
-     * Get the primary color for this player.
-     *
-     * @return {GetColorOnePromise}
-     */
-    getColorOne() {
-        return this.get('colorOne');
-    }
-
-    /**
-     * A promise to get the accent color of the player.
-     *
-     * @promise GetColorTwoPromise
-     * @fulfill {string} The hex color of the player.
-     */
-    /**
-     * Get the accent color for this player. Note this should be used in place of `getColor`.
-     *
-     * @return {GetColorTwoPromise}
-     */
-    getColorTwo() {
-        return this.get('colorTwo');
-    }
-
-    /**
-     * A promise to get the text/icon color of the player.
-     *
-     * @promise GetColorThreePromise
-     * @fulfill {string} The hex color of the player.
-     */
-    /**
-     * Get the text/icon color for this player.
-     *
-     * @return {GetColorThreePromise}
-     */
-    getColorThree() {
-        return this.get('colorThree');
-    }
-
-    /**
-     * A promise to get the background color of the player.
-     *
-     * @promise GetColorFourPromise
-     * @fulfill {string} The hex color of the player.
-     */
-    /**
-     * Get the background color for this player.
-     *
-     * @return {GetColorFourPromise}
-     */
-    getColorFour() {
-        return this.get('colorFour');
     }
 
     /**
@@ -868,105 +808,12 @@ class Player {
     setColors(colors = []) {
         const nullPromise = new Promise((resolve) => resolve(null));
         const colorPromises = [
-            colors[0] ? this.setColorOne(colors[0]) : nullPromise,
-            colors[1] ? this.setColorTwo(colors[1]) : nullPromise,
-            colors[2] ? this.setColorThree(colors[2]) : nullPromise,
-            colors[3] ? this.setColorFour(colors[3]) : nullPromise
+            colors[0] ? this.set('colorOne', colors[0]) : nullPromise,
+            colors[1] ? this.set('colorTwo', colors[1]) : nullPromise,
+            colors[2] ? this.set('colorThree', colors[2]) : nullPromise,
+            colors[3] ? this.set('colorFour', colors[3]) : nullPromise
         ];
         return Promise.all(colorPromises);
-    }
-
-    /**
-     * A promise to set the primary color of the player.
-     *
-     * @promise SetColorOnePromise
-     * @fulfill {string} The color was successfully set.
-     * @reject {TypeError} The string was not a valid hex or rgb color.
-     * @reject {ContrastError} The color was set, but the contrast is
-     *         outside of the acceptable range.
-     * @reject {EmbedSettingsError} The owner of the player has chosen to
-     *         use a specific color.
-     */
-    /**
-     * Set the primary color of this player to a hex or rgb string. Setting the
-     * color may fail if the owner of the video has set their embed
-     * preferences to force a specific color.
-     *
-     * @param {string} color The hex or rgb color string to set.
-     * @return {SetColorOnePromise}
-     */
-    setColorOne(color) {
-        return this.set('colorOne', color);
-    }
-
-    /**
-     * A promise to set the accent color of the player.
-     *
-     * @promise SetColorTwoPromise
-     * @fulfill {string} The color was successfully set.
-     * @reject {TypeError} The string was not a valid hex or rgb color.
-     * @reject {ContrastError} The color was set, but the contrast is
-     *         outside of the acceptable range.
-     * @reject {EmbedSettingsError} The owner of the player has chosen to
-     *         use a specific color.
-     */
-    /**
-     * Set the accent color of this player to a hex or rgb string. Setting the
-     * color may fail if the owner of the video has set their embed
-     * preferences to force a specific color.
-     * Note this should be used in place of `setColor`.
-     *
-     * @param {string} color The hex or rgb color string to set.
-     * @return {SetColorTwoPromise}
-     */
-    setColorTwo(color) {
-        return this.set('colorTwo', color);
-    }
-
-    /**
-     * A promise to set the text/icon color of the player.
-     *
-     * @promise SetColorThreePromise
-     * @fulfill {string} The color was successfully set.
-     * @reject {TypeError} The string was not a valid hex or rgb color.
-     * @reject {ContrastError} The color was set, but the contrast is
-     *         outside of the acceptable range.
-     * @reject {EmbedSettingsError} The owner of the player has chosen to
-     *         use a specific color.
-     */
-    /**
-     * Set the text/icon color of this player to a hex or rgb string. Setting the
-     * color may fail if the owner of the video has set their embed
-     * preferences to force a specific color.
-     *
-     * @param {string} color The hex or rgb color string to set.
-     * @return {SetColorThreePromise}
-     */
-    setColorThree(color) {
-        return this.set('colorThree', color);
-    }
-
-    /**
-     * A promise to set the background color of the player.
-     *
-     * @promise SetColorFourPromise
-     * @fulfill {string} The color was successfully set.
-     * @reject {TypeError} The string was not a valid hex or rgb color.
-     * @reject {ContrastError} The color was set, but the contrast is
-     *         outside of the acceptable range.
-     * @reject {EmbedSettingsError} The owner of the player has chosen to
-     *         use a specific color.
-     */
-    /**
-     * Set the background color of this player to a hex or rgb string. Setting the
-     * color may fail if the owner of the video has set their embed
-     * preferences to force a specific color.
-     *
-     * @param {string} color The hex or rgb color string to set.
-     * @return {SetColorFourPromise}
-     */
-    setColorFour(color) {
-        return this.set('colorFour', color);
     }
 
     /**
