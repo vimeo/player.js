@@ -788,8 +788,7 @@ player.getCurrentChapter().then(function(chapter) {
 
 ### getColor(): Promise&lt;string, Error&gt;
 
-Get the accent color for this player. Note that this is deprecated in place of `getColorTwo()`.
-
+Get the accent color for this player. Note that this is deprecated in place of `getColors`.
 ```js
 player.getColor().then(function(color) {
     // color = the hex color of the player
@@ -816,7 +815,7 @@ player.getColors().then(function(colors) {
 
 Set the accent color of this player to a hex or rgb string. Setting the color may fail
 if the owner of the video has set their embed preferences to force a specific
-color. Note that this setter is deprecated and should be replaced with `setColorTwo()`.
+color. Note that this setter is deprecated and should be replaced with `setColors`.
 
 ```js
 player.setColor('#00adef').then(function(color) {
