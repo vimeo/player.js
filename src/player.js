@@ -822,12 +822,11 @@ class Player {
      * @return {SetColorsPromise}
      */
     setColors(colors = []) {
-        const nullPromise = new Promise((resolve) => resolve(null));
         const colorPromises = [
-            colors[0] ? this.set('colorOne', colors[0]) : nullPromise,
-            colors[1] ? this.set('colorTwo', colors[1]) : nullPromise,
-            colors[2] ? this.set('colorThree', colors[2]) : nullPromise,
-            colors[3] ? this.set('colorFour', colors[3]) : nullPromise
+            this.set('colorOne', colors[0]),
+            this.set('colorTwo', colors[1]),
+            this.set('colorThree', colors[2]),
+            this.set('colorFour', colors[3])
         ];
         return Promise.all(colorPromises);
     }
