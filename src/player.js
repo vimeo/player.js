@@ -821,12 +821,17 @@ class Player {
      * @param {string[]} colors Array of the hex or rgb color strings to set.
      * @return {SetColorsPromise}
      */
-    setColors(colors = []) {
+    setColors(colors) {
+        if (!Array.isArray(colors)) {
+            return new Promise((resolve, reject) => reject(new TypeError('Argument must be an array.')));
+        }
+
+        const nullPromise = new Promise((resolve) => resolve(null));
         const colorPromises = [
-            this.set('colorOne', colors[0]),
-            this.set('colorTwo', colors[1]),
-            this.set('colorThree', colors[2]),
-            this.set('colorFour', colors[3])
+            colors[0] ? this.set('colorOne', colors[0]) : nullPromise,
+            colors[1] ? this.set('colorTwo', colors[1]) : nullPromise,
+            colors[2] ? this.set('colorThree', colors[2]) : nullPromise,
+            colors[3] ? this.set('colorFour', colors[3]) : nullPromise
         ];
         return Promise.all(colorPromises);
     }
