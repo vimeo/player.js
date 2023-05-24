@@ -897,6 +897,34 @@ function getVimeoUrl() {
 
   throw new TypeError("\u201C".concat(idOrUrl, "\u201D is not a vimeo.com url."));
 }
+/* eslint-disable max-params */
+
+/**
+ * A utility method for attaching and detaching event handlers
+ *
+ * @param {EventTarget} target
+ * @param {string | string[]} eventName
+ * @param {function} callback
+ * @param {'addEventListener' | 'on'} onName
+ * @param {'removeEventListener' | 'off'} offName
+ * @return {{cancel: (function(): void)}}
+ */
+
+var subscribe = function subscribe(target, eventName, callback) {
+  var onName = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'addEventListener';
+  var offName = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'removeEventListener';
+  var eventNames = typeof eventName === 'string' ? [eventName] : eventName;
+  eventNames.forEach(function (evName) {
+    target[onName](evName, callback);
+  });
+  return {
+    cancel: function cancel() {
+      return eventNames.forEach(function (evName) {
+        return target[offName](evName, callback);
+      });
+    }
+  };
+};
 
 var arrayIndexOfSupport = typeof Array.prototype.indexOf !== 'undefined';
 var postMessageSupport = typeof window !== 'undefined' && typeof window.postMessage !== 'undefined';
@@ -906,9 +934,9 @@ if (!isNode && (!arrayIndexOfSupport || !postMessageSupport)) {
 }
 
 /*!
- * weakmap-polyfill v2.0.1 - ECMAScript6 WeakMap polyfill
+ * weakmap-polyfill v2.0.4 - ECMAScript6 WeakMap polyfill
  * https://github.com/polygonplanet/weakmap-polyfill
- * Copyright (c) 2015-2020 Polygon Planet <polygon.planet.aqua@gmail.com>
+ * Copyright (c) 2015-2021 polygonplanet <polygon.planet.aqua@gmail.com>
  * @license MIT
  */
 (function (self) {
@@ -919,8 +947,17 @@ if (!isNode && (!arrayIndexOfSupport || !postMessageSupport)) {
 
   var hasOwnProperty = Object.prototype.hasOwnProperty;
 
+  var hasDefine = Object.defineProperty && function () {
+    try {
+      // Avoid IE8's broken Object.defineProperty
+      return Object.defineProperty({}, 'x', {
+        value: 1
+      }).x === 1;
+    } catch (e) {}
+  }();
+
   var defineProperty = function (object, name, value) {
-    if (Object.defineProperty) {
+    if (hasDefine) {
       Object.defineProperty(object, name, {
         configurable: true,
         writable: true,
@@ -1035,7 +1072,7 @@ if (!isNode && (!arrayIndexOfSupport || !postMessageSupport)) {
   function isObject(x) {
     return Object(x) === x;
   }
-})(typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : typeof commonjsGlobal !== 'undefined' ? commonjsGlobal : commonjsGlobal);
+})(typeof globalThis !== 'undefined' ? globalThis : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : typeof commonjsGlobal !== 'undefined' ? commonjsGlobal : commonjsGlobal);
 
 var npo_src = createCommonjsModule(function (module) {
 /*! Native Promise Only
@@ -1046,7 +1083,7 @@ var npo_src = createCommonjsModule(function (module) {
   // special form of UMD for polyfilling across evironments
   context[name] = context[name] || definition();
 
-  if (module.exports) {
+  if ( module.exports) {
     module.exports = context[name];
   }
 })("Promise", typeof commonjsGlobal != "undefined" ? commonjsGlobal : commonjsGlobal, function DEF() {
@@ -2182,34 +2219,6 @@ function _defineProperty(obj, key, value) {
 
 var defineProperty = _defineProperty;
 
-/* eslint-disable max-params */
-
-/**
- * A utility method for attaching and detaching event handlers
- *
- * @param {EventTarget} target
- * @param {string} eventName
- * @param {function} callback
- * @param {'addEventListener' | 'on'} onName
- * @param {'removeEventListener' | 'off'} offName
- * @return {{cancel: (function(): void)}}
- */
-var subscribe = function subscribe(target, eventName, callback) {
-  var onName = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'addEventListener';
-  var offName = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'removeEventListener';
-  var eventNames = typeof eventName === 'string' ? [eventName] : eventName;
-  eventNames.forEach(function (evName) {
-    target[onName](evName, callback);
-  });
-  return {
-    cancel: function cancel() {
-      return eventNames.forEach(function (evName) {
-        return target[offName](evName, callback);
-      });
-    }
-  };
-};
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2412,6 +2421,8 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
       return init;
     }()
     /**
+     * Sets the TimingObject's state to reflect that of the player
+     *
      * @param {TimingObject} timingObject
      * @param {PlayerControls} player
      * @return {Promise<void>}
@@ -2475,6 +2486,8 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
       return updateTimingObject;
     }()
     /**
+     * Sets the player's timing state to reflect that of the TimingObject
+     *
      * @param {TimingObject} timingObject
      * @param {PlayerControls} player
      * @param {TimingSrcConnectorOptions} options
@@ -2719,7 +2732,7 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
 
       var interval = setInterval(function () {
         return check();
-      }, syncInterval * 1000);
+      }, syncInterval);
       return {
         cancel: function cancel() {
           return clearInterval(interval);
@@ -3670,8 +3683,13 @@ var Player = /*#__PURE__*/function () {
 
   }, {
     key: "setColors",
-    value: function setColors() {
-      var colors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    value: function setColors(colors) {
+      if (!Array.isArray(colors)) {
+        return new npo_src(function (resolve, reject) {
+          return reject(new TypeError('Argument must be an array.'));
+        });
+      }
+
       var nullPromise = new npo_src(function (resolve) {
         return resolve(null);
       });
