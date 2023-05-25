@@ -10,7 +10,7 @@
     "build": "cross-env BABEL_ENV=production node rollup.js",
     "lint": "eslint src/ test/",
     "test": "nyc --cache --reporter=text --reporter=html ava",
-    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov",
     "watch:build": "npm run build -- --watch",
     "watch:lint": "chokidar 'src/**/*.js' 'test/**/*.js' -c 'eslint {path}'",
     "watch:test": "ava --watch",

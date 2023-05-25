@@ -21,12 +21,20 @@ jobs:
               with:
                   cmd: build
 
+            - name: Lint
+              uses: borales/actions-yarn@v4
+              with:
+                  cmd: lint
+
             - name: Test
               uses: borales/actions-yarn@v4
               with:
                   cmd: test
 
-            - name: Lint
+            - name: Generate test coverage
               uses: borales/actions-yarn@v4
               with:
-                  cmd: lint
+                  cmd: report-coverage
+
+            - name: Upload coverage reports to Codecov
+              uses: codecov/codecov-action@v3
