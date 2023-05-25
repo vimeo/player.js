@@ -40,7 +40,7 @@ async function generateBundle() {
             cache,
             input: 'src/player.js',
             plugins: [
-                babel({runtimeHelpers: true}),
+                babel(),
                 commonjs(),
                 nodeResolve()
             ]
