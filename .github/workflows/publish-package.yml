@@ -16,6 +16,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           scope: '@vimeo'
       - run: yarn --frozen-lockfile
+      - run: yarn build
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_VIMEO_PUBLISH_TOKEN }}
