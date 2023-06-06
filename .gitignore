@@ -7,3 +7,4 @@ yarn-error.log
 player.js.sublime-project
 player.js.code-workspace
 .idea
+dist
