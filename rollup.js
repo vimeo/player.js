@@ -35,6 +35,10 @@ async function generateBundle() {
         console.log(new Date().toString());
     }
 
+    if (!fs.existsSync('dist')) {
+        fs.mkdirSync('dist');
+    }
+
     const bundle = await rollup.rollup({
         cache,
         input: 'src/player.js',
