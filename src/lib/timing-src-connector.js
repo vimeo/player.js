@@ -1,10 +1,10 @@
 import { subscribe } from './functions';
 
 /** @typedef {import('./timing-src-connector.types').PlayerControls} PlayerControls */
-/** @typedef {import('./timing-object.types').TimingObject} TimingObject */
+/** @typedef {import('timing-object').ITimingObject} TimingObject */
 /** @typedef {import('./timing-src-connector.types').TimingSrcConnectorOptions} TimingSrcConnectorOptions */
 /** @typedef {(msg: string) => any} Logger */
-/** @typedef {import('timing-object.types').TConnectionState} TConnectionState */
+/** @typedef {import('timing-object').TConnectionState} TConnectionState */
 
 /**
  * @type {TimingSrcConnectorOptions}
