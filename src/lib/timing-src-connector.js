@@ -92,9 +92,15 @@ export class TimingSrcConnector extends EventTarget {
      * @return {Promise<void>}
      */
     async updateTimingObject(timingObject, player) {
+        const [
+            position,
+            isPaused,
+            playbackRate
+        ] = await Promise.all([player.getCurrentTime(), player.getPaused(), player.getPlaybackRate()]);
+
         timingObject.update({
-            position: await player.getCurrentTime(),
-            velocity: await player.getPaused() ? 0 : await player.getPlaybackRate()
+            position,
+            velocity: isPaused ? 0 : playbackRate
         });
     }
 
