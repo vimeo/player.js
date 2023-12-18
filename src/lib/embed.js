@@ -7,14 +7,20 @@ import { isVimeoUrl, isVimeoEmbed, getVimeoUrl } from './functions';
 import { parseMessageData } from './postmessage';
 
 const oEmbedParameters = [
+    'airplay',
+    'audio_tracks',
     'autopause',
     'autoplay',
     'background',
     'byline',
+    'cc',
+    'chapters',
+    'chromecast',
     'color',
     'colors',
     'controls',
     'dnt',
+    'fullscreen',
     'height',
     'id',
     'interactive_params',
@@ -23,14 +29,20 @@ const oEmbedParameters = [
     'maxheight',
     'maxwidth',
     'muted',
+    'play_button_position',
     'playsinline',
     'portrait',
+    'progress_bar',
+    'quality_selector',
     'responsive',
     'speed',
     'texttrack',
     'title',
+    'transcript',
     'transparent',
     'url',
+    'vimeo_logo',
+    'volume',
     'width'
 ];
 

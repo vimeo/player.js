@@ -1275,7 +1275,7 @@ function processData(player, data) {
 /**
  * @module lib/embed
  */
-var oEmbedParameters = ['autopause', 'autoplay', 'background', 'byline', 'color', 'colors', 'controls', 'dnt', 'height', 'id', 'interactive_params', 'keyboard', 'loop', 'maxheight', 'maxwidth', 'muted', 'playsinline', 'portrait', 'responsive', 'speed', 'texttrack', 'title', 'transparent', 'url', 'width'];
+var oEmbedParameters = ['airplay', 'audio_tracks', 'autopause', 'autoplay', 'background', 'byline', 'cc', 'chapters', 'chromecast', 'color', 'colors', 'controls', 'dnt', 'fullscreen', 'height', 'id', 'interactive_params', 'keyboard', 'loop', 'maxheight', 'maxwidth', 'muted', 'play_button_position', 'playsinline', 'portrait', 'progress_bar', 'quality_selector', 'responsive', 'speed', 'texttrack', 'title', 'transcript', 'transparent', 'url', 'vimeo_logo', 'volume', 'width'];
 
 /**
  * Get the 'data-vimeo'-prefixed attributes from an element as an object.
