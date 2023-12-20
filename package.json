@@ -71,7 +71,6 @@
     "eslint": "^7.7.0",
     "eslint-plugin-ava": "^11.0.0",
     "eslint-plugin-compat": "^3.5.1",
-    "esm": "^3.2.25",
     "jquery": "^3.4.1",
     "jsdom": "^22.0.0",
     "maxmin": "^3.0.0",
@@ -110,7 +109,6 @@
   },
   "ava": {
     "require": [
-      "esm",
       "@babel/register",
       "./test/helpers/browser-env.js"
     ],
@@ -120,7 +118,6 @@
   },
   "nyc": {
     "require": [
-      "esm",
       "@babel/register"
     ],
     "exclude": [
