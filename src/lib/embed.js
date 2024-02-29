@@ -14,12 +14,14 @@ const oEmbedParameters = [
     'background',
     'byline',
     'cc',
+    'chapter_id',
     'chapters',
     'chromecast',
     'color',
     'colors',
     'controls',
     'dnt',
+    'end_time',
     'fullscreen',
     'height',
     'id',
@@ -36,6 +38,7 @@ const oEmbedParameters = [
     'quality_selector',
     'responsive',
     'speed',
+    'start_time',
     'texttrack',
     'title',
     'transcript',
@@ -43,6 +46,7 @@ const oEmbedParameters = [
     'url',
     'vimeo_logo',
     'volume',
+    'watch_full_video',
     'width'
 ];
 
