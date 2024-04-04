@@ -1,33 +1,19 @@
 name: Upload Coverage
 on:
-    push:
-        branches:
-            - master
+  push:
+    branches:
+      - master
 jobs:
-    upload:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-
-            - name: Set Node.js 16.x
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 16.x
-
-            - name: Install packages
-              uses: borales/actions-yarn@v4
-              with:
-                  cmd: install
-
-            - name: Test
-              uses: borales/actions-yarn@v4
-              with:
-                  cmd: test
-
-            - name: Generate test coverage
-              uses: borales/actions-yarn@v4
-              with:
-                  cmd: report-coverage
-
-            - name: Upload coverage reports to Codecov
-              uses: codecov/codecov-action@v3
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "yarn"
+      - run: yarn
+      - run: yarn test
+      - run: yarn report-coverage
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v3
