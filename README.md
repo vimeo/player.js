@@ -1458,8 +1458,7 @@ player.on('eventName', function(data) {
 });
 ```
 
-The events are equivalent to the HTML5 video events (except for `cuechange`,
-which is slightly different).
+The events are similar to the HTML5 video events.
 
 To remove a listener, call `.off()` with the callback function:
 
