@@ -18,7 +18,7 @@ Alternatively, you can reference an up‐to‐date version on our CDN:
 ```
 
 **Warning:** when used with RequireJS it's required to load the script dynamically via the RequireJS load system.
-http://www.requirejs.org/docs/api.html#jsfiles
+https://requirejs.org/docs/api.html#jsfiles
 
 ## Getting Started
 
@@ -120,7 +120,7 @@ for details on how to update your code to use this library.
 ## Using with a module bundler
 
 If you’re using a module bundler like [webpack](https://webpack.js.org) or
-[rollup](http://rollupjs.org/), the exported object will be the Player
+[rollup](https://rollupjs.org/), the exported object will be the Player
 constructor (unlike the browser where it is attached to `window.Vimeo`):
 
 ```js
@@ -136,7 +136,7 @@ player.on('play', function() {
 });
 ```
 
-Similarly, if you’re using [RequireJS](http://www.requirejs.org) in the browser,
+Similarly, if you’re using [RequireJS](https://requirejs.org/) in the browser,
 it will also import the Player constructor directly:
 
 ```html
@@ -350,7 +350,7 @@ player.play();
 ```
 
 All methods, except for `on()` and `off()` return a
-[Promise](http://www.html5rocks.com/en/tutorials/es6/promises/). The Promise may
+[Promise](https://web.dev/articles/promises?hl=en). The Promise may
 or may not resolve with a value, depending on the specific method.
 
 ```js
@@ -687,7 +687,7 @@ player.getRemotePlaybackAvailability().then(function(remotePlaybackAvailable) {
 
 ### getRemotePlaybackState(): Promise&lt;boolean, Error&gt;
 
-Get the current state of remote playback. Can be one of `connecting`, `connected`, or `disconnected`. These values are equivalent to the state values in the [Remote Playback API](http://developer.mozilla.org/en-US/docs/Web/API/RemotePlayback/state).
+Get the current state of remote playback. Can be one of `connecting`, `connected`, or `disconnected`. These values are equivalent to the state values in the [Remote Playback API](https://developer.mozilla.org/en-US/docs/Web/API/RemotePlayback/state).
 
 ```js
 player.getRemotePlaybackState().then(function(remotePlaybackState) {
