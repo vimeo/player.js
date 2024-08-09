@@ -43,6 +43,7 @@ const oEmbedParameters = [
     'title',
     'transcript',
     'transparent',
+    'unmute_button',
     'url',
     'vimeo_logo',
     'volume',
