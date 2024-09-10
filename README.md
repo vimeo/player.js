@@ -161,7 +161,7 @@ it will also import the Player constructor directly:
 * [Methods](#methods)
     + [on](#onevent-string-callback-function-void)
     + [off](#offevent-string-callback-function-void)
-    + [loadVideo](#loadvideooptions-numberobject-promisenumberobject-typeerrorpassworderrorerror)
+    + [loadVideo](#loadvideooptions-numberstringobject-promisenumberobject-typeerrorpassworderrorerror)
     + [ready](#ready-promisevoid-error)
     + [enableTextTrack](#enabletexttracklanguage-string-kind-string-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
     + [disableTextTrack](#disabletexttrack-promisevoid-error)
