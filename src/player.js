@@ -1318,7 +1318,7 @@ class Player {
         return this.set('volume', volume);
     }
 
-    /** @typedef {import('./lib/timing-object.types').TimingObject} TimingObject */
+    /** @typedef {import('timing-object').ITimingObject} TimingObject */
     /** @typedef {import('./lib/timing-src-connector.types').TimingSrcConnectorOptions} TimingSrcConnectorOptions */
     /** @typedef {import('./lib/timing-src-connector').TimingSrcConnector} TimingSrcConnector */
 
