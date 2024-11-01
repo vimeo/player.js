@@ -11,6 +11,24 @@ export const isNode = typeof global !== 'undefined' &&
   ({}).toString.call(global) === '[object global]';
 
 /**
+ * Check to see if this is a bun environment.
+ * @type {Boolean}
+ */
+export const isBun = typeof Bun !== 'undefined';
+
+/**
+ * Check to see if this is a deno environment.
+ * @type {Boolean}
+ */
+export const isDeno = typeof Deno !== 'undefined';
+
+/**
+ * Check if this is a server runtime
+ * @type {Boolean}
+ */
+export const isServerRuntime = isNode || isBun || isDeno;
+
+/**
  * Get the name of the method for a given getter or setter.
  *
  * @param {string} prop The name of the property.
