@@ -13,6 +13,8 @@ export const isNode = typeof global !== 'undefined' &&
 /**
  * Check to see if this is a bun environment.
  * @type {Boolean}
+ *
+ * @docs https://bun.sh/guides/util/detect-bun
  */
 export const isBun = typeof Bun !== 'undefined';
 
