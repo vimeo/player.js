@@ -1344,7 +1344,7 @@ class Player {
     }
 }
 
-// Setup embed only if this is not a node environment
+// Setup embed only if this is not a server runtime
 if (!isServerRuntime) {
     screenfull = initializeScreenfull();
     initializeEmbeds();
