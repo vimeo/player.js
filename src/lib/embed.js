@@ -9,6 +9,7 @@ import { parseMessageData } from './postmessage';
 const oEmbedParameters = [
     'airplay',
     'audio_tracks',
+    'audiotrack',
     'autopause',
     'autoplay',
     'background',
