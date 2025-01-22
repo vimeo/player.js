@@ -252,6 +252,7 @@ it will also import the Player constructor directly:
     + [interactivehotspotclicked](#interactivehotspotclicked)
     + [interactiveoverlaypanelclicked](#interactiveoverlaypanelclicked)
 * [Dev Options](#dev-options)
+    + [prefer_mms](#prefer_mms)
 
 ## Create a Player
 
@@ -1818,6 +1819,8 @@ Triggered when the overlay panel (buttons or images) within the interactive over
 
 ## Dev Options
 
+### prefer_mms
+
 The Vimeo Player uses [ManagedMediaSource](https://developer.apple.com/videos/play/wwdc2023/10122/?time=762) (MMS) where available for MSE-powered playback on iOS devices.
 
-Unfortunately, there are [known issues](https://bugs.webkit.org/show_bug.cgi?id=266764) with ManagedMediaSource in certain versions of the Xcode iOS Simulator. Therefore, we have added a query parameter to disable MMS and force native HLS playback via: `prefer_mms=0` or `prefer_mms=false`.
+Unfortunately, there are [known issues](https://bugs.webkit.org/show_bug.cgi?id=266764) with MMS in certain versions of the Xcode iOS Simulator. Therefore, we have added a query parameter to disable MMS and force native HLS playback via: `prefer_mms=0` or `prefer_mms=false`.
