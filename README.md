@@ -1821,6 +1821,6 @@ Triggered when the overlay panel (buttons or images) within the interactive over
 
 ### prefer_mms
 
-The Vimeo Player uses [ManagedMediaSource](https://developer.apple.com/videos/play/wwdc2023/10122/?time=762) (MMS) where available for MSE-powered playback on iOS devices.
+The Vimeo Player uses [Managed Media Source](https://developer.apple.com/videos/play/wwdc2023/10122/?time=762) (MMS) where available for [Media Source Extension](https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API) powered playback on iOS devices.
 
 Unfortunately, there are [known issues](https://bugs.webkit.org/show_bug.cgi?id=266764) with MMS in certain versions of the Xcode iOS Simulator. Therefore, we have added a query parameter to disable MMS and force native HLS playback via: `prefer_mms=0` or `prefer_mms=false`.
