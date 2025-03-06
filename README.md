@@ -1647,7 +1647,8 @@ event will never fire on those devices.
 
 ```js
 {
-    volume: 0.5
+    volume: 0.5,
+    muted: false
 }
 ```
 
