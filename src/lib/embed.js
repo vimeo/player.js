@@ -38,6 +38,7 @@ const oEmbedParameters = [
     'progress_bar',
     'quality_selector',
     'responsive',
+    'skipping_forward',
     'speed',
     'start_time',
     'texttrack',
