@@ -62,29 +62,6 @@ test('constructor does not warn if only one jQuery object', (t) => {
     console.warn.restore();
 });
 
-// test.skip('constructor accepts a div without attributes when there is an options object', (t) => {
-//     t.notThrows(() => {
-//         void new Player(html`<div id="player"></div>`, { id: 76979871 });
-//     });
-// });
-//
-// test.skip('constructor finds iframe elements within the provided element', (t) => {
-//     const div = html`<div></div>`;
-//     const iframe = html`<iframe src="https://player.vimeo.com/video/159195552" width="640" height="360" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>`;
-//     div.appendChild(iframe);
-//
-//     const player = new Player(div);
-//
-//     t.ok(player.element === iframe);
-// });
-
-// test.skip('constructor gets an element by id if passed a string', (t) => {
-//     const element = document.getElementById('test_player');
-//     const player = new Player('test_player');
-//
-//     t.ok(player.element === element);
-// });
-
 test('constructor returns the same player object for the same element', (t) => {
     const iframe = document.querySelector('.one');
     const player1 = new Player(iframe);
@@ -174,4 +151,48 @@ test('off requires an event name, and the optional callback must be a function',
     t.throws(() => player.off('play', 'string'), { instanceOf: TypeError }, 'The callback must be a function.');
     t.notThrows(() => player.off('play', () => {
     }));
+});
+
+test('callMethod returns a promise', (t) => {
+    const iframe = document.querySelector('.one');
+    const player = new Player(iframe);
+
+    t.true(player.callMethod('play') instanceof Promise);
+});
+
+test('callMethod requires a method name', (t) => {
+    const iframe = document.querySelector('.one');
+    const player = new Player(iframe);
+
+    t.throws(() => player.callMethod(), { instanceOf: TypeError });
+});
+
+test('callMethod calls postMessage with the correct arguments', (t) => {
+    const iframe = document.querySelector('.one');
+    const player = new Player(iframe);
+    
+    const postMessageSpy = sinon.spy(player, 'callMethod');
+    
+    player.callMethod('setColor', '00adef');
+    t.true(postMessageSpy.calledWith('setColor', '00adef'));
+
+    player.callMethod('setColors', ['#000000', '#00adef', '#ffffff', '#000000']);
+    t.true(postMessageSpy.calledWith('setColors', ['#000000', '#00adef', '#ffffff', '#000000']));
+    
+    player.callMethod('addCuePoint', 15, { customKey: 'customValue' });
+    t.true(postMessageSpy.calledWith('addCuePoint', 15, { customKey: 'customValue' }));
+    
+    postMessageSpy.restore();
+});
+
+test('callMethod fails when player is destroyed', async (t) => {
+    const player = new Player(
+        html`<iframe id="call-method-test" src="https://player.vimeo.com/video/76979871"></iframe>`
+    );
+    
+    await player.destroy();
+    
+    await t.throwsAsync(() => player.callMethod('play'), { 
+        message: /Unknown player. Probably unloaded/i 
+    });
 });

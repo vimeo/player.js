@@ -1225,7 +1225,7 @@
    *
    * @param {Player} player The player object to use.
    * @param {string} method The API method to call.
-   * @param {object} params The parameters to send to the player.
+   * @param {string|number|object|Array|undefined} params The parameters to send to the player.
    * @return {void}
    */
   function postMessage(player, method, params) {
@@ -2227,24 +2227,29 @@
      * Get a promise for a method.
      *
      * @param {string} name The API method to call.
-     * @param {Object} [args={}] Arguments to send via postMessage.
+     * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
      * @return {Promise}
      */
     _createClass(Player, [{
       key: "callMethod",
       value: function callMethod(name) {
         var _this2 = this;
-        var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          args[_key - 1] = arguments[_key];
+        }
+        if (name === undefined || name === null) {
+          throw new TypeError('You must pass a method name.');
+        }
         return new npo_src(function (resolve, reject) {
-          // We are storing the resolve/reject handlers to call later, so we
-          // can’t return here.
-          // eslint-disable-next-line promise/always-return
           return _this2.ready().then(function () {
             storeCallback(_this2, name, {
               resolve: resolve,
               reject: reject
             });
-            postMessage(_this2, name, args);
+            if (args.length > 1 || args.length === 1 && Array.isArray(args[0])) {
+              return postMessage(_this2, name, args);
+            }
+            return postMessage(_this2, name, args[0]);
           }).catch(reject);
         });
       }

@@ -163,22 +163,29 @@ class Player {
      * Get a promise for a method.
      *
      * @param {string} name The API method to call.
-     * @param {Object} [args={}] Arguments to send via postMessage.
+     * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
      * @return {Promise}
      */
-    callMethod(name, args = {}) {
-        return new Promise((resolve, reject) => {
-            // We are storing the resolve/reject handlers to call later, so we
-            // can’t return here.
-            // eslint-disable-next-line promise/always-return
-            return this.ready().then(() => {
-                storeCallback(this, name, {
-                    resolve,
-                    reject
-                });
+    callMethod(name, ...args) {
+        if (name === undefined || name === null) {
+            throw new TypeError('You must pass a method name.');
+        }
 
-                postMessage(this, name, args);
-            }).catch(reject);
+        return new Promise((resolve, reject) => {
+            return this.ready()
+                .then(() => {
+                    storeCallback(this, name, {
+                        resolve,
+                        reject
+                    });
+
+                    if (args.length > 1 || (args.length === 1 && Array.isArray(args[0]))) {
+                        return postMessage(this, name, args);
+                    }
+                    return postMessage(this, name, args[0]);
+
+                })
+                .catch(reject);
         });
     }
 
