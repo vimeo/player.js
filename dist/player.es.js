@@ -1219,7 +1219,7 @@ function parseMessageData(data) {
  *
  * @param {Player} player The player object to use.
  * @param {string} method The API method to call.
- * @param {object} params The parameters to send to the player.
+ * @param {string|number|object|Array|undefined} params The parameters to send to the player.
  * @return {void}
  */
 function postMessage(player, method, params) {
@@ -2221,14 +2221,19 @@ var Player = /*#__PURE__*/function () {
    * Get a promise for a method.
    *
    * @param {string} name The API method to call.
-   * @param {Object} [args={}] Arguments to send via postMessage.
+   * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
    * @return {Promise}
    */
   _createClass(Player, [{
     key: "callMethod",
     value: function callMethod(name) {
       var _this2 = this;
-      var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+      if (name === undefined || name === null) {
+        throw new TypeError('You must pass a method name.');
+      }
       return new npo_src(function (resolve, reject) {
         // We are storing the resolve/reject handlers to call later, so we
         // can’t return here.
@@ -2242,7 +2247,6 @@ var Player = /*#__PURE__*/function () {
         }).catch(reject);
       });
     }
-
     /**
      * Get a promise for the value of a player property.
      *

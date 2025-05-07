@@ -30,7 +30,7 @@ export function parseMessageData(data) {
  *
  * @param {Player} player The player object to use.
  * @param {string} method The API method to call.
- * @param {object} params The parameters to send to the player.
+ * @param {string|number|object|Array|undefined} params The parameters to send to the player.
  * @return {void}
  */
 export function postMessage(player, method, params) {
