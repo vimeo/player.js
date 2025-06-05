@@ -38,6 +38,7 @@ const oEmbedParameters = [
     'play_button_position',
     'playsinline',
     'portrait',
+    'preload',
     'progress_bar',
     'quality',
     'quality_selector',
