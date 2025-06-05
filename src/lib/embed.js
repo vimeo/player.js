@@ -46,6 +46,7 @@ const oEmbedParameters = [
     'speed',
     'start_time',
     'texttrack',
+    'thumbnail_id',
     'title',
     'transcript',
     'transparent',
