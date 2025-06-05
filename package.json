@@ -1,6 +1,6 @@
 {
   "name": "@vimeo/player",
-  "version": "2.27.1",
+  "version": "2.28.0",
   "description": "Interact with and control an embedded Vimeo Player.",
   "license": "MIT",
   "author": "Vimeo <https://vimeo.com>",
