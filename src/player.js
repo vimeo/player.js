@@ -1356,4 +1356,5 @@ if (!isNode) {
     checkUrlTimeParam();
 }
 
+export { isVimeoUrl }
 export default Player;
