@@ -163,10 +163,14 @@ class Player {
      * Get a promise for a method.
      *
      * @param {string} name The API method to call.
-     * @param {Object} [args={}] Arguments to send via postMessage.
+     * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
      * @return {Promise}
      */
-    callMethod(name, args = {}) {
+    callMethod(name, ...args) {
+        if (name === undefined || name === null) {
+            throw new TypeError('You must pass a method name.');
+        }
+
         return new Promise((resolve, reject) => {
             // We are storing the resolve/reject handlers to call later, so we
             // can’t return here.
@@ -181,7 +185,6 @@ class Player {
             }).catch(reject);
         });
     }
-
     /**
      * Get a promise for the value of a player property.
      *

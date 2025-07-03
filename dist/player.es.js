@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.20.1 | (c) 2023 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.29.0 | (c) 2025 Vimeo | MIT License | https://github.com/vimeo/player.js */
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
   if (Object.getOwnPropertySymbols) {
@@ -569,7 +569,7 @@ function isInteger(value) {
  * @return {boolean}
  */
 function isVimeoUrl(url) {
-  return /^(https?:)?\/\/((player|www)\.)?vimeo\.com(?=$|\/)/.test(url);
+  return /^(https?:)?\/\/((((player|www)\.)?vimeo\.com)|((player\.)?[a-zA-Z0-9-]+\.(videoji\.(hk|cn)|vimeo\.work)))(?=$|\/)/.test(url);
 }
 
 /**
@@ -579,8 +579,20 @@ function isVimeoUrl(url) {
  * @return {boolean}
  */
 function isVimeoEmbed(url) {
-  var expr = /^https:\/\/player\.vimeo\.com\/video\/\d+/;
+  var expr = /^https:\/\/player\.((vimeo\.com)|([a-zA-Z0-9-]+\.(videoji\.(hk|cn)|vimeo\.work)))\/video\/\d+/;
   return expr.test(url);
+}
+function getOembedDomain(url) {
+  var match = (url || '').match(/^(?:https?:)?(?:\/\/)?([^/?]+)/);
+  var domain = (match && match[1] || '').replace('player.', '');
+  var customDomains = ['.videoji.hk', '.vimeo.work', '.videoji.cn'];
+  for (var _i = 0, _customDomains = customDomains; _i < _customDomains.length; _i++) {
+    var customDomain = _customDomains[_i];
+    if (domain.endsWith(customDomain)) {
+      return domain;
+    }
+  }
+  return 'vimeo.com';
 }
 
 /**
@@ -1207,7 +1219,7 @@ function parseMessageData(data) {
  *
  * @param {Player} player The player object to use.
  * @param {string} method The API method to call.
- * @param {object} params The parameters to send to the player.
+ * @param {string|number|object|Array|undefined} params The parameters to send to the player.
  * @return {void}
  */
 function postMessage(player, method, params) {
@@ -1275,7 +1287,7 @@ function processData(player, data) {
 /**
  * @module lib/embed
  */
-var oEmbedParameters = ['autopause', 'autoplay', 'background', 'byline', 'color', 'colors', 'controls', 'dnt', 'height', 'id', 'interactive_params', 'keyboard', 'loop', 'maxheight', 'maxwidth', 'muted', 'playsinline', 'portrait', 'responsive', 'speed', 'texttrack', 'title', 'transparent', 'url', 'width'];
+var oEmbedParameters = ['airplay', 'audio_tracks', 'audiotrack', 'autopause', 'autoplay', 'background', 'byline', 'cc', 'chapter_id', 'chapters', 'chromecast', 'color', 'colors', 'controls', 'dnt', 'end_time', 'fullscreen', 'height', 'id', 'initial_quality', 'interactive_params', 'keyboard', 'loop', 'maxheight', 'max_quality', 'maxwidth', 'min_quality', 'muted', 'play_button_position', 'playsinline', 'portrait', 'preload', 'progress_bar', 'quality', 'quality_selector', 'responsive', 'skipping_forward', 'speed', 'start_time', 'texttrack', 'thumbnail_id', 'title', 'transcript', 'transparent', 'unmute_button', 'url', 'vimeo_logo', 'volume', 'watch_full_video', 'width'];
 
 /**
  * Get the 'data-vimeo'-prefixed attributes from an element as an object.
@@ -1332,7 +1344,8 @@ function getOEmbedData(videoUrl) {
     if (!isVimeoUrl(videoUrl)) {
       throw new TypeError("\u201C".concat(videoUrl, "\u201D is not a vimeo.com url."));
     }
-    var url = "https://vimeo.com/api/oembed.json?url=".concat(encodeURIComponent(videoUrl));
+    var domain = getOembedDomain(videoUrl);
+    var url = "https://".concat(domain, "/api/oembed.json?url=").concat(encodeURIComponent(videoUrl));
     for (var param in params) {
       if (params.hasOwnProperty(param)) {
         url += "&".concat(param, "=").concat(encodeURIComponent(params[param]));
@@ -2208,14 +2221,19 @@ var Player = /*#__PURE__*/function () {
    * Get a promise for a method.
    *
    * @param {string} name The API method to call.
-   * @param {Object} [args={}] Arguments to send via postMessage.
+   * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
    * @return {Promise}
    */
   _createClass(Player, [{
     key: "callMethod",
     value: function callMethod(name) {
       var _this2 = this;
-      var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+      if (name === undefined || name === null) {
+        throw new TypeError('You must pass a method name.');
+      }
       return new npo_src(function (resolve, reject) {
         // We are storing the resolve/reject handlers to call later, so we
         // can’t return here.
@@ -2229,7 +2247,6 @@ var Player = /*#__PURE__*/function () {
         }).catch(reject);
       });
     }
-
     /**
      * Get a promise for the value of a player property.
      *

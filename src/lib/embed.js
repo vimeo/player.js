@@ -3,34 +3,59 @@
  */
 
 import Player from '../player';
-import { isVimeoUrl, isVimeoEmbed, getVimeoUrl } from './functions';
+import { isVimeoUrl, isVimeoEmbed, getVimeoUrl, getOembedDomain } from './functions';
 import { parseMessageData } from './postmessage';
 
 const oEmbedParameters = [
+    'airplay',
+    'audio_tracks',
+    'audiotrack',
     'autopause',
     'autoplay',
     'background',
     'byline',
+    'cc',
+    'chapter_id',
+    'chapters',
+    'chromecast',
     'color',
     'colors',
     'controls',
     'dnt',
+    'end_time',
+    'fullscreen',
     'height',
     'id',
+    'initial_quality',
     'interactive_params',
     'keyboard',
     'loop',
     'maxheight',
+    'max_quality',
     'maxwidth',
+    'min_quality',
     'muted',
+    'play_button_position',
     'playsinline',
     'portrait',
+    'preload',
+    'progress_bar',
+    'quality',
+    'quality_selector',
     'responsive',
+    'skipping_forward',
     'speed',
+    'start_time',
     'texttrack',
+    'thumbnail_id',
     'title',
+    'transcript',
     'transparent',
+    'unmute_button',
     'url',
+    'vimeo_logo',
+    'volume',
+    'watch_full_video',
     'width'
 ];
 
@@ -92,7 +117,8 @@ export function getOEmbedData(videoUrl, params = {}, element) {
             throw new TypeError(`“${videoUrl}” is not a vimeo.com url.`);
         }
 
-        let url = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(videoUrl)}`;
+        const domain = getOembedDomain(videoUrl);
+        let url = `https://${domain}/api/oembed.json?url=${encodeURIComponent(videoUrl)}`;
 
         for (const param in params) {
             if (params.hasOwnProperty(param)) {

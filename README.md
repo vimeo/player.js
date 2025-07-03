@@ -17,12 +17,12 @@ Alternatively, you can reference an up‐to‐date version on our CDN:
 <script src="https://player.vimeo.com/api/player.js"></script>
 ```
 
-**Warning:** when used with RequireJS it's required to load the script dynamically via the RequireJS load system.
-http://www.requirejs.org/docs/api.html#jsfiles
+**Warning:** when used with RequireJS it is required to load the script dynamically via the RequireJS load system.
+https://requirejs.org/docs/api.html#jsfiles
 
 ## Getting Started
 
-In order to control the Vimeo player, you need a player to control. There are a
+In order to control the Vimeo Player, you need a player to control. There are a
 few ways to get a player:
 
 ### Pre-existing player
@@ -54,7 +54,7 @@ You can use the library to make the embed for you. All you need is an empty
 element and the video id or vimeo.com url (and optional
 [embed options](#embed-options)).
 
-**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Private", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
+**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
 
 ```html
 <div id="made-in-ny"></div>
@@ -85,7 +85,7 @@ attributes. Each element must have at least a `data-vimeo-id` or
 You can also add attributes for any of the [embed options](#embed-options),
 prefixed with `data-vimeo` (`data-vimeo-portrait="false"`, for example).
 
-**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Private", instead of providing a `data-vimeo-id` attribute, you will need to provide the full video URL in a `data-vimeo-url` attribute and include the `h` parameter.
+**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Unlisted", instead of providing a `data-vimeo-id` attribute, you will need to provide the full video URL in a `data-vimeo-url` attribute and include the `h` parameter.
 
 ```html
 <div data-vimeo-id="19231868" data-vimeo-width="640" id="handstick"></div>
@@ -120,7 +120,7 @@ for details on how to update your code to use this library.
 ## Using with a module bundler
 
 If you’re using a module bundler like [webpack](https://webpack.js.org) or
-[rollup](http://rollupjs.org/), the exported object will be the Player
+[rollup](https://rollupjs.org/), the exported object will be the Player
 constructor (unlike the browser where it is attached to `window.Vimeo`):
 
 ```js
@@ -136,7 +136,7 @@ player.on('play', function() {
 });
 ```
 
-Similarly, if you’re using [RequireJS](http://www.requirejs.org) in the browser,
+Similarly, if you’re using [RequireJS](https://requirejs.org/) in the browser,
 it will also import the Player constructor directly:
 
 ```html
@@ -161,7 +161,7 @@ it will also import the Player constructor directly:
 * [Methods](#methods)
     + [on](#onevent-string-callback-function-void)
     + [off](#offevent-string-callback-function-void)
-    + [loadVideo](#loadvideooptions-numberobject-promisenumberobject-typeerrorpassworderrorerror)
+    + [loadVideo](#loadvideooptions-numberstringobject-promisenumberobject-typeerrorpassworderrorerror)
     + [ready](#ready-promisevoid-error)
     + [enableTextTrack](#enabletexttracklanguage-string-kind-string-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
     + [disableTextTrack](#disabletexttrack-promisevoid-error)
@@ -251,7 +251,8 @@ it will also import the Player constructor directly:
     + [remoteplaybackdisconnect](#remoteplaybackdisconnect)
     + [interactivehotspotclicked](#interactivehotspotclicked)
     + [interactiveoverlaypanelclicked](#interactiveoverlaypanelclicked)
-
+* [Dev Options](#dev-options)
+    + [prefer_mms](#prefer_mms)
 
 ## Create a Player
 
@@ -284,7 +285,7 @@ Pass any element and an options object to the `Vimeo.Player` constructor to make
 an embed inside that element. The options object should consist of either an
 `id` or `url` and any other [embed options](#embed-options) for the embed.
 
-**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Private", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
+**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
 
 ```html
 <div id="made-in-ny"></div>
@@ -350,7 +351,7 @@ player.play();
 ```
 
 All methods, except for `on()` and `off()` return a
-[Promise](http://www.html5rocks.com/en/tutorials/es6/promises/). The Promise may
+[Promise](https://web.dev/articles/promises?hl=en). The Promise may
 or may not resolve with a value, depending on the specific method.
 
 ```js
@@ -420,7 +421,7 @@ player.off('play');
 Load a new video into this embed. The promise will be resolved if the video is
 successfully loaded, or it will be rejected if it could not be loaded.
 
-**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Private", instead of providing an `id` argument, you will need to provide the full video URL as a `url` argument and include the `h` parameter.
+**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Unlisted", instead of providing an `id` argument, you will need to provide the full video URL as a `url` argument and include the `h` parameter.
 
 ```js
 player.loadVideo(76979871).then(function(id) {
@@ -687,7 +688,7 @@ player.getRemotePlaybackAvailability().then(function(remotePlaybackAvailable) {
 
 ### getRemotePlaybackState(): Promise&lt;boolean, Error&gt;
 
-Get the current state of remote playback. Can be one of `connecting`, `connected`, or `disconnected`. These values are equivalent to the state values in the [Remote Playback API](http://developer.mozilla.org/en-US/docs/Web/API/RemotePlayback/state).
+Get the current state of remote playback. Can be one of `connecting`, `connected`, or `disconnected`. These values are equivalent to the state values in the [Remote Playback API](https://developer.mozilla.org/en-US/docs/Web/API/RemotePlayback/state).
 
 ```js
 player.getRemotePlaybackState().then(function(remotePlaybackState) {
@@ -1458,8 +1459,7 @@ player.on('eventName', function(data) {
 });
 ```
 
-The events are equivalent to the HTML5 video events (except for `cuechange`,
-which is slightly different).
+The events are similar to the HTML5 video events.
 
 To remove a listener, call `.off()` with the callback function:
 
@@ -1647,7 +1647,8 @@ event will never fire on those devices.
 
 ```js
 {
-    volume: 0.5
+    volume: 0.5,
+    muted: false
 }
 ```
 
@@ -1816,3 +1817,11 @@ Triggered when the overlay panel (buttons or images) within the interactive over
     panelId: 'c47193a0-8320-4572-9bcd-8425851b36e9'
 }
 ```
+
+## Dev Options
+
+### prefer_mms
+
+The Vimeo Player uses [Managed Media Source](https://developer.apple.com/videos/play/wwdc2023/10122/?time=762) (MMS) where available for [Media Source Extension](https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API) powered playback on iOS devices.
+
+Unfortunately, there are [known issues](https://bugs.webkit.org/show_bug.cgi?id=266764) with MMS in certain versions of the Xcode iOS Simulator. Therefore, we have added a query parameter to disable MMS and force native HLS playback via: `prefer_mms=0` or `prefer_mms=false`.

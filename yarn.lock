@@ -1772,15 +1772,10 @@ caniuse-db@^1.0.30001090:
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30001118.tgz#60f56de236d7b68859d9a377a7f2f69092283247"
   integrity sha512-yMoV0unAwrdNkqKbNI4jlyUHrLsBYrzf9IOYTNxhy3t1onqpLK2nH0IPHzr2isrmmY8pQ6UPqFGka/8Gc8Yt9w==
 
-caniuse-lite@^1.0.30001111:
-  version "1.0.30001118"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001118.tgz#116a9a670e5264aec895207f5e918129174c6f62"
-  integrity sha512-RNKPLojZo74a0cP7jFMidQI7nvLER40HgNfgKQEJ2PFm225L0ectUungNQoK3Xk3StQcFbpBPNEvoWD59436Hg==
-
-caniuse-lite@^1.0.30001449:
-  version "1.0.30001489"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001489.tgz#ca82ee2d4e4dbf2bd2589c9360d3fcc2c7ba3bd8"
-  integrity sha512-x1mgZEXK8jHIfAxm+xgdpHpk50IN3z3q3zP261/WS+uvePxW8izXuCu6AHz0lkuYTlATDehiZ/tNyYBdSQsOUQ==
+caniuse-lite@^1.0.30001111, caniuse-lite@^1.0.30001449:
+  version "1.0.30001651"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001651.tgz"
+  integrity sha512-9Cf+Xv1jJNe1xPZLGuUXLNkE1BoDkqRqYyFJ9TDYSqhduqA4hu4oR9HluGoWYQC/aj8WHjsGVV+bwkh0+tegRg==
 
 chalk@^2.0.0, chalk@^2.4.1:
   version "2.4.2"
@@ -2474,11 +2469,6 @@ eslint@^7.7.0:
     table "^5.2.3"
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
-
-esm@^3.2.25:
-  version "3.2.25"
-  resolved "https://registry.yarnpkg.com/esm/-/esm-3.2.25.tgz#342c18c29d56157688ba5ce31f8431fbb795cc10"
-  integrity sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==
 
 espree@^7.2.0:
   version "7.3.0"
