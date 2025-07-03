@@ -174,7 +174,6 @@ class Player {
         return new Promise((resolve, reject) => {
             // We are storing the resolve/reject handlers to call later, so we
             // can’t return here.
-            // eslint-disable-next-line promise/always-return
             return this.ready().then(() => {
                 storeCallback(this, name, {
                     resolve,
@@ -197,7 +196,6 @@ class Player {
 
             // We are storing the resolve/reject handlers to call later, so we
             // can’t return here.
-            // eslint-disable-next-line promise/always-return
             return this.ready().then(() => {
                 storeCallback(this, name, {
                     resolve,
@@ -226,7 +224,6 @@ class Player {
 
             // We are storing the resolve/reject handlers to call later, so we
             // can’t return here.
-            // eslint-disable-next-line promise/always-return
             return this.ready().then(() => {
                 storeCallback(this, name, {
                     resolve,
