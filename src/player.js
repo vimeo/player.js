@@ -181,6 +181,14 @@ class Player {
                     reject
                 });
 
+                // eslint-disable-next-line promise/always-return
+                if (args.length === 0) {
+                    args = {};
+                }
+                else if (args.length === 1) {
+                    args = args[0];
+                }
+
                 postMessage(this, name, args);
             }).catch(reject);
         });

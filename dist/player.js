@@ -2252,6 +2252,13 @@
               resolve: resolve,
               reject: reject
             });
+
+            // eslint-disable-next-line promise/always-return
+            if (args.length === 0) {
+              args = {};
+            } else if (args.length === 1) {
+              args = args[0];
+            }
             postMessage(_this2, name, args);
           }).catch(reject);
         });
