@@ -4,7 +4,7 @@ import 'weakmap-polyfill';
 import Promise from 'native-promise-only';
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks';
-import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode } from './lib/functions';
+import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode, logSurveyLink } from './lib/functions';
 import {
     getOEmbedParameters,
     getOEmbedData,
@@ -1354,6 +1354,7 @@ if (!isNode) {
     resizeEmbeds();
     initAppendVideoMetadata();
     checkUrlTimeParam();
+    logSurveyLink();
 }
 
 export default Player;
