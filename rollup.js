@@ -104,6 +104,6 @@ generateBundle();
 
 if (watch) {
     const chokidar = require('chokidar');
-    const watcher = chokidar.watch('src/**/*');
+    const watcher = chokidar.watch('./src');
     watcher.on('change', generateBundle);
 }
