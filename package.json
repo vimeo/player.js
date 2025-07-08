@@ -79,7 +79,7 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.0.0",
-    "sinon": "^9.0.3",
+    "sinon": "^21.0.0",
     "uglify-js": "^3.7.7",
     "xhr2": "0.2.1"
   },
