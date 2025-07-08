@@ -3,6 +3,9 @@
 The Vimeo Player API allows you to interact with and control an embedded Vimeo
 Player.
 
+> [!NOTE]
+> We'd love to get your feedback about how you work with Player.js. Please take a few minutes to share your thoughts in our survey [here](https://t.maze.co/393567477).
+
 ## Installation
 
 You can install the Vimeo Player API through either npm:
@@ -17,12 +20,12 @@ Alternatively, you can reference an up‐to‐date version on our CDN:
 <script src="https://player.vimeo.com/api/player.js"></script>
 ```
 
-**Warning:** when used with RequireJS it's required to load the script dynamically via the RequireJS load system.
+**Warning:** when used with RequireJS it is required to load the script dynamically via the RequireJS load system.
 https://requirejs.org/docs/api.html#jsfiles
 
 ## Getting Started
 
-In order to control the Vimeo player, you need a player to control. There are a
+In order to control the Vimeo Player, you need a player to control. There are a
 few ways to get a player:
 
 ### Pre-existing player
@@ -251,7 +254,8 @@ it will also import the Player constructor directly:
     + [remoteplaybackdisconnect](#remoteplaybackdisconnect)
     + [interactivehotspotclicked](#interactivehotspotclicked)
     + [interactiveoverlaypanelclicked](#interactiveoverlaypanelclicked)
-
+* [Dev Options](#dev-options)
+    + [prefer_mms](#prefer_mms)
 
 ## Create a Player
 
@@ -1646,7 +1650,8 @@ event will never fire on those devices.
 
 ```js
 {
-    volume: 0.5
+    volume: 0.5,
+    muted: false
 }
 ```
 
@@ -1815,3 +1820,11 @@ Triggered when the overlay panel (buttons or images) within the interactive over
     panelId: 'c47193a0-8320-4572-9bcd-8425851b36e9'
 }
 ```
+
+## Dev Options
+
+### prefer_mms
+
+The Vimeo Player uses [Managed Media Source](https://developer.apple.com/videos/play/wwdc2023/10122/?time=762) (MMS) where available for [Media Source Extension](https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API) powered playback on iOS devices.
+
+Unfortunately, there are [known issues](https://bugs.webkit.org/show_bug.cgi?id=266764) with MMS in certain versions of the Xcode iOS Simulator. Therefore, we have added a query parameter to disable MMS and force native HLS playback via: `prefer_mms=0` or `prefer_mms=false`.

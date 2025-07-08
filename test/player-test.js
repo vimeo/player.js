@@ -62,29 +62,6 @@ test('constructor does not warn if only one jQuery object', (t) => {
     console.warn.restore();
 });
 
-// test.skip('constructor accepts a div without attributes when there is an options object', (t) => {
-//     t.notThrows(() => {
-//         void new Player(html`<div id="player"></div>`, { id: 76979871 });
-//     });
-// });
-//
-// test.skip('constructor finds iframe elements within the provided element', (t) => {
-//     const div = html`<div></div>`;
-//     const iframe = html`<iframe src="https://player.vimeo.com/video/159195552" width="640" height="360" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>`;
-//     div.appendChild(iframe);
-//
-//     const player = new Player(div);
-//
-//     t.ok(player.element === iframe);
-// });
-
-// test.skip('constructor gets an element by id if passed a string', (t) => {
-//     const element = document.getElementById('test_player');
-//     const player = new Player('test_player');
-//
-//     t.ok(player.element === element);
-// });
-
 test('constructor returns the same player object for the same element', (t) => {
     const iframe = document.querySelector('.one');
     const player1 = new Player(iframe);

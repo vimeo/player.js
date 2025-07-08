@@ -163,3 +163,11 @@ export const subscribe = (target, eventName, callback, onName = 'addEventListene
         cancel: () => eventNames.forEach((evName) => target[offName](evName, callback))
     };
 };
+
+export const logSurveyLink = () => {
+    console.log(
+        '\n%cVimeo is looking for feedback!\n%cComplete our survey about the Player SDK: https://t.maze.co/393567477',
+        'color:#00adef;font-size:1.2em;',
+        'color:#aaa;font-size:0.8em;'
+    );
+};

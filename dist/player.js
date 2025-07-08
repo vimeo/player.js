@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.24.0 | (c) 2024 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.29.0 | (c) 2025 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -654,6 +654,9 @@
       }
     };
   };
+  var logSurveyLink = function logSurveyLink() {
+    console.log('\n%cVimeo is looking for feedback!\n%cComplete our survey about the Player SDK: https://t.maze.co/393567477', 'color:#00adef;font-size:1.2em;', 'color:#aaa;font-size:0.8em;');
+  };
 
   var arrayIndexOfSupport = typeof Array.prototype.indexOf !== 'undefined';
   var postMessageSupport = typeof window !== 'undefined' && typeof window.postMessage !== 'undefined';
@@ -1225,7 +1228,7 @@
    *
    * @param {Player} player The player object to use.
    * @param {string} method The API method to call.
-   * @param {object} params The parameters to send to the player.
+   * @param {string|number|object|Array|undefined} params The parameters to send to the player.
    * @return {void}
    */
   function postMessage(player, method, params) {
@@ -1293,7 +1296,7 @@
   /**
    * @module lib/embed
    */
-  var oEmbedParameters = ['airplay', 'audio_tracks', 'autopause', 'autoplay', 'background', 'byline', 'cc', 'chapter_id', 'chapters', 'chromecast', 'color', 'colors', 'controls', 'dnt', 'end_time', 'fullscreen', 'height', 'id', 'interactive_params', 'keyboard', 'loop', 'maxheight', 'maxwidth', 'muted', 'play_button_position', 'playsinline', 'portrait', 'progress_bar', 'quality_selector', 'responsive', 'speed', 'start_time', 'texttrack', 'title', 'transcript', 'transparent', 'unmute_button', 'url', 'vimeo_logo', 'volume', 'watch_full_video', 'width'];
+  var oEmbedParameters = ['airplay', 'audio_tracks', 'audiotrack', 'autopause', 'autoplay', 'background', 'byline', 'cc', 'chapter_id', 'chapters', 'chromecast', 'color', 'colors', 'controls', 'dnt', 'end_time', 'fullscreen', 'height', 'id', 'initial_quality', 'interactive_params', 'keyboard', 'loop', 'maxheight', 'max_quality', 'maxwidth', 'min_quality', 'muted', 'play_button_position', 'playsinline', 'portrait', 'preload', 'progress_bar', 'quality', 'quality_selector', 'responsive', 'skipping_forward', 'speed', 'start_time', 'texttrack', 'thumbnail_id', 'title', 'transcript', 'transparent', 'unmute_button', 'url', 'vimeo_logo', 'volume', 'watch_full_video', 'width'];
 
   /**
    * Get the 'data-vimeo'-prefixed attributes from an element as an object.
@@ -2227,14 +2230,19 @@
      * Get a promise for a method.
      *
      * @param {string} name The API method to call.
-     * @param {Object} [args={}] Arguments to send via postMessage.
+     * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
      * @return {Promise}
      */
     _createClass(Player, [{
       key: "callMethod",
       value: function callMethod(name) {
         var _this2 = this;
-        var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          args[_key - 1] = arguments[_key];
+        }
+        if (name === undefined || name === null) {
+          throw new TypeError('You must pass a method name.');
+        }
         return new npo_src(function (resolve, reject) {
           // We are storing the resolve/reject handlers to call later, so we
           // can’t return here.
@@ -2244,11 +2252,17 @@
               resolve: resolve,
               reject: reject
             });
+
+            // eslint-disable-next-line promise/always-return
+            if (args.length === 0) {
+              args = {};
+            } else if (args.length === 1) {
+              args = args[0];
+            }
             postMessage(_this2, name, args);
           }).catch(reject);
         });
       }
-
       /**
        * Get a promise for the value of a player property.
        *
@@ -3545,6 +3559,7 @@
     resizeEmbeds();
     initAppendVideoMetadata();
     checkUrlTimeParam();
+    logSurveyLink();
   }
 
   return Player;

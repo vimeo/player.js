@@ -4,7 +4,7 @@ import 'weakmap-polyfill';
 import Promise from 'native-promise-only';
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks';
-import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isServerRuntime } from './lib/functions';
+import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isServerRuntime, logSurveyLink } from './lib/functions';
 import {
     getOEmbedParameters,
     getOEmbedData,
@@ -163,10 +163,14 @@ class Player {
      * Get a promise for a method.
      *
      * @param {string} name The API method to call.
-     * @param {Object} [args={}] Arguments to send via postMessage.
+     * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
      * @return {Promise}
      */
-    callMethod(name, args = {}) {
+    callMethod(name, ...args) {
+        if (name === undefined || name === null) {
+            throw new TypeError('You must pass a method name.');
+        }
+
         return new Promise((resolve, reject) => {
             // We are storing the resolve/reject handlers to call later, so we
             // can’t return here.
@@ -177,11 +181,18 @@ class Player {
                     reject
                 });
 
+                // eslint-disable-next-line promise/always-return
+                if (args.length === 0) {
+                    args = {};
+                }
+                else if (args.length === 1) {
+                    args = args[0];
+                }
+
                 postMessage(this, name, args);
             }).catch(reject);
         });
     }
-
     /**
      * Get a promise for the value of a player property.
      *
@@ -1351,6 +1362,7 @@ if (!isServerRuntime) {
     resizeEmbeds();
     initAppendVideoMetadata();
     checkUrlTimeParam();
+    logSurveyLink();
 }
 
 export default Player;
