@@ -796,7 +796,7 @@
   (function UMD(name, context, definition) {
     // special form of UMD for polyfilling across evironments
     context[name] = context[name] || definition();
-    if ( module.exports) {
+    if (module.exports) {
       module.exports = context[name];
     }
   })("Promise", typeof commonjsGlobal != "undefined" ? commonjsGlobal : commonjsGlobal, function DEF() {
@@ -2243,7 +2243,6 @@
         return new npo_src(function (resolve, reject) {
           // We are storing the resolve/reject handlers to call later, so we
           // can’t return here.
-          // eslint-disable-next-line promise/always-return
           return _this2.ready().then(function () {
             storeCallback(_this2, name, {
               resolve: resolve,
@@ -2268,7 +2267,6 @@
 
           // We are storing the resolve/reject handlers to call later, so we
           // can’t return here.
-          // eslint-disable-next-line promise/always-return
           return _this3.ready().then(function () {
             storeCallback(_this3, name, {
               resolve: resolve,
@@ -2298,7 +2296,6 @@
 
           // We are storing the resolve/reject handlers to call later, so we
           // can’t return here.
-          // eslint-disable-next-line promise/always-return
           return _this4.ready().then(function () {
             storeCallback(_this4, name, {
               resolve: resolve,
