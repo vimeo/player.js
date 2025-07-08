@@ -3,30 +3,30 @@
  */
 
 /**
- * Check to see this is a node environment.
- * @type {Boolean}
+ * Check to see this is a Node environment.
+ * @type {boolean}
  */
 /* global global */
 export const isNode = typeof global !== 'undefined' &&
   ({}).toString.call(global) === '[object global]';
 
 /**
- * Check to see if this is a bun environment.
- * @type {Boolean}
- *
- * @docs https://bun.sh/guides/util/detect-bun
+ * Check to see if this is a Bun environment.
+ * @see https://bun.sh/guides/util/detect-bun
+ * @type {boolean}
  */
 export const isBun = typeof Bun !== 'undefined';
 
 /**
- * Check to see if this is a deno environment.
- * @type {Boolean}
+ * Check to see if this is a Deno environment.
+ * @see https://docs.deno.com/api/deno/~/Deno
+ * @type {boolean}
  */
 export const isDeno = typeof Deno !== 'undefined';
 
 /**
  * Check if this is a server runtime
- * @type {Boolean}
+ * @type {boolean}
  */
 export const isServerRuntime = isNode || isBun || isDeno;
 
