@@ -17,7 +17,7 @@ jobs:
             - name: Install packages
               uses: borales/actions-yarn@v4
               with:
-                  cmd: install
+                  cmd: install --frozen-lockfile
 
             - name: Test
               uses: borales/actions-yarn@v4
