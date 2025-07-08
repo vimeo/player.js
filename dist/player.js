@@ -2227,15 +2227,22 @@
     }
 
     /**
-     * Get a promise for a method.
+     * Check to see if the URL is a Vimeo URL.
      *
-     * @param {string} name The API method to call.
-     * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
-     * @return {Promise}
+     * @param {string} url The URL string.
+     * @return {boolean}
      */
     _createClass(Player, [{
       key: "callMethod",
-      value: function callMethod(name) {
+      value:
+      /**
+       * Get a promise for a method.
+       *
+       * @param {string} name The API method to call.
+       * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
+       * @return {Promise}
+       */
+      function callMethod(name) {
         var _this2 = this;
         for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
           args[_key - 1] = arguments[_key];
@@ -3550,6 +3557,11 @@
         }
         return setTimingSrc;
       }()
+    }], [{
+      key: "isVimeoUrl",
+      value: function isVimeoUrl$1(url) {
+        return isVimeoUrl(url);
+      }
     }]);
     return Player;
   }(); // Setup embed only if this is not a node environment
