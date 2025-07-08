@@ -160,6 +160,16 @@ class Player {
     }
 
     /**
+     * Check to see if the URL is a Vimeo URL.
+     *
+     * @param {string} url The URL string.
+     * @return {boolean}
+     */
+    static isVimeoUrl(url) {
+        return isVimeoUrl(url);
+    }
+
+    /**
      * Get a promise for a method.
      *
      * @param {string} name The API method to call.
@@ -1365,5 +1375,4 @@ if (!isNode) {
     logSurveyLink();
 }
 
-export { isVimeoUrl }
 export default Player;

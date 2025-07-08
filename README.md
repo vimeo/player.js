@@ -157,105 +157,112 @@ it will also import the Player constructor directly:
 </script>
 ```
 
-## Table of Contents
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-* [Create a Player](#create-a-player)
-* [Embed Options](#embed-options)
-* [Methods](#methods)
-    + [on](#onevent-string-callback-function-void)
-    + [off](#offevent-string-callback-function-void)
-    + [loadVideo](#loadvideooptions-numberstringobject-promisenumberobject-typeerrorpassworderrorerror)
-    + [ready](#ready-promisevoid-error)
-    + [enableTextTrack](#enabletexttracklanguage-string-kind-string-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
-    + [disableTextTrack](#disabletexttrack-promisevoid-error)
-    + [pause](#pause-promisevoid-passworderrorprivacyerrorerror)
-    + [play](#play-promisevoid-passworderrorprivacyerrorerror)
-    + [unload](#unload-promisevoid-error)
-    + [destroy](#destroy-promisevoid-error)
-    + [requestFullscreen](#requestfullscreen-promisevoid-error)
-    + [exitFullscreen](#exitfullscreen-promisevoid-error)
-    + [getFullscreen](#getfullscreen-promiseboolean-error)
-    + [requestPictureInPicture](#requestpictureinpicture-promisevoid-error)
-    + [exitPictureInPicture](#exitpictureinpicture-promisevoid-error)
-    + [getPictureInPicture](#getpictureinpicture-promiseboolean-error)
-    + [remotePlaybackPrompt](#remoteplaybackprompt-promisevoid-error)
-    + [getRemotePlaybackAvailability](#getremoteplaybackavailability-promisestring-error)
-    + [getRemotePlaybackState](#getremoteplaybackstate-promiseboolean-error)
-    + [getAutopause](#getautopause-promiseboolean-unsupportederrorerror)
-    + [setAutopause](#setautopauseautopause-boolean-promiseboolean-unsupportederrorerror)
-    + [getBuffered](#getbuffered-promisearray-error)
-    + [getChapters](#getchapters-promisearray-error)
-    + [getCurrentChapter](#getcurrentchapter-promiseobject-error)
-    + [getColor](#getcolor-promisestring-error)
-    + [getColors](#getcolors-promisestring-error)
-    + [setColor](#setcolorcolor-string-promisestring-contrasterrortypeerrorerror)
-    + [setColors](#setcolorscolors-string-promisestring-contrasterrortypeerrorerror)
-    + [addCuePoint](#addcuepointtime-number-data-object-promisestring-unsupportederrorrangeerrorerror)
-    + [removeCuePoint](#removecuepointid-string-promisestring-unsupportederrorinvalidcuepointerror)
-    + [getCuePoints](#getcuepoints-promisearray-unsupportederrorerror)
-    + [getCurrentTime](#getcurrenttime-promisenumber-error)
-    + [setCurrentTime](#setcurrenttimeseconds-number-promisenumber-rangeerrorerror)
-    + [getDuration](#getduration-promisenumber-error)
-    + [getEnded](#getended-promiseboolean-error)
-    + [getLoop](#getloop-promiseboolean-error)
-    + [setLoop](#setlooploop-boolean-promiseboolean-error)
-    + [getMuted](#getmuted-promiseboolean-error)
-    + [setMuted](#setmuted-boolean-promiseboolean-error)
-    + [getPaused](#getpaused-promiseboolean-error)
-    + [getPlaybackRate](#getplaybackrate-promisenumber-error)
-    + [setPlaybackRate](#setplaybackrateplaybackrate-number-promisenumber-rangeerrorerror)
-    + [getPlayed](#getplayed-promisearray-error)
-    + [getSeekable](#getseekable-promisearray-error)
-    + [getSeeking](#getseeking-promiseboolean-error)
-    + [getTextTracks](#gettexttracks-promiseobject-error)
-    + [getVideoEmbedCode](#getvideoembedcode-promisestring-error)
-    + [getVideoId](#getvideoid-promisenumber-error)
-    + [getVideoTitle](#getvideotitle-promisestring-error)
-    + [getVideoWidth](#getvideowidth-promisenumber-error)
-    + [getVideoHeight](#getvideoheight-promisenumber-error)
-    + [getVideoUrl](#getvideourl-promisestring-privacyerrorerror)
-    + [getVolume](#getvolume-promisenumber-error)
-    + [setVolume](#setvolumevolume-number-promisenumber-rangeerrorerror)
-    + [setTimingSrc](#settimingsrctimingobject-timingobject-options-timingsrcconnectoroptions-promisetimingsrcconnector)
-    + [getQualities](#getqualities-promiseobject-error)
-    + [getQuality](#getquality-promisestring-error)
-    + [setQuality](#setqualityquality-string-promisestring-typeerrorerror)
-    + [getCameraProps](#getcameraprops-promiseobject-error)
-    + [setCameraProps](#setcamerapropscameraprops-object-promiseobject-rangeerrorerror)
-* [Events](#events)
-    + [play](#play)
-    + [playing](#playing)
-    + [pause](#pause)
-    + [ended](#ended)
-    + [timeupdate](#timeupdate)
-    + [progress](#progress)
-    + [seeking](#seeking)
-    + [seeked](#seeked)
-    + [texttrackchange](#texttrackchange)
-    + [chapterchange](#chapterchange)
-    + [cuechange](#cuechange)
-    + [cuepoint](#cuepoint)
-    + [volumechange](#volumechange)
-    + [playbackratechange](#playbackratechange)
-    + [bufferstart](#bufferstart)
-    + [bufferend](#bufferend)
-    + [error](#error)
-    + [loaded](#loaded)
-    + [durationchange](#durationchange)
-    + [fullscreenchange](#fullscreenchange)
-    + [qualitychange](#qualitychange)
-    + [camerachange](#camerachange)
-    + [resize](#resize)
-    + [enterpictureinpicture](#enterpictureinpicture)
-    + [leavepictureinpicture](#leavepictureinpicture)
-    + [remoteplaybackavailabilitychange](#remoteplaybackavailabilitychange)
-    + [remoteplaybackconnecting](#remoteplaybackconnecting)
-    + [remoteplaybackconnect](#remoteplaybackconnect)
-    + [remoteplaybackdisconnect](#remoteplaybackdisconnect)
-    + [interactivehotspotclicked](#interactivehotspotclicked)
-    + [interactiveoverlaypanelclicked](#interactiveoverlaypanelclicked)
-* [Dev Options](#dev-options)
-    + [prefer_mms](#prefer_mms)
+- [Create a Player](#create-a-player)
+  - [Existing embed](#existing-embed)
+  - [Create an embed](#create-an-embed)
+- [Embed Options](#embed-options)
+- [Methods](#methods)
+  - [static isVimeoUrl(url: string): boolean](#static-isvimeourlurl-string-boolean)
+  - [on(event: string, callback: function): void](#onevent-string-callback-function-void)
+  - [off(event: string, callback?: function): void](#offevent-string-callback-function-void)
+  - [loadVideo(options: number|string|object): Promise<number|object, (TypeError|PasswordError|Error)>](#loadvideooptions-numberstringobject-promisenumberobject-typeerrorpassworderrorerror)
+  - [ready(): Promise<void, Error>](#ready-promisevoid-error)
+  - [enableTextTrack(language: string, kind?: string): Promise<object, (InvalidTrackLanguageError|InvalidTrackError|Error)>](#enabletexttracklanguage-string-kind-string-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
+  - [disableTextTrack(): Promise<void, Error>](#disabletexttrack-promisevoid-error)
+  - [pause(): Promise<void, (PasswordError|PrivacyError|Error)>](#pause-promisevoid-passworderrorprivacyerrorerror)
+  - [play(): Promise<void, (PasswordError|PrivacyError|Error)>](#play-promisevoid-passworderrorprivacyerrorerror)
+  - [unload(): Promise<void, Error>](#unload-promisevoid-error)
+  - [destroy(): Promise<void, Error>](#destroy-promisevoid-error)
+  - [requestFullscreen(): Promise<void, Error>](#requestfullscreen-promisevoid-error)
+  - [exitFullscreen(): Promise<void, Error>](#exitfullscreen-promisevoid-error)
+  - [getFullscreen(): Promise<boolean, Error>](#getfullscreen-promiseboolean-error)
+  - [requestPictureInPicture(): Promise<void, Error>](#requestpictureinpicture-promisevoid-error)
+  - [exitPictureInPicture(): Promise<void, Error>](#exitpictureinpicture-promisevoid-error)
+  - [getPictureInPicture(): Promise<boolean, Error>](#getpictureinpicture-promiseboolean-error)
+  - [remotePlaybackPrompt(): Promise<void, Error>](#remoteplaybackprompt-promisevoid-error)
+  - [getRemotePlaybackAvailability(): Promise<string, Error>](#getremoteplaybackavailability-promisestring-error)
+  - [getRemotePlaybackState(): Promise<boolean, Error>](#getremoteplaybackstate-promiseboolean-error)
+  - [getAutopause(): Promise<boolean, (UnsupportedError|Error)>](#getautopause-promiseboolean-unsupportederrorerror)
+  - [setAutopause(autopause: boolean): Promise<boolean, (UnsupportedError|Error)>](#setautopauseautopause-boolean-promiseboolean-unsupportederrorerror)
+  - [getBuffered(): Promise<array, Error>](#getbuffered-promisearray-error)
+  - [getChapters(): Promise<array, Error>](#getchapters-promisearray-error)
+  - [getCurrentChapter(): Promise<object, Error>](#getcurrentchapter-promiseobject-error)
+  - [getColor(): Promise<string, Error>](#getcolor-promisestring-error)
+  - [getColors(): Promise<string[], Error>](#getcolors-promisestring-error)
+  - [setColor(color: string): Promise<string, (ContrastError|TypeError|Error)>](#setcolorcolor-string-promisestring-contrasterrortypeerrorerror)
+  - [setColors(colors: string[]): Promise<string[], (ContrastError|TypeError|Error)>](#setcolorscolors-string-promisestring-contrasterrortypeerrorerror)
+  - [addCuePoint(time: number, data: object): Promise<string, (UnsupportedError|RangeError|Error)>](#addcuepointtime-number-data-object-promisestring-unsupportederrorrangeerrorerror)
+  - [removeCuePoint(id: string): Promise<string, (UnsupportedError|InvalidCuePoint|Error)>](#removecuepointid-string-promisestring-unsupportederrorinvalidcuepointerror)
+  - [getCuePoints(): Promise<array, (UnsupportedError|Error)>](#getcuepoints-promisearray-unsupportederrorerror)
+  - [getCurrentTime(): Promise<number, Error>](#getcurrenttime-promisenumber-error)
+  - [setCurrentTime(seconds: number): Promise<number, (RangeError|Error)>](#setcurrenttimeseconds-number-promisenumber-rangeerrorerror)
+  - [getDuration(): Promise<number, Error>](#getduration-promisenumber-error)
+  - [getEnded(): Promise<boolean, Error>](#getended-promiseboolean-error)
+  - [getLoop(): Promise<boolean, Error>](#getloop-promiseboolean-error)
+  - [setLoop(loop: boolean): Promise<boolean, Error>](#setlooploop-boolean-promiseboolean-error)
+  - [getMuted(): Promise<boolean, Error>](#getmuted-promiseboolean-error)
+  - [setMuted(muted: boolean): Promise<boolean, Error>](#setmutedmuted-boolean-promiseboolean-error)
+  - [getPaused(): Promise<boolean, Error>](#getpaused-promiseboolean-error)
+  - [getPlaybackRate(): Promise<number, Error>](#getplaybackrate-promisenumber-error)
+  - [setPlaybackRate(playbackRate: number): Promise<number, (RangeError|Error)>](#setplaybackrateplaybackrate-number-promisenumber-rangeerrorerror)
+  - [getPlayed(): Promise<array, Error>](#getplayed-promisearray-error)
+  - [getSeekable(): Promise<array, Error>](#getseekable-promisearray-error)
+  - [getSeeking(): Promise<boolean, Error>](#getseeking-promiseboolean-error)
+  - [getTextTracks(): Promise<object[], Error>](#gettexttracks-promiseobject-error)
+  - [getVideoEmbedCode(): Promise<string, Error>](#getvideoembedcode-promisestring-error)
+  - [getVideoId(): Promise<number, Error>](#getvideoid-promisenumber-error)
+  - [getVideoTitle(): Promise<string, Error>](#getvideotitle-promisestring-error)
+  - [getVideoWidth(): Promise<number, Error>](#getvideowidth-promisenumber-error)
+  - [getVideoHeight(): Promise<number, Error>](#getvideoheight-promisenumber-error)
+  - [getVideoUrl(): Promise<string, (PrivacyError|Error)>](#getvideourl-promisestring-privacyerrorerror)
+  - [getVolume(): Promise<number, Error>](#getvolume-promisenumber-error)
+  - [setVolume(volume: number): Promise<number, (RangeError|Error)>](#setvolumevolume-number-promisenumber-rangeerrorerror)
+  - [setTimingSrc(timingObject: TimingObject, options?: TimingSrcConnectorOptions): Promise<TimingSrcConnector>](#settimingsrctimingobject-timingobject-options-timingsrcconnectoroptions-promisetimingsrcconnector)
+  - [getQualities(): Promise<object[], Error>](#getqualities-promiseobject-error)
+  - [getQuality(): Promise<string, Error>](#getquality-promisestring-error)
+  - [setQuality(quality: string): Promise<string, (TypeError|Error)>](#setqualityquality-string-promisestring-typeerrorerror)
+  - [getCameraProps(): Promise<object, Error>](#getcameraprops-promiseobject-error)
+  - [setCameraProps(cameraProps: object): Promise<object, (RangeError|Error)>](#setcamerapropscameraprops-object-promiseobject-rangeerrorerror)
+- [Events](#events)
+  - [play](#play)
+  - [playing](#playing)
+  - [pause](#pause)
+  - [ended](#ended)
+  - [timeupdate](#timeupdate)
+  - [progress](#progress)
+  - [seeking](#seeking)
+  - [seeked](#seeked)
+  - [texttrackchange](#texttrackchange)
+  - [chapterchange](#chapterchange)
+  - [cuechange](#cuechange)
+  - [cuepoint](#cuepoint)
+  - [volumechange](#volumechange)
+  - [playbackratechange](#playbackratechange)
+  - [bufferstart](#bufferstart)
+  - [bufferend](#bufferend)
+  - [error](#error)
+  - [loaded](#loaded)
+  - [durationchange](#durationchange)
+  - [fullscreenchange](#fullscreenchange)
+  - [qualitychange](#qualitychange)
+  - [camerachange](#camerachange)
+  - [resize](#resize)
+  - [enterpictureinpicture](#enterpictureinpicture)
+  - [leavepictureinpicture](#leavepictureinpicture)
+  - [remoteplaybackavailabilitychange](#remoteplaybackavailabilitychange)
+  - [remoteplaybackconnecting](#remoteplaybackconnecting)
+  - [remoteplaybackconnect](#remoteplaybackconnect)
+  - [remoteplaybackdisconnect](#remoteplaybackdisconnect)
+  - [interactivehotspotclicked](#interactivehotspotclicked)
+  - [interactiveoverlaypanelclicked](#interactiveoverlaypanelclicked)
+- [Dev Options](#dev-options)
+  - [prefer_mms](#prefer_mms)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Create a Player
 
@@ -384,6 +391,14 @@ player.setColor('#00adef').then(function(color) {
 });
 ```
 
+### static isVimeoUrl(url: string): boolean
+
+Check to see if the URL is a Vimeo URL.
+
+```js
+Vimeo.Player.isVimeoUrl('https://vimeo.com/76979871'); // true
+```
+
 ### on(event: string, callback: function): void
 
 Add an event listener for the specified event. Will call the callback with a
@@ -419,7 +434,7 @@ player.off('play', onPlay);
 player.off('play');
 ```
 
-### loadVideo(options: number|string|object): Promise&lt;number|object, (TypeError|PasswordError|Error)&gt;
+### loadVideo(options: number|string|object): Promise<number|object, (TypeError|PasswordError|Error)>
 
 Load a new video into this embed. The promise will be resolved if the video is
 successfully loaded, or it will be rejected if it could not be loaded.
@@ -451,7 +466,7 @@ player.loadVideo(76979871).then(function(id) {
 });
 ```
 
-### ready(): Promise&lt;void, Error&gt;
+### ready(): Promise<void, Error>
 
 Trigger a function when the player iframe has initialized. You do not need to
 wait for `ready` to trigger to begin adding event listeners or calling other
@@ -463,7 +478,7 @@ player.ready().then(function() {
 });
 ```
 
-### enableTextTrack(language: string, kind?: string): Promise&lt;object, (InvalidTrackLanguageError|InvalidTrackError|Error)&gt;
+### enableTextTrack(language: string, kind?: string): Promise<object, (InvalidTrackLanguageError|InvalidTrackError|Error)>
 
 Enable the text track with the specified language, and optionally the specified
 kind (captions or subtitles).
@@ -493,7 +508,7 @@ player.enableTextTrack('en').then(function(track) {
 });
 ```
 
-### disableTextTrack(): Promise&lt;void, Error&gt;
+### disableTextTrack(): Promise<void, Error>
 
 Disable the currently-active text track.
 
@@ -505,7 +520,7 @@ player.disableTextTrack().then(function() {
 });
 ```
 
-### pause(): Promise&lt;void, (PasswordError|PrivacyError|Error)&gt;
+### pause(): Promise<void, (PasswordError|PrivacyError|Error)>
 
 Pause the video if it’s playing.
 
@@ -530,7 +545,7 @@ player.pause().then(function() {
 });
 ```
 
-### play(): Promise&lt;void, (PasswordError|PrivacyError|Error)&gt;
+### play(): Promise<void, (PasswordError|PrivacyError|Error)>
 
 Play the video if it’s paused. **Note:** on iOS and some other mobile devices,
 you cannot programmatically trigger play. Once the viewer has tapped on the play
@@ -557,7 +572,7 @@ player.play().then(function() {
 });
 ```
 
-### unload(): Promise&lt;void, Error&gt;
+### unload(): Promise<void, Error>
 
 Return the internal player (iframe) to its initial state.
 
@@ -568,7 +583,7 @@ player.unload().then(function() {
     // an error occurred
 });
 ```
-### destroy(): Promise&lt;void, Error&gt;
+### destroy(): Promise<void, Error>
 
 Cleanup the player and remove it from the DOM.
 
@@ -583,7 +598,7 @@ player.destroy().then(function() {
 });
 ```
 
-### requestFullscreen(): Promise&lt;void, Error&gt;
+### requestFullscreen(): Promise<void, Error>
 
 Request the player enters fullscreen.
 
@@ -595,7 +610,7 @@ player.requestFullscreen().then(function() {
 });
 ```
 
-### exitFullscreen(): Promise&lt;void, Error&gt;
+### exitFullscreen(): Promise<void, Error>
 
 Request the player exits fullscreen.
 
@@ -607,7 +622,7 @@ player.exitFullscreen().then(function() {
 });
 ```
 
-### getFullscreen(): Promise&lt;boolean, Error&gt;
+### getFullscreen(): Promise<boolean, Error>
 
 Checks whether the player is currently fullscreen.
 
@@ -619,7 +634,7 @@ player.getFullscreen().then(function(fullscreen) {
 });
 ```
 
-### requestPictureInPicture(): Promise&lt;void, Error&gt;
+### requestPictureInPicture(): Promise<void, Error>
 
 Request the player enters picture-in-picture.
 
@@ -631,7 +646,7 @@ player.requestPictureInPicture().then(function() {
 });
 ```
 
-### exitPictureInPicture(): Promise&lt;void, Error&gt;
+### exitPictureInPicture(): Promise<void, Error>
 
 Request the player exits picture-in-picture.
 
@@ -643,7 +658,7 @@ player.exitPictureInPicture().then(function() {
 });
 ```
 
-### getPictureInPicture(): Promise&lt;boolean, Error&gt;
+### getPictureInPicture(): Promise<boolean, Error>
 
 Checks whether the player is currently picture-in-picture.
 
@@ -655,7 +670,7 @@ player.getPictureInPicture().then(function(pip) {
 });
 ```
 
-### remotePlaybackPrompt(): Promise&lt;void, Error&gt;
+### remotePlaybackPrompt(): Promise<void, Error>
 
 Prompt the viewer to activate or deactivate a remote playback device, if one is available.
 
@@ -677,7 +692,7 @@ player.remotePlaybackPrompt().then(function() {
 });
 ```
 
-### getRemotePlaybackAvailability(): Promise&lt;string, Error&gt;
+### getRemotePlaybackAvailability(): Promise<string, Error>
 
 Checks if there is a remote playback device available.
 
@@ -689,7 +704,7 @@ player.getRemotePlaybackAvailability().then(function(remotePlaybackAvailable) {
 })
 ```
 
-### getRemotePlaybackState(): Promise&lt;boolean, Error&gt;
+### getRemotePlaybackState(): Promise<boolean, Error>
 
 Get the current state of remote playback. Can be one of `connecting`, `connected`, or `disconnected`. These values are equivalent to the state values in the [Remote Playback API](https://developer.mozilla.org/en-US/docs/Web/API/RemotePlayback/state).
 
@@ -703,7 +718,7 @@ player.getRemotePlaybackState().then(function(remotePlaybackState) {
 })
 ```
 
-### getAutopause(): Promise&lt;boolean, (UnsupportedError|Error)&gt;
+### getAutopause(): Promise<boolean, (UnsupportedError|Error)>
 
 Get the autopause behavior for this player.
 
@@ -723,7 +738,7 @@ player.getAutopause().then(function(autopause) {
 });
 ```
 
-### setAutopause(autopause: boolean): Promise&lt;boolean, (UnsupportedError|Error)&gt;
+### setAutopause(autopause: boolean): Promise<boolean, (UnsupportedError|Error)>
 
 Enable or disable the autopause behavior of this player. By default, when
 another video is played in the same browser, this player will automatically
@@ -746,7 +761,7 @@ player.setAutopause(false).then(function(autopause) {
 });
 ```
 
-### getBuffered(): Promise&lt;array, Error&gt;
+### getBuffered(): Promise<array, Error>
 
 Get the buffered time ranges of the video.
 
@@ -758,7 +773,7 @@ player.getBuffered().then(function(buffered) {
 });
 ```
 
-### getChapters(): Promise&lt;array, Error&gt;
+### getChapters(): Promise<array, Error>
 
 Get an array of the chapters that are on the video.
 
@@ -779,7 +794,7 @@ Each chapters object looks like this:
 }
 ```
 
-### getCurrentChapter(): Promise&lt;object, Error&gt;
+### getCurrentChapter(): Promise<object, Error>
 
 Get the current chapter. A chapter is "current" when the `currentTime` of the video is equal to or after its `startTime` and before the `startTime` of the next chapter or the end of the video.
 
@@ -791,7 +806,7 @@ player.getCurrentChapter().then(function(chapter) {
 });
 ```
 
-### getColor(): Promise&lt;string, Error&gt;
+### getColor(): Promise<string, Error>
 
 Get the accent color for this player. Note that this is deprecated in place of `getColors`.
 ```js
@@ -803,7 +818,7 @@ player.getColor().then(function(color) {
 
 ```
 
-### getColors(): Promise&lt;string[], Error&gt;
+### getColors(): Promise<string[], Error>
 
 Get all colors used for this player.
 The return value is an array of primary, accent, text/icon, and background.
@@ -816,7 +831,7 @@ player.getColors().then(function(colors) {
 });
 ```
 
-### setColor(color: string): Promise&lt;string, (ContrastError|TypeError|Error)&gt;
+### setColor(color: string): Promise<string, (ContrastError|TypeError|Error)>
 
 Set the accent color of this player to a hex or rgb string. Setting the color may fail
 if the owner of the video has set their embed preferences to force a specific
@@ -844,7 +859,7 @@ player.setColor('#00adef').then(function(color) {
 
 ```
 
-### setColors(colors: string[]): Promise&lt;string[], (ContrastError|TypeError|Error)&gt;
+### setColors(colors: string[]): Promise<string[], (ContrastError|TypeError|Error)>
 
 Set all colors of this player with an array of hex values. Setting the color may fail
 if the owner of the video has set their embed preferences to force a specific
@@ -872,7 +887,7 @@ player.setColors(['abc', 'def', '123', '456']).then(function(color) {
 });
 ```
 
-### addCuePoint(time: number, data: object): Promise&lt;string, (UnsupportedError|RangeError|Error)&gt;
+### addCuePoint(time: number, data: object): Promise<string, (UnsupportedError|RangeError|Error)>
 
 Add a cue point to the player. Cue points fire a `cuepoint` event when the
 `currentTime` of the video passes the specified time. *Note:* cue points should
@@ -901,7 +916,7 @@ player.addCuePoint(15, {
 });
 ```
 
-### removeCuePoint(id: string): Promise&lt;string, (UnsupportedError|InvalidCuePoint|Error)&gt;
+### removeCuePoint(id: string): Promise<string, (UnsupportedError|InvalidCuePoint|Error)>
 
 Remove the specified cue point using the id returned from `addCuePoint()` or
 from `getCuePoints()`.
@@ -926,7 +941,7 @@ player.removeCuePoint('09ecf4e4-b587-42cf-ad9f-e666b679c9ab').then(function(id) 
 });
 ```
 
-### getCuePoints(): Promise&lt;array, (UnsupportedError|Error)&gt;
+### getCuePoints(): Promise<array, (UnsupportedError|Error)>
 
 Get an array of the cue points that have been added to the video.
 
@@ -957,7 +972,7 @@ Each cue point object looks like this:
 }
 ```
 
-### getCurrentTime(): Promise&lt;number, Error&gt;
+### getCurrentTime(): Promise<number, Error>
 
 Get the current playback position in seconds.
 
@@ -969,7 +984,7 @@ player.getCurrentTime().then(function(seconds) {
 });
 ```
 
-### setCurrentTime(seconds: number): Promise&lt;number, (RangeError|Error)&gt;
+### setCurrentTime(seconds: number): Promise<number, (RangeError|Error)>
 
 Set the current playback position in seconds. Once playback has started, if the
 player was paused, it will remain paused. Likewise, if the player was playing,
@@ -996,7 +1011,7 @@ player.setCurrentTime(30.456).then(function(seconds) {
 });
 ```
 
-### getDuration(): Promise&lt;number, Error&gt;
+### getDuration(): Promise<number, Error>
 
 Get the duration of the video in seconds. It will be rounded to the nearest
 second before playback begins, and to the nearest thousandth of a second after
@@ -1010,7 +1025,7 @@ player.getDuration().then(function(duration) {
 });
 ```
 
-### getEnded(): Promise&lt;boolean, Error&gt;
+### getEnded(): Promise<boolean, Error>
 
 Get the ended state of the video. The video has ended if
 `currentTime === duration`.
@@ -1023,7 +1038,7 @@ player.getEnded().then(function(ended) {
 });
 ```
 
-### getLoop(): Promise&lt;boolean, Error&gt;
+### getLoop(): Promise<boolean, Error>
 
 Get the loop state of the player.
 
@@ -1035,7 +1050,7 @@ player.getLoop().then(function(loop) {
 });
 ```
 
-### setLoop(loop: boolean): Promise&lt;boolean, Error&gt;
+### setLoop(loop: boolean): Promise<boolean, Error>
 
 Set the loop state of the player. When set to `true`, the player will start over
 immediately once playback ends. *Note:* when loop is turned on, the `ended`
@@ -1049,7 +1064,7 @@ player.setLoop(true).then(function(loop) {
 });
 ```
 
-### getMuted(): Promise&lt;boolean, Error&gt;
+### getMuted(): Promise<boolean, Error>
 
 Get the muted state of the player.
 
@@ -1061,7 +1076,7 @@ player.getMuted().then(function(muted) {
 });
 ```
 
-### setMuted(muted: boolean): Promise&lt;boolean, Error&gt;
+### setMuted(muted: boolean): Promise<boolean, Error>
 
 Set the muted state of the player. When set to `true`, the player volume will be muted.
 
@@ -1073,7 +1088,7 @@ player.setMuted(true).then(function(muted) {
 });
 ```
 
-### getPaused(): Promise&lt;boolean, Error&gt;
+### getPaused(): Promise<boolean, Error>
 
 Get the paused state of the player.
 
@@ -1085,7 +1100,7 @@ player.getPaused().then(function(paused) {
 });
 ```
 
-### getPlaybackRate(): Promise&lt;number, Error&gt;
+### getPlaybackRate(): Promise<number, Error>
 
 Get the playback rate of the player on a scale from `0` to `2`.
 
@@ -1097,7 +1112,7 @@ player.getPlaybackRate().then(function(playbackRate) {
 });
 ```
 
-### setPlaybackRate(playbackRate: number): Promise&lt;number, (RangeError|Error)&gt;
+### setPlaybackRate(playbackRate: number): Promise<number, (RangeError|Error)>
 
 Set the playback rate of the player on a scale from `0` to `2` (available to PRO and Business accounts). When set
 via the API, the playback rate will not be synchronized to other
@@ -1119,7 +1134,7 @@ player.setPlaybackRate(0.5).then(function(playbackRate) {
 });
 ```
 
-### getPlayed(): Promise&lt;array, Error&gt;
+### getPlayed(): Promise<array, Error>
 
 Get the played time ranges of the video.
 
@@ -1131,7 +1146,7 @@ player.getPlayed().then(function(played) {
 });
 ```
 
-### getSeekable(): Promise&lt;array, Error&gt;
+### getSeekable(): Promise<array, Error>
 
 Get the video time ranges that are seekable.
 
@@ -1143,7 +1158,7 @@ player.getSeekable().then(function(seekable) {
 });
 ```
 
-### getSeeking(): Promise&lt;boolean, Error&gt;
+### getSeeking(): Promise<boolean, Error>
 
 Get if the player is currently seeking.
 
@@ -1155,7 +1170,7 @@ player.getSeeking().then(function(seeking) {
 });
 ```
 
-### getTextTracks(): Promise&lt;object[], Error&gt;
+### getTextTracks(): Promise<object[], Error>
 
 Get an array of the text tracks that exist for the video. For example:
 
@@ -1182,7 +1197,7 @@ Kind can be either `captions` or `subtitles`. The mode can be either `showing`
 or `disabled`. Only one track can be `showing` at any given time; the rest will
 be `disabled`.
 
-### getVideoEmbedCode(): Promise&lt;string, Error&gt;
+### getVideoEmbedCode(): Promise<string, Error>
 
 Get the `<iframe>` embed code for the video.
 
@@ -1194,7 +1209,7 @@ player.getVideoEmbedCode().then(function(embedCode) {
 });
 ```
 
-### getVideoId(): Promise&lt;number, Error&gt;
+### getVideoId(): Promise<number, Error>
 
 Get the id of the video.
 
@@ -1206,7 +1221,7 @@ player.getVideoId().then(function(id) {
 });
 ```
 
-### getVideoTitle(): Promise&lt;string, Error&gt;
+### getVideoTitle(): Promise<string, Error>
 
 Get the title of the video.
 
@@ -1218,7 +1233,7 @@ player.getVideoTitle().then(function(title) {
 });
 ```
 
-### getVideoWidth(): Promise&lt;number, Error&gt;
+### getVideoWidth(): Promise<number, Error>
 
 Get the native width of the currently‐playing video. The width of the highest
 resolution available will be used before playback begins.
@@ -1231,7 +1246,7 @@ player.getVideoWidth().then(function(width) {
 });
 ```
 
-### getVideoHeight(): Promise&lt;number, Error&gt;
+### getVideoHeight(): Promise<number, Error>
 
 Get the native height of the currently‐playing video. The height of the highest
 resolution available will be used before playback begins.
@@ -1253,7 +1268,7 @@ Promise.all([player.getVideoWidth(), player.getVideoHeight()]).then(function(dim
 });
 ```
 
-### getVideoUrl(): Promise&lt;string, (PrivacyError|Error)&gt;
+### getVideoUrl(): Promise<string, (PrivacyError|Error)>
 
 Get the [vimeo.com](https://vimeo.com) url for the video.
 
@@ -1273,7 +1288,7 @@ player.getVideoUrl().then(function(url) {
 });
 ```
 
-### getVolume(): Promise&lt;number, Error&gt;
+### getVolume(): Promise<number, Error>
 
 Get the current volume level of the player on a scale from `0` to `1`.
 
@@ -1288,7 +1303,7 @@ player.getVolume().then(function(volume) {
 });
 ```
 
-### setVolume(volume: number): Promise&lt;number, (RangeError|Error)&gt;
+### setVolume(volume: number): Promise<number, (RangeError|Error)>
 
 Set the volume of the player on a scale from `0` to `1`. When set via the API,
 the volume level will not be synchronized to other players or stored as the
@@ -1314,7 +1329,7 @@ player.setVolume(0.5).then(function(volume) {
 });
 ```
 
-### setTimingSrc(timingObject: TimingObject, options?: TimingSrcConnectorOptions): Promise&lt;TimingSrcConnector&gt;
+### setTimingSrc(timingObject: TimingObject, options?: TimingSrcConnectorOptions): Promise<TimingSrcConnector>
 
 Syncs a Timing Object to the video player (https://webtiming.github.io/timingobject/)
 
@@ -1349,7 +1364,7 @@ See [TimingSrcConnectorOptions](src/lib/timing-src-connector.types.ts) for avail
 See this [demo app](https://salmoro.github.io/vimeo-timing-object-demo/dist) which syncs video playback in real-time for all viewers.
 
 
-### getQualities(): Promise&lt;object[], Error&gt;
+### getQualities(): Promise<object[], Error>
 
 Get the available qualities of the current video.
 
@@ -1371,7 +1386,7 @@ Each quality object looks like this:
 }
 ```
 
-### getQuality(): Promise&lt;string, Error&gt;
+### getQuality(): Promise<string, Error>
 
 Get the current selected quality.
 
@@ -1383,7 +1398,7 @@ player.getQuality().then(function(quality) {
 });
 ```
 
-### setQuality(quality: string): Promise&lt;string, (TypeError|Error)&gt;
+### setQuality(quality: string): Promise<string, (TypeError|Error)>
 
 Set the quality of the video. (available to Plus, PRO and Business accounts)
 
@@ -1403,7 +1418,7 @@ player.setQuality('720p').then(function(quality) {
 });
 ```
 
-### getCameraProps(): Promise&lt;object, Error&gt;
+### getCameraProps(): Promise<object, Error>
 
 Get the current camera properties for a 360° video.
 
@@ -1426,7 +1441,7 @@ Each `cameraProps` object looks like this:
 }
 ```
 
-### setCameraProps(cameraProps: object): Promise&lt;object, (RangeError|Error)&gt;
+### setCameraProps(cameraProps: object): Promise<object, (RangeError|Error)>
 
 Set the camera properties for a 360° video.
 
