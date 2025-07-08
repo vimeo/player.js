@@ -13,7 +13,6 @@ module.exports = {
     },
     parser: '@babel/eslint-parser',
     rules: {
-        'ava/no-cb-test': ERROR,
         'no-restricted-syntax': OFF,
         'max-nested-callbacks': [WARNING, 3],
     }
