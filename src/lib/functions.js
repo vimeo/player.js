@@ -58,7 +58,36 @@ export function isInteger(value) {
  * @return {boolean}
  */
 export function isVimeoUrl(url) {
-    return (/^(https?:)?\/\/((player|www)\.)?vimeo\.com(?=$|\/)/).test(url);
+    return (/^(https?:)?\/\/((((player|www)\.)?vimeo\.com)|((player\.)?[a-zA-Z0-9-]+\.(videoji\.(hk|cn)|vimeo\.work)))(?=$|\/)/).test(url);
+}
+
+/**
+ * Check to see if the URL is for a Vimeo embed.
+ *
+ * @param {string} url The url string.
+ * @return {boolean}
+ */
+export function isVimeoEmbed(url) {
+    const expr = /^https:\/\/player\.((vimeo\.com)|([a-zA-Z0-9-]+\.(videoji\.(hk|cn)|vimeo\.work)))\/video\/\d+/;
+    return expr.test(url);
+}
+
+export function getOembedDomain(url) {
+    const match = (url || '').match(/^(?:https?:)?(?:\/\/)?([^/?]+)/);
+    const domain = ((match && match[1]) || '').replace('player.', '');
+    const customDomains = [
+        '.videoji.hk',
+        '.vimeo.work',
+        '.videoji.cn'
+    ];
+
+    for (const customDomain of customDomains) {
+        if (domain.endsWith(customDomain)) {
+            return domain;
+        }
+    }
+
+    return 'vimeo.com';
 }
 
 /**
@@ -91,3 +120,34 @@ export function getVimeoUrl(oEmbedParameters = {}) {
 
     throw new TypeError(`“${idOrUrl}” is not a vimeo.com url.`);
 }
+
+/* eslint-disable max-params */
+/**
+ * A utility method for attaching and detaching event handlers
+ *
+ * @param {EventTarget} target
+ * @param {string | string[]} eventName
+ * @param {function} callback
+ * @param {'addEventListener' | 'on'} onName
+ * @param {'removeEventListener' | 'off'} offName
+ * @return {{cancel: (function(): void)}}
+ */
+export const subscribe = (target, eventName, callback, onName = 'addEventListener', offName = 'removeEventListener') => {
+    const eventNames = typeof eventName === 'string' ? [eventName] : eventName;
+
+    eventNames.forEach((evName) => {
+        target[onName](evName, callback);
+    });
+
+    return {
+        cancel: () => eventNames.forEach((evName) => target[offName](evName, callback))
+    };
+};
+
+export const logSurveyLink = () => {
+    console.log(
+        '\n%cVimeo is looking for feedback!\n%cComplete our survey about the Player SDK: https://t.maze.co/393567477',
+        'color:#00adef;font-size:1.2em;',
+        'color:#aaa;font-size:0.8em;'
+    );
+};

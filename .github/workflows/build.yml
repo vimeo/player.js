@@ -1,0 +1,40 @@
+name: Build, Test, and Lint
+on: [pull_request]
+jobs:
+    run:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Set Node.js 16.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 16.x
+
+            - name: Install packages
+              uses: borales/actions-yarn@v4
+              with:
+                  cmd: install
+
+            - name: Build production bundle
+              uses: borales/actions-yarn@v4
+              with:
+                  cmd: build
+
+            - name: Lint
+              uses: borales/actions-yarn@v4
+              with:
+                  cmd: lint
+
+            - name: Test
+              uses: borales/actions-yarn@v4
+              with:
+                  cmd: test
+
+            - name: Generate test coverage
+              uses: borales/actions-yarn@v4
+              with:
+                  cmd: report-coverage
+
+            - name: Upload coverage reports to Codecov
+              uses: codecov/codecov-action@v3

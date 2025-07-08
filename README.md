@@ -3,6 +3,9 @@
 The Vimeo Player API allows you to interact with and control an embedded Vimeo
 Player.
 
+> [!NOTE]
+> We'd love to get your feedback about how you work with Player.js. Please take a few minutes to share your thoughts in our survey [here](https://t.maze.co/393567477).
+
 ## Installation
 
 You can install the Vimeo Player API through either npm:
@@ -17,12 +20,12 @@ Alternatively, you can reference an up‐to‐date version on our CDN:
 <script src="https://player.vimeo.com/api/player.js"></script>
 ```
 
-**Warning:** when used with RequireJS it's required to load the script dynamically via the RequireJS load system.
-http://www.requirejs.org/docs/api.html#jsfiles
+**Warning:** when used with RequireJS it is required to load the script dynamically via the RequireJS load system.
+https://requirejs.org/docs/api.html#jsfiles
 
 ## Getting Started
 
-In order to control the Vimeo player, you need a player to control. There are a
+In order to control the Vimeo Player, you need a player to control. There are a
 few ways to get a player:
 
 ### Pre-existing player
@@ -31,12 +34,12 @@ Already have a player on the page? Pass the element to the `Vimeo.Player`
 constructor and you’re ready to go.
 
 ```html
-<iframe src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+<iframe src="https://player.vimeo.com/video/76979871?h=8272103f6e" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
 
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
-    var iframe = document.querySelector('iframe');
-    var player = new Vimeo.Player(iframe);
+    const iframe = document.querySelector('iframe');
+    const player = new Vimeo.Player(iframe);
 
     player.on('play', function() {
         console.log('played the video!');
@@ -54,20 +57,20 @@ You can use the library to make the embed for you. All you need is an empty
 element and the video id or vimeo.com url (and optional
 [embed options](#embed-options)).
 
-**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Private", you will need to provide the full video URL as a `url` property.
+**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
 
 ```html
 <div id="made-in-ny"></div>
 
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
-    var options = {
+    const options = {
         id: 59777392,
         width: 640,
         loop: true
     };
 
-    var player = new Vimeo.Player('made-in-ny', options);
+    const player = new Vimeo.Player('made-in-ny', options);
 
     player.setVolume(0);
 
@@ -85,20 +88,22 @@ attributes. Each element must have at least a `data-vimeo-id` or
 You can also add attributes for any of the [embed options](#embed-options),
 prefixed with `data-vimeo` (`data-vimeo-portrait="false"`, for example).
 
+**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Unlisted", instead of providing a `data-vimeo-id` attribute, you will need to provide the full video URL in a `data-vimeo-url` attribute and include the `h` parameter.
+
 ```html
 <div data-vimeo-id="19231868" data-vimeo-width="640" id="handstick"></div>
-<div data-vimeo-url="https://vimeo.com/76979871" id="playertwo"></div>
+<div data-vimeo-url="https://player.vimeo.com/video/76979871?h=8272103f6e" id="playertwo"></div>
 
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
     // If you want to control the embeds, you’ll need to create a Player object.
     // You can pass either the `<div>` or the `<iframe>` created inside the div.
-    var handstickPlayer = new Vimeo.Player('handstick');
+    const handstickPlayer = new Vimeo.Player('handstick');
     handstickPlayer.on('play', function() {
         console.log('played the handstick video!');
     });
 
-    var playerTwoPlayer = new Vimeo.Player('playertwo');
+    const playerTwoPlayer = new Vimeo.Player('playertwo');
     playerTwoPlayer.on('play', function() {
         console.log('played the player 2.0 video!');
     });
@@ -118,7 +123,7 @@ for details on how to update your code to use this library.
 ## Using with a module bundler
 
 If you’re using a module bundler like [webpack](https://webpack.js.org) or
-[rollup](http://rollupjs.org/), the exported object will be the Player
+[rollup](https://rollupjs.org/), the exported object will be the Player
 constructor (unlike the browser where it is attached to `window.Vimeo`):
 
 ```js
@@ -134,16 +139,16 @@ player.on('play', function() {
 });
 ```
 
-Similarly, if you’re using [RequireJS](http://www.requirejs.org) in the browser,
+Similarly, if you’re using [RequireJS](https://requirejs.org/) in the browser,
 it will also import the Player constructor directly:
 
 ```html
-<iframe src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+<iframe src="https://player.vimeo.com/video/76979871?h=8272103f6e" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
 
 <script>
     require(['https://player.vimeo.com/api/player.js'], function (Player) {
-        var iframe = document.querySelector('iframe');
-        var player = new Player(iframe);
+        const iframe = document.querySelector('iframe');
+        const player = new Player(iframe);
 
         player.on('play', function() {
             console.log('played the video!');
@@ -159,7 +164,7 @@ it will also import the Player constructor directly:
 * [Methods](#methods)
     + [on](#onevent-string-callback-function-void)
     + [off](#offevent-string-callback-function-void)
-    + [loadVideo](#loadvideooptions-numberobject-promisenumberobject-typeerrorpassworderrorerror)
+    + [loadVideo](#loadvideooptions-numberstringobject-promisenumberobject-typeerrorpassworderrorerror)
     + [ready](#ready-promisevoid-error)
     + [enableTextTrack](#enabletexttracklanguage-string-kind-string-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
     + [disableTextTrack](#disabletexttrack-promisevoid-error)
@@ -173,13 +178,18 @@ it will also import the Player constructor directly:
     + [requestPictureInPicture](#requestpictureinpicture-promisevoid-error)
     + [exitPictureInPicture](#exitpictureinpicture-promisevoid-error)
     + [getPictureInPicture](#getpictureinpicture-promiseboolean-error)
+    + [remotePlaybackPrompt](#remoteplaybackprompt-promisevoid-error)
+    + [getRemotePlaybackAvailability](#getremoteplaybackavailability-promisestring-error)
+    + [getRemotePlaybackState](#getremoteplaybackstate-promiseboolean-error)
     + [getAutopause](#getautopause-promiseboolean-unsupportederrorerror)
     + [setAutopause](#setautopauseautopause-boolean-promiseboolean-unsupportederrorerror)
     + [getBuffered](#getbuffered-promisearray-error)
     + [getChapters](#getchapters-promisearray-error)
     + [getCurrentChapter](#getcurrentchapter-promiseobject-error)
     + [getColor](#getcolor-promisestring-error)
+    + [getColors](#getcolors-promisestring-error)
     + [setColor](#setcolorcolor-string-promisestring-contrasterrortypeerrorerror)
+    + [setColors](#setcolorscolors-string-promisestring-contrasterrortypeerrorerror)
     + [addCuePoint](#addcuepointtime-number-data-object-promisestring-unsupportederrorrangeerrorerror)
     + [removeCuePoint](#removecuepointid-string-promisestring-unsupportederrorinvalidcuepointerror)
     + [getCuePoints](#getcuepoints-promisearray-unsupportederrorerror)
@@ -206,6 +216,7 @@ it will also import the Player constructor directly:
     + [getVideoUrl](#getvideourl-promisestring-privacyerrorerror)
     + [getVolume](#getvolume-promisenumber-error)
     + [setVolume](#setvolumevolume-number-promisenumber-rangeerrorerror)
+    + [setTimingSrc](#settimingsrctimingobject-timingobject-options-timingsrcconnectoroptions-promisetimingsrcconnector)
     + [getQualities](#getqualities-promiseobject-error)
     + [getQuality](#getquality-promisestring-error)
     + [setQuality](#setqualityquality-string-promisestring-typeerrorerror)
@@ -237,7 +248,14 @@ it will also import the Player constructor directly:
     + [resize](#resize)
     + [enterpictureinpicture](#enterpictureinpicture)
     + [leavepictureinpicture](#leavepictureinpicture)
-
+    + [remoteplaybackavailabilitychange](#remoteplaybackavailabilitychange)
+    + [remoteplaybackconnecting](#remoteplaybackconnecting)
+    + [remoteplaybackconnect](#remoteplaybackconnect)
+    + [remoteplaybackdisconnect](#remoteplaybackdisconnect)
+    + [interactivehotspotclicked](#interactivehotspotclicked)
+    + [interactiveoverlaypanelclicked](#interactiveoverlaypanelclicked)
+* [Dev Options](#dev-options)
+    + [prefer_mms](#prefer_mms)
 
 ## Create a Player
 
@@ -252,16 +270,16 @@ element, or pass a string that matches the `id` of the `<iframe>`.
 
 ```js
 // Select with the DOM API
-var iframe = document.querySelector('iframe');
-var iframePlayer = new Vimeo.Player(iframe);
+const iframe = document.querySelector('iframe');
+const iframePlayer = new Vimeo.Player(iframe);
 
 // Select with jQuery
 // If multiple elements are selected, it will use the first element.
-var jqueryPlayer = new Vimeo.Player($('iframe'));
+const jqueryPlayer = new Vimeo.Player($('iframe'));
 
 // Select with the `<iframe>`’s id
 // Assumes that there is an <iframe id="player1"> on the page.
-var idPlayer = new Vimeo.Player('player1');
+const idPlayer = new Vimeo.Player('player1');
 ```
 
 ### Create an embed
@@ -270,20 +288,22 @@ Pass any element and an options object to the `Vimeo.Player` constructor to make
 an embed inside that element. The options object should consist of either an
 `id` or `url` and any other [embed options](#embed-options) for the embed.
 
+**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
+
 ```html
 <div id="made-in-ny"></div>
 
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
-    var options = {
+    const options = {
         id: 59777392,
         width: 640,
         loop: true
     };
 
     // Will create inside the made-in-ny div:
-    // <iframe src="https://player.vimeo.com/video/59777392?loop=1" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-    var madeInNy = new Vimeo.Player('made-in-ny', options);
+    // <iframe src="https://player.vimeo.com/video/59777392?h=ab882a04fd&loop=1" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    const madeInNy = new Vimeo.Player('made-in-ny', options);
 </script>
 ```
 
@@ -305,55 +325,25 @@ lightbox opened from clicking on a thumbnail, for example).
 
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
-    var options = {
+    const options = {
         width: 640,
         loop: true
     };
 
     // Will create inside the made-in-ny div:
-    // <iframe src="https://player.vimeo.com/video/59777392?loop=1" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-    var madeInNy = new Vimeo.Player('made-in-ny', options);
+    // <iframe src="https://player.vimeo.com/video/59777392?h=ab882a04fd&loop=1" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    const madeInNy = new Vimeo.Player('made-in-ny', options);
 
     // Will create inside the handstick div:
-    // <iframe src="https://player.vimeo.com/video/19231868?loop=1" width="500" height="281" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-    var handstick = new Vimeo.Player(document.getElementById('handstick'), options);
+    // <iframe src="https://player.vimeo.com/video/19231868?h=1034d5269b&loop=1" width="500" height="281" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    const handstick = new Vimeo.Player(document.getElementById('handstick'), options);
 </script>
 ```
 
 ## Embed Options
 
-These options are available to use as `data-vimeo-` attributes on elements or as
-an object passed to the `Vimeo.Player` constructor. More information on embed options can be found in the [Vimeo Help Center](https://help.vimeo.com/hc/en-us/articles/360001494447-Using-Player-Parameters).
-
-option      | default  | description
------------ | -------- | -----------
-id _or_ url |          | **Required.** Either the id or the url of the video.
-autopause   | `true`   | Pause this video automatically when another one plays.
-autoplay    | `false`  | Automatically start playback of the video. Note that this won’t work on some devices.
-background  | `false`  | Enable the player's background mode which hides the controls, autoplays and loops the video (available to  Plus, PRO, or Business members).
-byline      | `true`   | Show the byline on the video.
-color       | `00adef` | Specify the color of the video controls. Colors may be overridden by the embed settings of the video.
-controls    | `true`   | This parameter will hide all elements in the player (play bar, sharing buttons, etc) for a chromeless experience. ⚠️Warning: When using this parameter, the play bar and UI will be hidden. To start playback for your viewers, you'll need to either enable autoplay or use our player SDK to start and control playback. (available to Plus, PRO, or Business members)
-dnt         | `false`  | Block the player from tracking any session data, including cookies.
-height      |          | The exact height of the video. Defaults to the height of the largest available version of the video.
-keyboard    | `true`   | Allows for keyboard input to trigger player events. If false, will ignore keyboard input. Tabbing will still be supported in either mode.
-loop        | `false`  | Play the video again when it reaches the end.
-maxheight   |          | Same as height, but video will not exceed the native size of the video.
-maxwidth    |          | Same as width, but video will not exceed the native size of the video.
-muted       | `false`  | Mute this video on load. Required to autoplay in certain browsers.
-pip         | `false`   | Show the picture-in-picture button in the controlbar and enable the picture-in-picture API.
-playsinline | `true`   | Play video inline on mobile devices, to automatically go fullscreen on playback set this parameter to `false`.
-portrait    | `true`   | Show the portrait on the video.
-quality     |          | Vimeo Plus, PRO, and Business members can default an embedded video to a specific quality on desktop. Possible values: `4K`, `2K`, `1080p`, `720p`, `540p`, `360p` and `240p` https://help.vimeo.com/hc/en-us/articles/224983008-Setting-default-quality-for-embedded-videos
-responsive  | `false`  | Resize according to the parent element (experimental)
-speed       | `false`  | Show the speed controls in the preferences menu and enable playback rate API (available to PRO and Business accounts).
-texttrack   |          | Turn captions/subtitles on for a specific language by default. If you enter a language preference that hasn't yet been uploaded for your particular video, the text track parameter will be ignored, and your embedded video may load with CC or subtitles disabled by default. Supports lowercase language code (such as: `fr`, `es`, `de`, `en`). You can find a full list of popular language codes [here](https://www.andiamo.co.uk/resources/iso-language-codes/).
-title       | `true`   | Show the title on the video.
-transparent | `true`   | The responsive player and transparent background are enabled by default, to disable set this parameter to `false`.
-width       |          | The exact width of the video. Defaults to the width of the largest available version of the video.
-
-
-
+These options are available to be appended to the query string of the player URL, used as `data-vimeo-` attributes on elements, or included as
+an object passed to the `Vimeo.Player` constructor. The complete list of embed options can be found in our [official SDK documentation](https://developer.vimeo.com/player/sdk/embed).
 
 ## Methods
 
@@ -364,7 +354,7 @@ player.play();
 ```
 
 All methods, except for `on()` and `off()` return a
-[Promise](http://www.html5rocks.com/en/tutorials/es6/promises/). The Promise may
+[Promise](https://web.dev/articles/promises?hl=en). The Promise may
 or may not resolve with a value, depending on the specific method.
 
 ```js
@@ -401,7 +391,7 @@ single parameter, `data`, that contains the data for that event. See
 [events](#events) below for details.
 
 ```js
-var onPlay = function(data) {
+const onPlay = function(data) {
     // data is an object containing properties specific to that event
 };
 
@@ -415,7 +405,7 @@ that event if a `callback` isn’t passed, or only that specific callback if it 
 passed.
 
 ```js
-var onPlay = function(data) {
+const onPlay = function(data) {
     // data is an object containing properties specific to that event
 };
 
@@ -429,10 +419,12 @@ player.off('play', onPlay);
 player.off('play');
 ```
 
-### loadVideo(options: number|object): Promise&lt;number|object, (TypeError|PasswordError|Error)&gt;
+### loadVideo(options: number|string|object): Promise&lt;number|object, (TypeError|PasswordError|Error)&gt;
 
 Load a new video into this embed. The promise will be resolved if the video is
 successfully loaded, or it will be rejected if it could not be loaded.
+
+**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Unlisted", instead of providing an `id` argument, you will need to provide the full video URL as a `url` argument and include the `h` parameter.
 
 ```js
 player.loadVideo(76979871).then(function(id) {
@@ -663,6 +655,54 @@ player.getPictureInPicture().then(function(pip) {
 });
 ```
 
+### remotePlaybackPrompt(): Promise&lt;void, Error&gt;
+
+Prompt the viewer to activate or deactivate a remote playback device, if one is available.
+
+*Note:* This method may require user interaction directly with the player before working properly and must be triggered by a user interaction. It is best to wait for initial playback before calling this method.
+
+```js
+player.remotePlaybackPrompt().then(function() {
+    // viewer has been prompted
+}).catch(function(error) {
+    switch (error.name) {
+        case 'NotFoundError':
+            // remote playback is not supported or there is no device available
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
+});
+```
+
+### getRemotePlaybackAvailability(): Promise&lt;string, Error&gt;
+
+Checks if there is a remote playback device available.
+
+```js
+player.getRemotePlaybackAvailability().then(function(remotePlaybackAvailable) {
+    // remotePlaybackAvailable = whether there is a remote playback device available or not
+}).catch(function(error) {
+    // an error occurred
+})
+```
+
+### getRemotePlaybackState(): Promise&lt;boolean, Error&gt;
+
+Get the current state of remote playback. Can be one of `connecting`, `connected`, or `disconnected`. These values are equivalent to the state values in the [Remote Playback API](https://developer.mozilla.org/en-US/docs/Web/API/RemotePlayback/state).
+
+```js
+player.getRemotePlaybackState().then(function(remotePlaybackState) {
+    // remotePlaybackState === 'connecting': player is attempting to connect to the remote device
+    // remotePlaybackState === 'connected': player successfully connected and is playing on the remote playback device
+    // remotePlaybackState === 'disconnected': player is not connected to a remote playback device
+}).catch(function(error) {
+    // an error occurred
+})
+```
+
 ### getAutopause(): Promise&lt;boolean, (UnsupportedError|Error)&gt;
 
 Get the autopause behavior for this player.
@@ -753,11 +793,24 @@ player.getCurrentChapter().then(function(chapter) {
 
 ### getColor(): Promise&lt;string, Error&gt;
 
-Get the color for this player.
-
+Get the accent color for this player. Note that this is deprecated in place of `getColors`.
 ```js
 player.getColor().then(function(color) {
     // color = the hex color of the player
+}).catch(function(error) {
+    // an error occurred
+});
+
+```
+
+### getColors(): Promise&lt;string[], Error&gt;
+
+Get all colors used for this player.
+The return value is an array of primary, accent, text/icon, and background.
+
+```js
+player.getColors().then(function(colors) {
+    // colors = [primary, accent, text/icon, background]
 }).catch(function(error) {
     // an error occurred
 });
@@ -765,19 +818,44 @@ player.getColor().then(function(color) {
 
 ### setColor(color: string): Promise&lt;string, (ContrastError|TypeError|Error)&gt;
 
-Set the color of this player to a hex or rgb string. Setting the color may fail
+Set the accent color of this player to a hex or rgb string. Setting the color may fail
 if the owner of the video has set their embed preferences to force a specific
-color.
+color. Note that this setter is deprecated and should be replaced with `setColors`.
 
 ```js
 player.setColor('#00adef').then(function(color) {
     // color was successfully set
 }).catch(function(error) {
     switch (error.name) {
-        case 'ContrastError':
-            // the color was set, but the contrast is outside of the acceptable
-            // range
+
+        case 'TypeError':
+            // the string was not a valid hex or rgb color
             break;
+
+        case 'EmbedSettingsError':
+            // the owner of the video has chosen to use a specific color
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
+});
+
+```
+
+### setColors(colors: string[]): Promise&lt;string[], (ContrastError|TypeError|Error)&gt;
+
+Set all colors of this player with an array of hex values. Setting the color may fail
+if the owner of the video has set their embed preferences to force a specific
+color.
+
+```js
+player.setColors(['abc', 'def', '123', '456']).then(function(color) {
+    // colors were successfully set
+    // Array order: [primary, accent, text/icon, background]
+}).catch(function(error) {
+    switch (error.name) {
 
         case 'TypeError':
             // the string was not a valid hex or rgb color
@@ -1009,7 +1087,7 @@ player.getPaused().then(function(paused) {
 
 ### getPlaybackRate(): Promise&lt;number, Error&gt;
 
-Get the playback rate of the player on a scale from `0.5` to `2`.
+Get the playback rate of the player on a scale from `0` to `2`.
 
 ```js
 player.getPlaybackRate().then(function(playbackRate) {
@@ -1021,7 +1099,7 @@ player.getPlaybackRate().then(function(playbackRate) {
 
 ### setPlaybackRate(playbackRate: number): Promise&lt;number, (RangeError|Error)&gt;
 
-Set the playback rate of the player on a scale from `0.5` to `2` (available to PRO and Business accounts). When set
+Set the playback rate of the player on a scale from `0` to `2` (available to PRO and Business accounts). When set
 via the API, the playback rate will not be synchronized to other
 players or stored as the viewer's preference.
 
@@ -1031,7 +1109,7 @@ player.setPlaybackRate(0.5).then(function(playbackRate) {
 }).catch(function(error) {
     switch (error.name) {
         case 'RangeError':
-            // the playback rate was less than 0.5 or greater than 2
+            // the playback rate was less than 0 or greater than 2
             break;
 
         default:
@@ -1236,6 +1314,41 @@ player.setVolume(0.5).then(function(volume) {
 });
 ```
 
+### setTimingSrc(timingObject: TimingObject, options?: TimingSrcConnectorOptions): Promise&lt;TimingSrcConnector&gt;
+
+Syncs a Timing Object to the video player (https://webtiming.github.io/timingobject/)
+
+
+```console
+npm install @vimeo/player timing-object
+```
+
+```html
+<div id="handstick"></div>
+```
+
+```js
+import Player from '@vimeo/player';
+import {TimingObject} from 'timing-object';
+
+const player = new Player('handstick', {
+    id: 19231868,
+    width: 640
+});
+
+const timingObject = new TimingObject();
+
+player.setTimingSrc(timingObject)
+// any update to the timing object will reflect in the player
+
+player.setTimingSrc(timingObject, {role: 'controller'})
+// any update to the player will reflect in the timing object
+```
+See [TimingSrcConnectorOptions](src/lib/timing-src-connector.types.ts) for available options.
+
+See this [demo app](https://salmoro.github.io/vimeo-timing-object-demo/dist) which syncs video playback in real-time for all viewers.
+
+
 ### getQualities(): Promise&lt;object[], Error&gt;
 
 Get the available qualities of the current video.
@@ -1349,8 +1462,7 @@ player.on('eventName', function(data) {
 });
 ```
 
-The events are equivalent to the HTML5 video events (except for `cuechange`,
-which is slightly different).
+The events are similar to the HTML5 video events.
 
 To remove a listener, call `.off()` with the callback function:
 
@@ -1538,7 +1650,8 @@ event will never fire on those devices.
 
 ```js
 {
-    volume: 0.5
+    volume: 0.5,
+    muted: false
 }
 ```
 
@@ -1651,3 +1764,67 @@ Triggered when the player enters picture-in-picture.
 ### leavepictureinpicture
 
 Triggered when the player leaves picture-in-picture.
+
+### remoteplaybackavailabilitychange
+
+Triggered when the availability of remote playback changes.
+
+Listening for this event is equivalent to the [RemotePlayback.watchAvailability() API](http://developer.mozilla.org/en-US/docs/Web/API/RemotePlayback/watchAvailability), except that there is no `cancelWatchAvailability()`. You can remove the listener for this event instead.
+
+### remoteplaybackconnecting
+
+Triggered when the player is attempting to connect to a remote playback device.
+
+### remoteplaybackconnect
+
+Triggered when the player has successfully connected to a remote playback device.
+
+### remoteplaybackdisconnect
+
+Triggered when the player has disconnected from a remote playback device.
+
+### interactivehotspotclicked
+
+Triggered when a hotspot is clicked.
+
+```js
+{
+    action: 'seek', // event, none, overlay, seek, url
+    actionPreference: {
+        pauseOnAction: false, // on `event`, `overlay`, `seek`, `url` action
+        overlayId: 864334, // on `overlay` action
+        seekTo: 30, // on `seek` action
+        url: 'https://your-url.com', // on `url` action
+    },
+    currentTime: 15.585,
+    customPayloadData: null,
+    hotspotId: 8148223
+}
+```
+
+### interactiveoverlaypanelclicked
+
+Triggered when the overlay panel (buttons or images) within the interactive overlay is clicked.
+
+```js
+{
+    action: 'seek', // clickthrough, close, event, none, seek
+    actionPreference: {
+        pauseOnAction: true, // on `close`, `seek` action
+        seekTo: 30, // on `seek` action
+        url: 'https://your-url.com', // on `clickthrough` action
+    },
+    currentTime: 25.67,
+    customPayloadData: null,
+    overlayId: 864334,
+    panelId: 'c47193a0-8320-4572-9bcd-8425851b36e9'
+}
+```
+
+## Dev Options
+
+### prefer_mms
+
+The Vimeo Player uses [Managed Media Source](https://developer.apple.com/videos/play/wwdc2023/10122/?time=762) (MMS) where available for [Media Source Extension](https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API) powered playback on iOS devices.
+
+Unfortunately, there are [known issues](https://bugs.webkit.org/show_bug.cgi?id=266764) with MMS in certain versions of the Xcode iOS Simulator. Therefore, we have added a query parameter to disable MMS and force native HLS playback via: `prefer_mms=0` or `prefer_mms=false`.

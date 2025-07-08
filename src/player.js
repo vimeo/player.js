@@ -4,10 +4,19 @@ import 'weakmap-polyfill';
 import Promise from 'native-promise-only';
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks';
-import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode } from './lib/functions';
-import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from './lib/embed';
+import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode, logSurveyLink } from './lib/functions';
+import {
+    getOEmbedParameters,
+    getOEmbedData,
+    createEmbed,
+    initializeEmbeds,
+    resizeEmbeds,
+    initAppendVideoMetadata,
+    checkUrlTimeParam
+} from './lib/embed';
 import { parseMessageData, postMessage, processData } from './lib/postmessage';
 import { initializeScreenfull } from './lib/screenfull.js';
+import { TimingSrcConnector } from './lib/timing-src-connector';
 
 const playerMap = new WeakMap();
 const readyMap = new WeakMap();
@@ -154,10 +163,14 @@ class Player {
      * Get a promise for a method.
      *
      * @param {string} name The API method to call.
-     * @param {Object} [args={}] Arguments to send via postMessage.
+     * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
      * @return {Promise}
      */
-    callMethod(name, args = {}) {
+    callMethod(name, ...args) {
+        if (name === undefined || name === null) {
+            throw new TypeError('You must pass a method name.');
+        }
+
         return new Promise((resolve, reject) => {
             // We are storing the resolve/reject handlers to call later, so we
             // can’t return here.
@@ -168,11 +181,18 @@ class Player {
                     reject
                 });
 
+                // eslint-disable-next-line promise/always-return
+                if (args.length === 0) {
+                    args = {};
+                }
+                else if (args.length === 1) {
+                    args = args[0];
+                }
+
                 postMessage(this, name, args);
             }).catch(reject);
         });
     }
-
     /**
      * Get a promise for the value of a player property.
      *
@@ -292,7 +312,7 @@ class Player {
      * A promise to load a new video.
      *
      * @promise LoadVideoPromise
-     * @fulfill {number} The video with this id successfully loaded.
+     * @fulfill {number} The video with this id or url successfully loaded.
      * @reject {TypeError} The id was not a number.
      */
     /**
@@ -300,7 +320,7 @@ class Player {
      * the video is successfully loaded, or it will be rejected if it could
      * not be loaded.
      *
-     * @param {number|object} options The id of the video or an object with embed options.
+     * @param {number|string|object} options The id of the video, the url of the video, or an object with embed options.
      * @return {LoadVideoPromise}
      */
     loadVideo(options) {
@@ -515,6 +535,22 @@ class Player {
     }
 
     /**
+     * A promise to prompt the viewer to initiate remote playback.
+     *
+     * @promise RemotePlaybackPromptPromise
+     * @fulfill {void}
+     * @reject {NotFoundError} No remote playback device is available.
+     */
+    /**
+     * Request to prompt the user to initiate remote playback.
+     *
+     * @return {RemotePlaybackPromptPromise}
+     */
+    remotePlaybackPrompt() {
+        return this.callMethod('remotePlaybackPrompt');
+    }
+
+    /**
      * A promise to unload the video.
      *
      * @promise UnloadPromise
@@ -718,13 +754,13 @@ class Player {
     }
 
     /**
-     * A promise to get the color of the player.
+     * A promise to get the accent color of the player.
      *
      * @promise GetColorPromise
      * @fulfill {string} The hex color of the player.
      */
     /**
-     * Get the color for this player.
+     * Get the accent color for this player. Note this is deprecated in place of `getColorTwo`.
      *
      * @return {GetColorPromise}
      */
@@ -733,7 +769,27 @@ class Player {
     }
 
     /**
-     * A promise to set the color of the player.
+     * A promise to get all colors for the player in an array.
+     *
+     * @promise GetColorsPromise
+     * @fulfill {string[]} The hex colors of the player.
+     */
+    /**
+     * Get all the colors for this player in an array: [colorOne, colorTwo, colorThree, colorFour]
+     *
+     * @return {GetColorPromise}
+     */
+    getColors() {
+        return Promise.all([
+            this.get('colorOne'),
+            this.get('colorTwo'),
+            this.get('colorThree'),
+            this.get('colorFour')
+        ]);
+    }
+
+    /**
+     * A promise to set the accent color of the player.
      *
      * @promise SetColorPromise
      * @fulfill {string} The color was successfully set.
@@ -744,15 +800,52 @@ class Player {
      *         use a specific color.
      */
     /**
-     * Set the color of this player to a hex or rgb string. Setting the
+     * Set the accent color of this player to a hex or rgb string. Setting the
      * color may fail if the owner of the video has set their embed
      * preferences to force a specific color.
+     * Note this is deprecated in place of `setColorTwo`.
      *
      * @param {string} color The hex or rgb color string to set.
      * @return {SetColorPromise}
      */
     setColor(color) {
         return this.set('color', color);
+    }
+
+    /**
+     * A promise to set all colors for the player.
+     *
+     * @promise SetColorsPromise
+     * @fulfill {string[]} The colors were successfully set.
+     * @reject {TypeError} The string was not a valid hex or rgb color.
+     * @reject {ContrastError} The color was set, but the contrast is
+     *         outside of the acceptable range.
+     * @reject {EmbedSettingsError} The owner of the player has chosen to
+     *         use a specific color.
+     */
+    /**
+     * Set the colors of this player to a hex or rgb string. Setting the
+     * color may fail if the owner of the video has set their embed
+     * preferences to force a specific color.
+     * The colors should be passed in as an array: [colorOne, colorTwo, colorThree, colorFour].
+     * If a color should not be set, the index in the array can be left as null.
+     *
+     * @param {string[]} colors Array of the hex or rgb color strings to set.
+     * @return {SetColorsPromise}
+     */
+    setColors(colors) {
+        if (!Array.isArray(colors)) {
+            return new Promise((resolve, reject) => reject(new TypeError('Argument must be an array.')));
+        }
+
+        const nullPromise = new Promise((resolve) => resolve(null));
+        const colorPromises = [
+            colors[0] ? this.set('colorOne', colors[0]) : nullPromise,
+            colors[1] ? this.set('colorTwo', colors[1]) : nullPromise,
+            colors[2] ? this.set('colorThree', colors[2]) : nullPromise,
+            colors[3] ? this.set('colorFour', colors[3]) : nullPromise
+        ];
+        return Promise.all(colorPromises);
     }
 
     /**
@@ -936,10 +1029,10 @@ class Player {
      * A promise to get the playback rate of the player.
      *
      * @promise GetPlaybackRatePromise
-     * @fulfill {number} The playback rate of the player on a scale from 0.5 to 2.
+     * @fulfill {number} The playback rate of the player on a scale from 0 to 2.
      */
     /**
-     * Get the playback rate of the player on a scale from `0.5` to `2`.
+     * Get the playback rate of the player on a scale from `0` to `2`.
      *
      * @return {GetPlaybackRatePromise}
      */
@@ -952,10 +1045,10 @@ class Player {
      *
      * @promise SetPlaybackRatePromise
      * @fulfill {number} The playback rate was set.
-     * @reject {RangeError} The playback rate was less than 0.5 or greater than 2.
+     * @reject {RangeError} The playback rate was less than 0 or greater than 2.
      */
     /**
-     * Set the playback rate of the player on a scale from `0.5` to `2`. When set
+     * Set the playback rate of the player on a scale from `0` to `2`. When set
      * via the API, the playback rate will not be synchronized to other
      * players or stored as the viewer's preference.
      *
@@ -1026,6 +1119,36 @@ class Player {
      */
     setQuality(quality) {
         return this.set('quality', quality);
+    }
+
+    /**
+     * A promise to get the remote playback availability.
+     *
+     * @promise RemotePlaybackAvailabilityPromise
+     * @fulfill {boolean} Whether remote playback is available.
+     */
+    /**
+     * Get the availability of remote playback.
+     *
+     * @return {RemotePlaybackAvailabilityPromise}
+     */
+    getRemotePlaybackAvailability() {
+        return this.get('remotePlaybackAvailability');
+    }
+
+    /**
+     * A promise to get the current remote playback state.
+     *
+     * @promise RemotePlaybackStatePromise
+     * @fulfill {string} The state of the remote playback: connecting, connected, or disconnected.
+     */
+    /**
+     * Get the current remote playback state.
+     *
+     * @return {RemotePlaybackStatePromise}
+     */
+    getRemotePlaybackState() {
+        return this.get('remotePlaybackState');
     }
 
     /**
@@ -1205,6 +1328,31 @@ class Player {
     setVolume(volume) {
         return this.set('volume', volume);
     }
+
+    /** @typedef {import('./lib/timing-object.types').TimingObject} TimingObject */
+    /** @typedef {import('./lib/timing-src-connector.types').TimingSrcConnectorOptions} TimingSrcConnectorOptions */
+    /** @typedef {import('./lib/timing-src-connector').TimingSrcConnector} TimingSrcConnector */
+
+    /**
+     * Connects a TimingObject to the video player (https://webtiming.github.io/timingobject/)
+     *
+     * @param {TimingObject} timingObject
+     * @param {TimingSrcConnectorOptions} options
+     *
+     * @return {Promise<TimingSrcConnector>}
+     */
+    async setTimingSrc(timingObject, options) {
+        if (!timingObject) {
+            throw new TypeError('A Timing Object must be provided.');
+        }
+
+        await this.ready();
+        const connector = new TimingSrcConnector(this, timingObject, options);
+        postMessage(this, 'notifyTimingObjectConnect');
+        connector.addEventListener('disconnect', () => postMessage(this, 'notifyTimingObjectDisconnect'));
+
+        return connector;
+    }
 }
 
 // Setup embed only if this is not a node environment
@@ -1212,6 +1360,9 @@ if (!isNode) {
     screenfull = initializeScreenfull();
     initializeEmbeds();
     resizeEmbeds();
+    initAppendVideoMetadata();
+    checkUrlTimeParam();
+    logSurveyLink();
 }
 
 export { isVimeoUrl }

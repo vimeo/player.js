@@ -2,31 +2,60 @@
  * @module lib/embed
  */
 
-import { isVimeoUrl, getVimeoUrl } from './functions';
+import Player from '../player';
+import { isVimeoUrl, isVimeoEmbed, getVimeoUrl, getOembedDomain } from './functions';
+import { parseMessageData } from './postmessage';
 
 const oEmbedParameters = [
+    'airplay',
+    'audio_tracks',
+    'audiotrack',
     'autopause',
     'autoplay',
     'background',
     'byline',
+    'cc',
+    'chapter_id',
+    'chapters',
+    'chromecast',
     'color',
+    'colors',
     'controls',
     'dnt',
+    'end_time',
+    'fullscreen',
     'height',
     'id',
+    'initial_quality',
+    'interactive_params',
     'keyboard',
     'loop',
     'maxheight',
+    'max_quality',
     'maxwidth',
+    'min_quality',
     'muted',
+    'play_button_position',
     'playsinline',
     'portrait',
+    'preload',
+    'progress_bar',
+    'quality',
+    'quality_selector',
     'responsive',
+    'skipping_forward',
     'speed',
+    'start_time',
     'texttrack',
+    'thumbnail_id',
     'title',
+    'transcript',
     'transparent',
+    'unmute_button',
     'url',
+    'vimeo_logo',
+    'volume',
+    'watch_full_video',
     'width'
 ];
 
@@ -88,7 +117,8 @@ export function getOEmbedData(videoUrl, params = {}, element) {
             throw new TypeError(`“${videoUrl}” is not a vimeo.com url.`);
         }
 
-        let url = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(videoUrl)}`;
+        const domain = getOembedDomain(videoUrl);
+        let url = `https://${domain}/api/oembed.json?url=${encodeURIComponent(videoUrl)}`;
 
         for (const param in params) {
             if (params.hasOwnProperty(param)) {
@@ -207,6 +237,99 @@ export function resizeEmbeds(parent = document) {
             space.style.paddingBottom = `${event.data.data[0].bottom}px`;
 
             break;
+        }
+    };
+
+    window.addEventListener('message', onMessage);
+}
+
+/**
+ * Add chapters to existing metadata for Google SEO
+ *
+ * @param {HTMLElement} [parent=document] The parent element.
+ * @return {void}
+ */
+export function initAppendVideoMetadata(parent = document) {
+    //  Prevent execution if users include the player.js script multiple times.
+    if (window.VimeoSeoMetadataAppended) {
+        return;
+    }
+    window.VimeoSeoMetadataAppended = true;
+
+    const onMessage = (event) => {
+        if (!isVimeoUrl(event.origin)) {
+            return;
+        }
+
+        const data = parseMessageData(event.data);
+        if (!data || data.event !== 'ready') {
+            return;
+        }
+
+        const iframes = parent.querySelectorAll('iframe');
+        for (let i = 0; i < iframes.length; i++) {
+            const iframe = iframes[i];
+
+            // Initiate appendVideoMetadata if iframe is a Vimeo embed
+            const isValidMessageSource = iframe.contentWindow === event.source;
+            if (isVimeoEmbed(iframe.src) && isValidMessageSource) {
+                const player = new Player(iframe);
+                player.callMethod('appendVideoMetadata', window.location.href);
+            }
+        }
+    };
+
+    window.addEventListener('message', onMessage);
+}
+
+/**
+ * Seek to time indicated by vimeo_t query parameter if present in URL
+ *
+ * @param {HTMLElement} [parent=document] The parent element.
+ * @return {void}
+ */
+export function checkUrlTimeParam(parent = document) {
+    //  Prevent execution if users include the player.js script multiple times.
+    if (window.VimeoCheckedUrlTimeParam) {
+        return;
+    }
+    window.VimeoCheckedUrlTimeParam = true;
+
+    const handleError = (error) => {
+        if ('console' in window && console.error) {
+            console.error(`There was an error getting video Id: ${error}`);
+        }
+    };
+
+    const onMessage = (event) => {
+        if (!isVimeoUrl(event.origin)) {
+            return;
+        }
+
+        const data = parseMessageData(event.data);
+        if (!data || data.event !== 'ready') {
+            return;
+        }
+
+        const iframes = parent.querySelectorAll('iframe');
+        for (let i = 0; i < iframes.length; i++) {
+            const iframe = iframes[i];
+            const isValidMessageSource = iframe.contentWindow === event.source;
+
+            if (isVimeoEmbed(iframe.src) && isValidMessageSource) {
+                const player = new Player(iframe);
+                player
+                    .getVideoId()
+                    .then((videoId) => {
+                        const matches = new RegExp(`[?&]vimeo_t_${videoId}=([^&#]*)`).exec(window.location.href);
+                        if (matches && matches[1]) {
+                            const sec = decodeURI(matches[1]);
+                            player.setCurrentTime(sec);
+                        }
+                        return;
+                    })
+                    .catch(handleError);
+            }
         }
     };
 
