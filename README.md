@@ -3,6 +3,9 @@
 The Vimeo Player API allows you to interact with and control an embedded Vimeo
 Player.
 
+> [!NOTE]
+> We'd love to get your feedback about how you work with Player.js. Please take a few minutes to share your thoughts in our survey [here](https://t.maze.co/393567477).
+
 ## Installation
 
 You can install the Vimeo Player API through either npm:

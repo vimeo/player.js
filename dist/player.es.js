@@ -648,6 +648,9 @@ var subscribe = function subscribe(target, eventName, callback) {
     }
   };
 };
+var logSurveyLink = function logSurveyLink() {
+  console.log('\n%cVimeo is looking for feedback!\n%cComplete our survey about the Player SDK: https://t.maze.co/393567477', 'color:#00adef;font-size:1.2em;', 'color:#aaa;font-size:0.8em;');
+};
 
 var arrayIndexOfSupport = typeof Array.prototype.indexOf !== 'undefined';
 var postMessageSupport = typeof window !== 'undefined' && typeof window.postMessage !== 'undefined';
@@ -2242,6 +2245,13 @@ var Player = /*#__PURE__*/function () {
             resolve: resolve,
             reject: reject
           });
+
+          // eslint-disable-next-line promise/always-return
+          if (args.length === 0) {
+            args = {};
+          } else if (args.length === 1) {
+            args = args[0];
+          }
           postMessage(_this2, name, args);
         }).catch(reject);
       });
@@ -3540,6 +3550,7 @@ if (!isNode) {
   resizeEmbeds();
   initAppendVideoMetadata();
   checkUrlTimeParam();
+  logSurveyLink();
 }
 
 export default Player;

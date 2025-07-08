@@ -4,7 +4,7 @@ import 'weakmap-polyfill';
 import Promise from 'native-promise-only';
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks';
-import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode } from './lib/functions';
+import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode, logSurveyLink } from './lib/functions';
 import {
     getOEmbedParameters,
     getOEmbedData,
@@ -179,6 +179,14 @@ class Player {
                     resolve,
                     reject
                 });
+
+                // eslint-disable-next-line promise/always-return
+                if (args.length === 0) {
+                    args = {};
+                }
+                else if (args.length === 1) {
+                    args = args[0];
+                }
 
                 postMessage(this, name, args);
             }).catch(reject);
@@ -1351,6 +1359,7 @@ if (!isNode) {
     resizeEmbeds();
     initAppendVideoMetadata();
     checkUrlTimeParam();
+    logSurveyLink();
 }
 
 export default Player;
