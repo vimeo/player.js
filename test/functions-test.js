@@ -1,6 +1,6 @@
 import test from 'ava';
 import html from './helpers/html';
-import { getMethodName, isDomElement, isInteger, isVimeoUrl, isVimeoEmbed, getVimeoUrl, getOembedDomain } from '../src/lib/functions';
+import { getMethodName, isDomElement, isInteger, isVimeoUrl, isVimeoEmbed, getVimeoUrl, getOembedDomain, findIframeBySourceWindow } from '../src/lib/functions';
 
 test('getMethodName properly formats the method name', (t) => {
     t.true(getMethodName('color', 'get') === 'getColor');
@@ -111,4 +111,70 @@ test('getVimeoUrl throws when the required keys don’t exist', (t) => {
     t.throws(() => {
         getVimeoUrl({ url: 'https://notvimeo.com/2' });
     }, { instanceOf: TypeError });
+});
+
+test('findIframeBySourceWindow returns the correct iframe for a given source window', (t) => {
+    // Create a mock document with iframes
+    const mockDoc = {
+        iframes: [],
+        querySelectorAll: function(selector) {
+            if (selector === 'iframe') {
+                return this.iframes;
+            }
+            return [];
+        }
+    };
+
+    // Create mock iframes with contentWindow properties
+    const mockWindow1 = {};
+    const mockWindow2 = {};
+    const mockWindow3 = {};
+
+    const mockIframe1 = { contentWindow: mockWindow1 };
+    const mockIframe2 = { contentWindow: mockWindow2 };
+    const mockIframe3 = { contentWindow: mockWindow3 };
+
+    mockDoc.iframes = [mockIframe1, mockIframe2, mockIframe3];
+
+    // Test finding each iframe by its source window
+    t.is(findIframeBySourceWindow(mockWindow1, mockDoc), mockIframe1);
+    t.is(findIframeBySourceWindow(mockWindow2, mockDoc), mockIframe2);
+    t.is(findIframeBySourceWindow(mockWindow3, mockDoc), mockIframe3);
+
+    // Test with a window that doesn't match any iframe
+    const unknownWindow = {};
+    t.is(findIframeBySourceWindow(unknownWindow, mockDoc), null);
+});
+
+test('findIframeBySourceWindow handles edge cases and invalid inputs', (t) => {
+    // Create a minimal mock document
+    const mockDoc = {
+        iframes: [],
+        querySelectorAll: function(selector) {
+            if (selector === 'iframe') {
+                return this.iframes;
+            }
+            return [];
+        }
+    };
+
+    // Test with null/undefined inputs
+    t.is(findIframeBySourceWindow(null, mockDoc), null);
+    t.is(findIframeBySourceWindow(undefined, mockDoc), null);
+    t.is(findIframeBySourceWindow({}, null), null);
+    t.is(findIframeBySourceWindow({}, undefined), null);
+
+    // Test with a document that doesn't have querySelectorAll
+    t.is(findIframeBySourceWindow({}, {}), null);
+
+    // Test with empty iframe array
+    t.is(findIframeBySourceWindow({}, mockDoc), null);
+
+    // Test with iframe that has null contentWindow
+    mockDoc.iframes = [{ contentWindow: null }];
+    t.is(findIframeBySourceWindow({}, mockDoc), null);
+
+    // Test with iframe that is null
+    mockDoc.iframes = [null];
+    t.is(findIframeBySourceWindow({}, mockDoc), null);
 });
