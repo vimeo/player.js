@@ -180,7 +180,6 @@ class Player {
                     reject
                 });
 
-                // eslint-disable-next-line promise/always-return
                 if (args.length === 0) {
                     args = {};
                 }

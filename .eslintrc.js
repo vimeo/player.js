@@ -5,10 +5,11 @@ const WARNING = 1;
 const ERROR = 2;
 
 module.exports = {
+    root: true,
     extends: [],
     plugins: ['compat'],
     parserOptions: {
-        ecmaVersion: 12
+        ecmaVersion: 2021
     },
     parser: '@babel/eslint-parser',
     rules: {
