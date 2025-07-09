@@ -592,7 +592,7 @@ function getOembedDomain(url) {
       return domain;
     }
   }
-  return 'vimeo.dev';
+  return 'vimeo.com';
 }
 
 /**
@@ -653,21 +653,20 @@ var logSurveyLink = function logSurveyLink() {
 };
 
 /**
- * Find the iframe element that contains the source window from a message event
+ * Find the iframe element that contains a specific source window
  *
- * @param {MessageEvent} event The message event
+ * @param {Window} sourceWindow The source window to find the iframe for
  * @param {Document} [doc=document] The document to search within
  * @return {HTMLIFrameElement|null} The iframe element if found, otherwise null
  */
-function getIFrameFromMessageEvent(event) {
+function findIframeBySourceWindow(sourceWindow) {
   var doc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
-  if (!event || !event.source) {
+  if (!sourceWindow || !doc || typeof doc.querySelectorAll !== 'function') {
     return null;
   }
-  var sourceWindow = event.source;
   var iframes = doc.querySelectorAll('iframe');
   for (var i = 0; i < iframes.length; i++) {
-    if (iframes[i].contentWindow === sourceWindow) {
+    if (iframes[i] && iframes[i].contentWindow === sourceWindow) {
       return iframes[i];
     }
   }
@@ -1462,7 +1461,7 @@ function resizeEmbeds() {
     if (!event.data || event.data.event !== 'spacechange') {
       return;
     }
-    var senderIFrame = getIFrameFromMessageEvent(event, parent);
+    var senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
     if (senderIFrame) {
       // Change padding-bottom of the enclosing div to accommodate
       // card carousel without distorting aspect ratio
@@ -1494,7 +1493,7 @@ function initAppendVideoMetadata() {
     if (!data || data.event !== 'ready') {
       return;
     }
-    var senderIFrame = getIFrameFromMessageEvent(event, parent);
+    var senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
 
     // Initiate appendVideoMetadata if iframe is a Vimeo embed
     if (senderIFrame && isVimeoEmbed(senderIFrame.src)) {
@@ -1531,7 +1530,7 @@ function checkUrlTimeParam() {
     if (!data || data.event !== 'ready') {
       return;
     }
-    var senderIFrame = getIFrameFromMessageEvent(event, parent);
+    var senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
     if (senderIFrame && isVimeoEmbed(senderIFrame.src)) {
       var player = new Player(senderIFrame);
       player.getVideoId().then(function (videoId) {
@@ -1572,7 +1571,7 @@ function updateDRMEmbeds() {
     if (!data || data.event !== 'drminitfailed') {
       return;
     }
-    var senderIFrame = getIFrameFromMessageEvent(event);
+    var senderIFrame = event.source ? findIframeBySourceWindow(event.source) : null;
     if (!senderIFrame) {
       return;
     }
