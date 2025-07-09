@@ -1,273 +1,517 @@
 /*! @vimeo/player v2.29.0 | (c) 2025 Vimeo | MIT License | https://github.com/vimeo/player.js */
-function _assertThisInitialized(e) {
-  if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  return e;
-}
-function asyncGeneratorStep(n, t, e, r, o, a, c) {
-  try {
-    var i = n[a](c),
-      u = i.value;
-  } catch (n) {
-    return void e(n);
-  }
-  i.done ? t(u) : Promise.resolve(u).then(r, o);
-}
-function _asyncToGenerator(n) {
-  return function () {
-    var t = this,
-      e = arguments;
-    return new Promise(function (r, o) {
-      var a = n.apply(t, e);
-      function _next(n) {
-        asyncGeneratorStep(a, r, o, _next, _throw, "next", n);
-      }
-      function _throw(n) {
-        asyncGeneratorStep(a, r, o, _next, _throw, "throw", n);
-      }
-      _next(void 0);
-    });
-  };
-}
-function _callSuper(t, o, e) {
-  return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
-}
-function _classCallCheck(a, n) {
-  if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
-}
-function _construct(t, e, r) {
-  if (_isNativeReflectConstruct()) return Reflect.construct.apply(null, arguments);
-  var o = [null];
-  o.push.apply(o, e);
-  var p = new (t.bind.apply(t, o))();
-  return r && _setPrototypeOf(p, r.prototype), p;
-}
-function _defineProperties(e, r) {
-  for (var t = 0; t < r.length; t++) {
-    var o = r[t];
-    o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o);
-  }
-}
-function _createClass(e, r, t) {
-  return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", {
-    writable: !1
-  }), e;
-}
-function _defineProperty(e, r, t) {
-  return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
-    value: t,
-    enumerable: !0,
-    configurable: !0,
-    writable: !0
-  }) : e[r] = t, e;
-}
-function _getPrototypeOf(t) {
-  return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) {
-    return t.__proto__ || Object.getPrototypeOf(t);
-  }, _getPrototypeOf(t);
-}
-function _inherits(t, e) {
-  if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function");
-  t.prototype = Object.create(e && e.prototype, {
-    constructor: {
-      value: t,
-      writable: !0,
-      configurable: !0
-    }
-  }), Object.defineProperty(t, "prototype", {
-    writable: !1
-  }), e && _setPrototypeOf(t, e);
-}
-function _isNativeFunction(t) {
-  try {
-    return -1 !== Function.toString.call(t).indexOf("[native code]");
-  } catch (n) {
-    return "function" == typeof t;
-  }
-}
-function _isNativeReflectConstruct() {
-  try {
-    var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
-  } catch (t) {}
-  return (_isNativeReflectConstruct = function () {
-    return !!t;
-  })();
-}
-function ownKeys(e, r) {
-  var t = Object.keys(e);
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
   if (Object.getOwnPropertySymbols) {
-    var o = Object.getOwnPropertySymbols(e);
-    r && (o = o.filter(function (r) {
-      return Object.getOwnPropertyDescriptor(e, r).enumerable;
-    })), t.push.apply(t, o);
+    var symbols = Object.getOwnPropertySymbols(object);
+    enumerableOnly && (symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    })), keys.push.apply(keys, symbols);
   }
-  return t;
+  return keys;
 }
-function _objectSpread2(e) {
-  for (var r = 1; r < arguments.length; r++) {
-    var t = null != arguments[r] ? arguments[r] : {};
-    r % 2 ? ownKeys(Object(t), !0).forEach(function (r) {
-      _defineProperty(e, r, t[r]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) {
-      Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {};
+    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
     });
   }
-  return e;
+  return target;
 }
-function _possibleConstructorReturn(t, e) {
-  if (e && ("object" == typeof e || "function" == typeof e)) return e;
-  if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined");
-  return _assertThisInitialized(t);
-}
-function _regenerator() {
-  /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */
-  var e,
-    t,
-    r = "function" == typeof Symbol ? Symbol : {},
-    n = r.iterator || "@@iterator",
-    o = r.toStringTag || "@@toStringTag";
-  function i(r, n, o, i) {
-    var c = n && n.prototype instanceof Generator ? n : Generator,
-      u = Object.create(c.prototype);
-    return _regeneratorDefine(u, "_invoke", function (r, n, o) {
-      var i,
-        c,
-        u,
-        f = 0,
-        p = o || [],
-        y = !1,
-        G = {
-          p: 0,
-          n: 0,
-          v: e,
-          a: d,
-          f: d.bind(e, 4),
-          d: function (t, r) {
-            return i = t, c = 0, u = e, G.n = r, a;
-          }
-        };
-      function d(r, n) {
-        for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) {
-          var o,
-            i = p[t],
-            d = G.p,
-            l = i[2];
-          r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0));
-        }
-        if (o || r > 1) return a;
-        throw y = !0, n;
-      }
-      return function (o, p, l) {
-        if (f > 1) throw TypeError("Generator is already running");
-        for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) {
-          i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u);
-          try {
-            if (f = 2, i) {
-              if (c || (o = "next"), t = i[o]) {
-                if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object");
-                if (!t.done) return t;
-                u = t.value, c < 2 && (c = 0);
-              } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1);
-              i = e;
-            } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break;
-          } catch (t) {
-            i = e, c = 1, u = t;
-          } finally {
-            f = 1;
-          }
-        }
-        return {
-          value: t,
-          done: y
-        };
-      };
-    }(r, o, i), !0), u;
+function _regeneratorRuntime() {
+  _regeneratorRuntime = function () {
+    return exports;
+  };
+  var exports = {},
+    Op = Object.prototype,
+    hasOwn = Op.hasOwnProperty,
+    defineProperty = Object.defineProperty || function (obj, key, desc) {
+      obj[key] = desc.value;
+    },
+    $Symbol = "function" == typeof Symbol ? Symbol : {},
+    iteratorSymbol = $Symbol.iterator || "@@iterator",
+    asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator",
+    toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+  function define(obj, key, value) {
+    return Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: !0,
+      configurable: !0,
+      writable: !0
+    }), obj[key];
   }
-  var a = {};
+  try {
+    define({}, "");
+  } catch (err) {
+    define = function (obj, key, value) {
+      return obj[key] = value;
+    };
+  }
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator,
+      generator = Object.create(protoGenerator.prototype),
+      context = new Context(tryLocsList || []);
+    return defineProperty(generator, "_invoke", {
+      value: makeInvokeMethod(innerFn, self, context)
+    }), generator;
+  }
+  function tryCatch(fn, obj, arg) {
+    try {
+      return {
+        type: "normal",
+        arg: fn.call(obj, arg)
+      };
+    } catch (err) {
+      return {
+        type: "throw",
+        arg: err
+      };
+    }
+  }
+  exports.wrap = wrap;
+  var ContinueSentinel = {};
   function Generator() {}
   function GeneratorFunction() {}
   function GeneratorFunctionPrototype() {}
-  t = Object.getPrototypeOf;
-  var c = [][n] ? t(t([][n]())) : (_regeneratorDefine(t = {}, n, function () {
-      return this;
-    }), t),
-    u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c);
-  function f(e) {
-    return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e;
-  }
-  return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine(u), _regeneratorDefine(u, o, "Generator"), _regeneratorDefine(u, n, function () {
+  var IteratorPrototype = {};
+  define(IteratorPrototype, iteratorSymbol, function () {
     return this;
-  }), _regeneratorDefine(u, "toString", function () {
-    return "[object Generator]";
-  }), (_regenerator = function () {
-    return {
-      w: i,
-      m: f
-    };
-  })();
-}
-function _regeneratorDefine(e, r, n, t) {
-  var i = Object.defineProperty;
-  try {
-    i({}, "", {});
-  } catch (e) {
-    i = 0;
+  });
+  var getProto = Object.getPrototypeOf,
+    NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
+  var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function (method) {
+      define(prototype, method, function (arg) {
+        return this._invoke(method, arg);
+      });
+    });
   }
-  _regeneratorDefine = function (e, r, n, t) {
-    if (r) i ? i(e, r, {
-      value: n,
-      enumerable: !t,
-      configurable: !t,
-      writable: !t
-    }) : e[r] = n;else {
-      function o(r, n) {
-        _regeneratorDefine(e, r, function (e) {
-          return this._invoke(r, n, e);
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if ("throw" !== record.type) {
+        var result = record.arg,
+          value = result.value;
+        return value && "object" == typeof value && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) {
+          invoke("next", value, resolve, reject);
+        }, function (err) {
+          invoke("throw", err, resolve, reject);
+        }) : PromiseImpl.resolve(value).then(function (unwrapped) {
+          result.value = unwrapped, resolve(result);
+        }, function (error) {
+          return invoke("throw", error, resolve, reject);
         });
       }
-      o("next", 0), o("throw", 1), o("return", 2);
+      reject(record.arg);
     }
-  }, _regeneratorDefine(e, r, n, t);
-}
-function _setPrototypeOf(t, e) {
-  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) {
-    return t.__proto__ = e, t;
-  }, _setPrototypeOf(t, e);
-}
-function _toPrimitive(t, r) {
-  if ("object" != typeof t || !t) return t;
-  var e = t[Symbol.toPrimitive];
-  if (void 0 !== e) {
-    var i = e.call(t, r || "default");
-    if ("object" != typeof i) return i;
-    throw new TypeError("@@toPrimitive must return a primitive value.");
+    var previousPromise;
+    defineProperty(this, "_invoke", {
+      value: function (method, arg) {
+        function callInvokeWithMethodAndArg() {
+          return new PromiseImpl(function (resolve, reject) {
+            invoke(method, arg, resolve, reject);
+          });
+        }
+        return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+      }
+    });
   }
-  return ("string" === r ? String : Number)(t);
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = "suspendedStart";
+    return function (method, arg) {
+      if ("executing" === state) throw new Error("Generator is already running");
+      if ("completed" === state) {
+        if ("throw" === method) throw arg;
+        return doneResult();
+      }
+      for (context.method = method, context.arg = arg;;) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+        if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) {
+          if ("suspendedStart" === state) throw state = "completed", context.arg;
+          context.dispatchException(context.arg);
+        } else "return" === context.method && context.abrupt("return", context.arg);
+        state = "executing";
+        var record = tryCatch(innerFn, self, context);
+        if ("normal" === record.type) {
+          if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
+          return {
+            value: record.arg,
+            done: context.done
+          };
+        }
+        "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
+      }
+    };
+  }
+  function maybeInvokeDelegate(delegate, context) {
+    var methodName = context.method,
+      method = delegate.iterator[methodName];
+    if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel;
+    var record = tryCatch(method, delegate.iterator, context.arg);
+    if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
+    var info = record.arg;
+    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+  }
+  function pushTryEntry(locs) {
+    var entry = {
+      tryLoc: locs[0]
+    };
+    1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
+  }
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal", delete record.arg, entry.completion = record;
+  }
+  function Context(tryLocsList) {
+    this.tryEntries = [{
+      tryLoc: "root"
+    }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
+  }
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) return iteratorMethod.call(iterable);
+      if ("function" == typeof iterable.next) return iterable;
+      if (!isNaN(iterable.length)) {
+        var i = -1,
+          next = function next() {
+            for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
+            return next.value = undefined, next.done = !0, next;
+          };
+        return next.next = next;
+      }
+    }
+    return {
+      next: doneResult
+    };
+  }
+  function doneResult() {
+    return {
+      value: undefined,
+      done: !0
+    };
+  }
+  return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", {
+    value: GeneratorFunctionPrototype,
+    configurable: !0
+  }), defineProperty(GeneratorFunctionPrototype, "constructor", {
+    value: GeneratorFunction,
+    configurable: !0
+  }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) {
+    var ctor = "function" == typeof genFun && genFun.constructor;
+    return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
+  }, exports.mark = function (genFun) {
+    return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
+  }, exports.awrap = function (arg) {
+    return {
+      __await: arg
+    };
+  }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+    return this;
+  }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    void 0 === PromiseImpl && (PromiseImpl = Promise);
+    var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
+    return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) {
+      return result.done ? result.value : iter.next();
+    });
+  }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () {
+    return this;
+  }), define(Gp, "toString", function () {
+    return "[object Generator]";
+  }), exports.keys = function (val) {
+    var object = Object(val),
+      keys = [];
+    for (var key in object) keys.push(key);
+    return keys.reverse(), function next() {
+      for (; keys.length;) {
+        var key = keys.pop();
+        if (key in object) return next.value = key, next.done = !1, next;
+      }
+      return next.done = !0, next;
+    };
+  }, exports.values = values, Context.prototype = {
+    constructor: Context,
+    reset: function (skipTempReset) {
+      if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
+    },
+    stop: function () {
+      this.done = !0;
+      var rootRecord = this.tryEntries[0].completion;
+      if ("throw" === rootRecord.type) throw rootRecord.arg;
+      return this.rval;
+    },
+    dispatchException: function (exception) {
+      if (this.done) throw exception;
+      var context = this;
+      function handle(loc, caught) {
+        return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught;
+      }
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i],
+          record = entry.completion;
+        if ("root" === entry.tryLoc) return handle("end");
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc"),
+            hasFinally = hasOwn.call(entry, "finallyLoc");
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
+            if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
+          } else {
+            if (!hasFinally) throw new Error("try statement without catch or finally");
+            if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+          }
+        }
+      }
+    },
+    abrupt: function (type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+      finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
+      var record = finallyEntry ? finallyEntry.completion : {};
+      return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
+    },
+    complete: function (record, afterLoc) {
+      if ("throw" === record.type) throw record.arg;
+      return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel;
+    },
+    finish: function (finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel;
+      }
+    },
+    catch: function (tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if ("throw" === record.type) {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+      throw new Error("illegal catch attempt");
+    },
+    delegateYield: function (iterable, resultName, nextLoc) {
+      return this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      }, "next" === this.method && (this.arg = undefined), ContinueSentinel;
+    }
+  }, exports;
 }
-function _toPropertyKey(t) {
-  var i = _toPrimitive(t, "string");
-  return "symbol" == typeof i ? i : i + "";
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
 }
-function _wrapNativeSuper(t) {
-  var r = "function" == typeof Map ? new Map() : void 0;
-  return _wrapNativeSuper = function (t) {
-    if (null === t || !_isNativeFunction(t)) return t;
-    if ("function" != typeof t) throw new TypeError("Super expression must either be null or a function");
-    if (void 0 !== r) {
-      if (r.has(t)) return r.get(t);
-      r.set(t, Wrapper);
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+      args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+      _next(undefined);
+    });
+  };
+}
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+  }
+}
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  Object.defineProperty(Constructor, "prototype", {
+    writable: false
+  });
+  return Constructor;
+}
+function _defineProperty(obj, key, value) {
+  key = _toPropertyKey(key);
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+  return obj;
+}
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  Object.defineProperty(subClass, "prototype", {
+    writable: false
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+  return _setPrototypeOf(o, p);
+}
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+  try {
+    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+function _construct(Parent, args, Class) {
+  if (_isNativeReflectConstruct()) {
+    _construct = Reflect.construct.bind();
+  } else {
+    _construct = function _construct(Parent, args, Class) {
+      var a = [null];
+      a.push.apply(a, args);
+      var Constructor = Function.bind.apply(Parent, a);
+      var instance = new Constructor();
+      if (Class) _setPrototypeOf(instance, Class.prototype);
+      return instance;
+    };
+  }
+  return _construct.apply(null, arguments);
+}
+function _isNativeFunction(fn) {
+  return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}
+function _wrapNativeSuper(Class) {
+  var _cache = typeof Map === "function" ? new Map() : undefined;
+  _wrapNativeSuper = function _wrapNativeSuper(Class) {
+    if (Class === null || !_isNativeFunction(Class)) return Class;
+    if (typeof Class !== "function") {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+    if (typeof _cache !== "undefined") {
+      if (_cache.has(Class)) return _cache.get(Class);
+      _cache.set(Class, Wrapper);
     }
     function Wrapper() {
-      return _construct(t, arguments, _getPrototypeOf(this).constructor);
+      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
     }
-    return Wrapper.prototype = Object.create(t.prototype, {
+    Wrapper.prototype = Object.create(Class.prototype, {
       constructor: {
         value: Wrapper,
-        enumerable: !1,
-        writable: !0,
-        configurable: !0
+        enumerable: false,
+        writable: true,
+        configurable: true
       }
-    }), _setPrototypeOf(Wrapper, t);
-  }, _wrapNativeSuper(t);
+    });
+    return _setPrototypeOf(Wrapper, Class);
+  };
+  return _wrapNativeSuper(Class);
+}
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+  return self;
+}
+function _possibleConstructorReturn(self, call) {
+  if (call && (typeof call === "object" || typeof call === "function")) {
+    return call;
+  } else if (call !== void 0) {
+    throw new TypeError("Derived constructors may only return object or undefined");
+  }
+  return _assertThisInitialized(self);
+}
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+      result;
+    if (hasNativeReflectConstruct) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+    return _possibleConstructorReturn(this, result);
+  };
+}
+function _toPrimitive(input, hint) {
+  if (typeof input !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if (typeof res !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+function _toPropertyKey(arg) {
+  var key = _toPrimitive(arg, "string");
+  return typeof key === "symbol" ? key : String(key);
 }
 
 /**
@@ -1337,15 +1581,15 @@ function initializeScreenfull() {
   var screenfull = {
     request: function request(element) {
       return new Promise(function (resolve, reject) {
-        var _onFullScreenEntered = function onFullScreenEntered() {
-          screenfull.off('fullscreenchange', _onFullScreenEntered);
+        var onFullScreenEntered = function onFullScreenEntered() {
+          screenfull.off('fullscreenchange', onFullScreenEntered);
           resolve();
         };
-        screenfull.on('fullscreenchange', _onFullScreenEntered);
+        screenfull.on('fullscreenchange', onFullScreenEntered);
         element = element || document.documentElement;
         var returnPromise = element[fn.requestFullscreen]();
         if (returnPromise instanceof Promise) {
-          returnPromise.then(_onFullScreenEntered).catch(reject);
+          returnPromise.then(onFullScreenEntered).catch(reject);
         }
       });
     },
@@ -1355,14 +1599,14 @@ function initializeScreenfull() {
           resolve();
           return;
         }
-        var _onFullScreenExit = function onFullScreenExit() {
-          screenfull.off('fullscreenchange', _onFullScreenExit);
+        var onFullScreenExit = function onFullScreenExit() {
+          screenfull.off('fullscreenchange', onFullScreenExit);
           resolve();
         };
-        screenfull.on('fullscreenchange', _onFullScreenExit);
+        screenfull.on('fullscreenchange', onFullScreenExit);
         var returnPromise = document[fn.exitFullscreen]();
         if (returnPromise instanceof Promise) {
-          returnPromise.then(_onFullScreenExit).catch(reject);
+          returnPromise.then(onFullScreenExit).catch(reject);
         }
       });
     },
@@ -1441,6 +1685,8 @@ var defaultOptions = {
  * 5. `maintainPlaybackPosition` this is code that constantly monitors the player to make sure it's always in sync with the TimingObject. This is needed because videos will generally not play with precise time accuracy and there will be some drift which becomes more noticeable over longer periods (as noted in the timing-object spec). More details on this method below.
  */
 var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
+  _inherits(TimingSrcConnector, _EventTarget);
+  var _super = _createSuper(TimingSrcConnector);
   /**
    * @param {PlayerControls} player
    * @param {TimingObject} timingObject
@@ -1452,41 +1698,42 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
     var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
     var logger = arguments.length > 3 ? arguments[3] : undefined;
     _classCallCheck(this, TimingSrcConnector);
-    _this = _callSuper(this, TimingSrcConnector);
-    _defineProperty(_this, "logger", void 0);
-    _defineProperty(_this, "speedAdjustment", 0);
+    _this = _super.call(this);
+    _defineProperty(_assertThisInitialized(_this), "logger", void 0);
+    _defineProperty(_assertThisInitialized(_this), "speedAdjustment", 0);
     /**
      * @param {PlayerControls} player
      * @param {number} newAdjustment
      * @return {Promise<void>}
      */
-    _defineProperty(_this, "adjustSpeed", /*#__PURE__*/function () {
-      var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(player, newAdjustment) {
-        var newPlaybackRate, _t, _t2, _t3, _t4;
-        return _regenerator().w(function (_context) {
-          while (1) switch (_context.n) {
+    _defineProperty(_assertThisInitialized(_this), "adjustSpeed", /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(player, newAdjustment) {
+        var newPlaybackRate;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
             case 0:
               if (!(_this.speedAdjustment === newAdjustment)) {
-                _context.n = 1;
+                _context.next = 2;
                 break;
               }
-              return _context.a(2);
-            case 1:
-              _context.n = 2;
-              return player.getPlaybackRate();
+              return _context.abrupt("return");
             case 2:
-              _t = _context.v;
-              _t2 = _this.speedAdjustment;
-              _t3 = _t - _t2;
-              _t4 = newAdjustment;
-              newPlaybackRate = _t3 + _t4;
-              _this.log("New playbackRate:  ".concat(newPlaybackRate));
-              _context.n = 3;
-              return player.setPlaybackRate(newPlaybackRate);
-            case 3:
-              _this.speedAdjustment = newAdjustment;
+              _context.next = 4;
+              return player.getPlaybackRate();
             case 4:
-              return _context.a(2);
+              _context.t0 = _context.sent;
+              _context.t1 = _this.speedAdjustment;
+              _context.t2 = _context.t0 - _context.t1;
+              _context.t3 = newAdjustment;
+              newPlaybackRate = _context.t2 + _context.t3;
+              _this.log("New playbackRate:  ".concat(newPlaybackRate));
+              _context.next = 12;
+              return player.setPlaybackRate(newPlaybackRate);
+            case 12:
+              _this.speedAdjustment = newAdjustment;
+            case 13:
+            case "end":
+              return _context.stop();
           }
         }, _callee);
       }));
@@ -1498,8 +1745,7 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
     _this.init(timingObject, _player, _objectSpread2(_objectSpread2({}, defaultOptions), options));
     return _this;
   }
-  _inherits(TimingSrcConnector, _EventTarget);
-  return _createClass(TimingSrcConnector, [{
+  _createClass(TimingSrcConnector, [{
     key: "disconnect",
     value: function disconnect() {
       this.dispatchEvent(new Event('disconnect'));
@@ -1513,23 +1759,23 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
      */
   }, {
     key: "init",
-    value: (function () {
-      var _init = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(timingObject, player, options) {
+    value: function () {
+      var _init = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(timingObject, player, options) {
         var _this2 = this;
         var playerUpdater, positionSync, timingObjectUpdater;
-        return _regenerator().w(function (_context2) {
-          while (1) switch (_context2.n) {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.n = 1;
+              _context2.next = 2;
               return this.waitForTOReadyState(timingObject, 'open');
-            case 1:
+            case 2:
               if (!(options.role === 'viewer')) {
-                _context2.n = 3;
+                _context2.next = 10;
                 break;
               }
-              _context2.n = 2;
+              _context2.next = 5;
               return this.updatePlayer(timingObject, player, options);
-            case 2:
+            case 5:
               playerUpdater = subscribe(timingObject, 'change', function () {
                 return _this2.updatePlayer(timingObject, player, options);
               });
@@ -1538,20 +1784,21 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
                 positionSync.cancel();
                 playerUpdater.cancel();
               });
-              _context2.n = 5;
+              _context2.next = 14;
               break;
-            case 3:
-              _context2.n = 4;
+            case 10:
+              _context2.next = 12;
               return this.updateTimingObject(timingObject, player);
-            case 4:
+            case 12:
               timingObjectUpdater = subscribe(player, ['seeked', 'play', 'pause', 'ratechange'], function () {
                 return _this2.updateTimingObject(timingObject, player);
               }, 'on', 'off');
               this.addEventListener('disconnect', function () {
                 return timingObjectUpdater.cancel();
               });
-            case 5:
-              return _context2.a(2);
+            case 14:
+            case "end":
+              return _context2.stop();
           }
         }, _callee2, this);
       }));
@@ -1567,44 +1814,43 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
      * @param {PlayerControls} player
      * @return {Promise<void>}
      */
-    )
   }, {
     key: "updateTimingObject",
-    value: (function () {
-      var _updateTimingObject = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(timingObject, player) {
-        var _t5, _t6, _t7, _t8, _t9;
-        return _regenerator().w(function (_context3) {
-          while (1) switch (_context3.n) {
+    value: function () {
+      var _updateTimingObject = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(timingObject, player) {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              _t5 = timingObject;
-              _context3.n = 1;
+              _context3.t0 = timingObject;
+              _context3.next = 3;
               return player.getCurrentTime();
-            case 1:
-              _t6 = _context3.v;
-              _context3.n = 2;
+            case 3:
+              _context3.t1 = _context3.sent;
+              _context3.next = 6;
               return player.getPaused();
-            case 2:
-              if (!_context3.v) {
-                _context3.n = 3;
+            case 6:
+              if (!_context3.sent) {
+                _context3.next = 10;
                 break;
               }
-              _t7 = 0;
-              _context3.n = 5;
+              _context3.t2 = 0;
+              _context3.next = 13;
               break;
-            case 3:
-              _context3.n = 4;
+            case 10:
+              _context3.next = 12;
               return player.getPlaybackRate();
-            case 4:
-              _t7 = _context3.v;
-            case 5:
-              _t8 = _t7;
-              _t9 = {
-                position: _t6,
-                velocity: _t8
+            case 12:
+              _context3.t2 = _context3.sent;
+            case 13:
+              _context3.t3 = _context3.t2;
+              _context3.t4 = {
+                position: _context3.t1,
+                velocity: _context3.t3
               };
-              _t5.update.call(_t5, _t9);
-            case 6:
-              return _context3.a(2);
+              _context3.t0.update.call(_context3.t0, _context3.t4);
+            case 16:
+            case "end":
+              return _context3.stop();
           }
         }, _callee3);
       }));
@@ -1621,97 +1867,98 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
      * @param {TimingSrcConnectorOptions} options
      * @return {Promise<void>}
      */
-    )
   }, {
     key: "updatePlayer",
-    value: (function () {
-      var _updatePlayer = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(timingObject, player, options) {
-        var _timingObject$query, position, velocity, _t0, _t1, _t10, _t11;
-        return _regenerator().w(function (_context5) {
-          while (1) switch (_context5.n) {
+    value: function () {
+      var _updatePlayer = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(timingObject, player, options) {
+        var _timingObject$query, position, velocity;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
             case 0:
               _timingObject$query = timingObject.query(), position = _timingObject$query.position, velocity = _timingObject$query.velocity;
               if (typeof position === 'number') {
                 player.setCurrentTime(position);
               }
               if (!(typeof velocity === 'number')) {
-                _context5.n = 8;
+                _context5.next = 25;
                 break;
               }
               if (!(velocity === 0)) {
-                _context5.n = 3;
+                _context5.next = 11;
                 break;
               }
-              _context5.n = 1;
+              _context5.next = 6;
               return player.getPaused();
-            case 1:
-              _t0 = _context5.v;
-              if (!(_t0 === false)) {
-                _context5.n = 2;
+            case 6:
+              _context5.t0 = _context5.sent;
+              if (!(_context5.t0 === false)) {
+                _context5.next = 9;
                 break;
               }
               player.pause();
-            case 2:
-              _context5.n = 8;
+            case 9:
+              _context5.next = 25;
               break;
-            case 3:
+            case 11:
               if (!(velocity > 0)) {
-                _context5.n = 8;
+                _context5.next = 25;
                 break;
               }
-              _context5.n = 4;
+              _context5.next = 14;
               return player.getPaused();
-            case 4:
-              _t1 = _context5.v;
-              if (!(_t1 === true)) {
-                _context5.n = 6;
+            case 14:
+              _context5.t1 = _context5.sent;
+              if (!(_context5.t1 === true)) {
+                _context5.next = 19;
                 break;
               }
-              _context5.n = 5;
-              return player.play().catch(/*#__PURE__*/function () {
-                var _ref2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(err) {
-                  return _regenerator().w(function (_context4) {
-                    while (1) switch (_context4.n) {
+              _context5.next = 18;
+              return player.play().catch( /*#__PURE__*/function () {
+                var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(err) {
+                  return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+                    while (1) switch (_context4.prev = _context4.next) {
                       case 0:
                         if (!(err.name === 'NotAllowedError' && options.autoPlayMuted)) {
-                          _context4.n = 2;
+                          _context4.next = 5;
                           break;
                         }
-                        _context4.n = 1;
+                        _context4.next = 3;
                         return player.setMuted(true);
-                      case 1:
-                        _context4.n = 2;
+                      case 3:
+                        _context4.next = 5;
                         return player.play().catch(function (err2) {
                           return console.error('Couldn\'t play the video from TimingSrcConnector. Error:', err2);
                         });
-                      case 2:
-                        return _context4.a(2);
+                      case 5:
+                      case "end":
+                        return _context4.stop();
                     }
                   }, _callee4);
                 }));
-                return function (_x1) {
+                return function (_x11) {
                   return _ref2.apply(this, arguments);
                 };
               }());
-            case 5:
+            case 18:
               this.updatePlayer(timingObject, player, options);
-            case 6:
-              _context5.n = 7;
+            case 19:
+              _context5.next = 21;
               return player.getPlaybackRate();
-            case 7:
-              _t10 = _context5.v;
-              _t11 = velocity;
-              if (!(_t10 !== _t11)) {
-                _context5.n = 8;
+            case 21:
+              _context5.t2 = _context5.sent;
+              _context5.t3 = velocity;
+              if (!(_context5.t2 !== _context5.t3)) {
+                _context5.next = 25;
                 break;
               }
               player.setPlaybackRate(velocity);
-            case 8:
-              return _context5.a(2);
+            case 25:
+            case "end":
+              return _context5.stop();
           }
         }, _callee5, this);
       }));
-      function updatePlayer(_x8, _x9, _x0) {
+      function updatePlayer(_x8, _x9, _x10) {
         return _updatePlayer.apply(this, arguments);
       }
       return updatePlayer;
@@ -1728,7 +1975,6 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
      * @param {TimingSrcConnectorOptions} options
      * @return {{cancel: (function(): void)}}
      */
-    )
   }, {
     key: "maintainPlaybackPosition",
     value: function maintainPlaybackPosition(timingObject, player, options) {
@@ -1740,61 +1986,62 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
         maxTimeToCatchUp = options.maxTimeToCatchUp;
       var syncInterval = Math.min(maxTimeToCatchUp, Math.max(minCheckInterval, maxAllowedDrift)) * 1000;
       var check = /*#__PURE__*/function () {
-        var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
-          var diff, diffAbs, min, max, adjustment, _t12, _t13, _t14, _t15;
-          return _regenerator().w(function (_context6) {
-            while (1) switch (_context6.n) {
+        var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+          var diff, diffAbs, min, max, adjustment;
+          return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+            while (1) switch (_context6.prev = _context6.next) {
               case 0:
-                _t12 = timingObject.query().velocity === 0;
-                if (_t12) {
-                  _context6.n = 2;
+                _context6.t0 = timingObject.query().velocity === 0;
+                if (_context6.t0) {
+                  _context6.next = 6;
                   break;
                 }
-                _context6.n = 1;
+                _context6.next = 4;
                 return player.getPaused();
-              case 1:
-                _t13 = _context6.v;
-                _t12 = _t13 === true;
-              case 2:
-                if (!_t12) {
-                  _context6.n = 3;
+              case 4:
+                _context6.t1 = _context6.sent;
+                _context6.t0 = _context6.t1 === true;
+              case 6:
+                if (!_context6.t0) {
+                  _context6.next = 8;
                   break;
                 }
-                return _context6.a(2);
-              case 3:
-                _t14 = timingObject.query().position;
-                _context6.n = 4;
+                return _context6.abrupt("return");
+              case 8:
+                _context6.t2 = timingObject.query().position;
+                _context6.next = 11;
                 return player.getCurrentTime();
-              case 4:
-                _t15 = _context6.v;
-                diff = _t14 - _t15;
+              case 11:
+                _context6.t3 = _context6.sent;
+                diff = _context6.t2 - _context6.t3;
                 diffAbs = Math.abs(diff);
                 _this3.log("Drift: ".concat(diff));
                 if (!(diffAbs > maxAllowedDrift)) {
-                  _context6.n = 6;
+                  _context6.next = 22;
                   break;
                 }
-                _context6.n = 5;
+                _context6.next = 18;
                 return _this3.adjustSpeed(player, 0);
-              case 5:
+              case 18:
                 player.setCurrentTime(timingObject.query().position);
                 _this3.log('Resync by currentTime');
-                _context6.n = 8;
+                _context6.next = 29;
                 break;
-              case 6:
+              case 22:
                 if (!(diffAbs > allowedDrift)) {
-                  _context6.n = 8;
+                  _context6.next = 29;
                   break;
                 }
                 min = diffAbs / maxTimeToCatchUp;
                 max = maxRateAdjustment;
                 adjustment = min < max ? (max - min) / 2 : max;
-                _context6.n = 7;
+                _context6.next = 28;
                 return _this3.adjustSpeed(player, adjustment * Math.sign(diff));
-              case 7:
+              case 28:
                 _this3.log('Resync by playbackRate');
-              case 8:
-                return _context6.a(2);
+              case 29:
+              case "end":
+                return _context6.stop();
             }
           }, _callee6);
         }));
@@ -1819,7 +2066,7 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
     key: "log",
     value: function log(msg) {
       var _this$logger;
-      (_this$logger = this.logger) === null || _this$logger === void 0 || _this$logger.call(this, "TimingSrcConnector: ".concat(msg));
+      (_this$logger = this.logger) === null || _this$logger === void 0 ? void 0 : _this$logger.call(this, "TimingSrcConnector: ".concat(msg));
     }
   }, {
     key: "waitForTOReadyState",
@@ -1831,20 +2078,21 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
      */
     function waitForTOReadyState(timingObject, state) {
       return new Promise(function (resolve) {
-        var _check = function check() {
+        var check = function check() {
           if (timingObject.readyState === state) {
             resolve();
           } else {
-            timingObject.addEventListener('readystatechange', _check, {
+            timingObject.addEventListener('readystatechange', check, {
               once: true
             });
           }
         };
-        _check();
+        check();
       });
     }
   }]);
-}(/*#__PURE__*/_wrapNativeSuper(EventTarget));
+  return TimingSrcConnector;
+}( /*#__PURE__*/_wrapNativeSuper(EventTarget));
 
 var playerMap = new WeakMap();
 var readyMap = new WeakMap();
@@ -1979,7 +2227,7 @@ var Player = /*#__PURE__*/function () {
    * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
    * @return {Promise}
    */
-  return _createClass(Player, [{
+  _createClass(Player, [{
     key: "callMethod",
     value: function callMethod(name) {
       var _this2 = this;
@@ -3258,28 +3506,31 @@ var Player = /*#__PURE__*/function () {
      */
   }, {
     key: "setTimingSrc",
-    value: (function () {
-      var _setTimingSrc = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(timingObject, options) {
+    value: function () {
+      var _setTimingSrc = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(timingObject, options) {
         var _this6 = this;
         var connector;
-        return _regenerator().w(function (_context) {
-          while (1) switch (_context.n) {
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
             case 0:
               if (timingObject) {
-                _context.n = 1;
+                _context.next = 2;
                 break;
               }
               throw new TypeError('A Timing Object must be provided.');
-            case 1:
-              _context.n = 2;
-              return this.ready();
             case 2:
+              _context.next = 4;
+              return this.ready();
+            case 4:
               connector = new TimingSrcConnector(this, timingObject, options);
               postMessage(this, 'notifyTimingObjectConnect');
               connector.addEventListener('disconnect', function () {
                 return postMessage(_this6, 'notifyTimingObjectDisconnect');
               });
-              return _context.a(2, connector);
+              return _context.abrupt("return", connector);
+            case 8:
+            case "end":
+              return _context.stop();
           }
         }, _callee, this);
       }));
@@ -3287,8 +3538,9 @@ var Player = /*#__PURE__*/function () {
         return _setTimingSrc.apply(this, arguments);
       }
       return setTimingSrc;
-    }())
+    }()
   }]);
+  return Player;
 }(); // Setup embed only if this is not a node environment
 if (!isNode) {
   screenfull = initializeScreenfull();
