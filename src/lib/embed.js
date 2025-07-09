@@ -3,7 +3,7 @@
  */
 
 import Player from '../player';
-import { isVimeoUrl, getVimeoUrl, getOembedDomain, isVimeoEmbed, getIFrameFromMessageEvent } from './functions';
+import { isVimeoUrl, getVimeoUrl, getOembedDomain, isVimeoEmbed, findIframeBySourceWindow } from './functions';
 import { parseMessageData } from './postmessage';
 
 const oEmbedParameters = [
@@ -224,7 +224,7 @@ export function resizeEmbeds(parent = document) {
             return;
         }
 
-        const senderIFrame = getIFrameFromMessageEvent(event, parent);
+        const senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
 
         if (senderIFrame) {
             // Change padding-bottom of the enclosing div to accommodate
@@ -260,7 +260,7 @@ export function initAppendVideoMetadata(parent = document) {
             return;
         }
 
-        const senderIFrame = getIFrameFromMessageEvent(event, parent);
+        const senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
 
         // Initiate appendVideoMetadata if iframe is a Vimeo embed
         if (senderIFrame && isVimeoEmbed(senderIFrame.src)) {
@@ -301,7 +301,7 @@ export function checkUrlTimeParam(parent = document) {
             return;
         }
 
-        const senderIFrame = getIFrameFromMessageEvent(event, parent);
+        const senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
 
         if (senderIFrame && isVimeoEmbed(senderIFrame.src)) {
             const player = new Player(senderIFrame);
@@ -350,7 +350,7 @@ export function updateDRMEmbeds() {
             return;
         }
 
-        const senderIFrame = getIFrameFromMessageEvent(event);
+        const senderIFrame = event.source ? findIframeBySourceWindow(event.source) : null;
 
         if (!senderIFrame) {
             return;

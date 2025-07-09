@@ -87,7 +87,7 @@ export function getOembedDomain(url) {
         }
     }
 
-    return 'vimeo.dev';
+    return 'vimeo.com';
 }
 
 /**
@@ -153,22 +153,21 @@ export const logSurveyLink = () => {
 };
 
 /**
- * Find the iframe element that contains the source window from a message event
+ * Find the iframe element that contains a specific source window
  *
- * @param {MessageEvent} event The message event
+ * @param {Window} sourceWindow The source window to find the iframe for
  * @param {Document} [doc=document] The document to search within
  * @return {HTMLIFrameElement|null} The iframe element if found, otherwise null
  */
-export function getIFrameFromMessageEvent(event, doc = document) {
-    if (!event || !event.source) {
+export function findIframeBySourceWindow(sourceWindow, doc = document) {
+    if (!sourceWindow || !doc || typeof doc.querySelectorAll !== 'function') {
         return null;
     }
 
-    const sourceWindow = event.source;
     const iframes = doc.querySelectorAll('iframe');
 
     for (let i = 0; i < iframes.length; i++) {
-        if (iframes[i].contentWindow === sourceWindow) {
+        if (iframes[i] && iframes[i].contentWindow === sourceWindow) {
             return iframes[i];
         }
     }
