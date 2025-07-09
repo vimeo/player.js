@@ -1,5 +1,5 @@
 /* eslint-env node */
-const fs = require('fs');
+const fs = require('node:fs');
 const uglifyJs = require('uglify-js');
 const chalk = require('chalk');
 const maxmin = require('maxmin');
@@ -30,6 +30,10 @@ async function generateBundle() {
 
     building = true;
     needsRebuild = false;
+
+    if (fs.existsSync('dist') === false) {
+        fs.mkdirSync('dist');
+    }
 
     if (watch) {
         console.log(new Date().toString());
