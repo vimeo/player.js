@@ -367,7 +367,7 @@ export function updateDRMEmbeds() {
             const currentUrl = new URL(senderIFrame.getAttribute('src'));
 
             // Adding this forces the embed to reload once `allow` has been updated with `encrypted-media`.
-            currentUrl.searchParams.set('daaa', new Date().toISOString());
+            currentUrl.searchParams.set('forcereload', 'drm');
             senderIFrame.setAttribute('src', currentUrl.toString());
             return;
         }
