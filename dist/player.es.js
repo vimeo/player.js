@@ -1,31 +1,4 @@
 /*! @vimeo/player v2.29.0 | (c) 2025 Vimeo | MIT License | https://github.com/vimeo/player.js */
-function _iterableToArrayLimit(arr, i) {
-  var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
-  if (null != _i) {
-    var _s,
-      _e,
-      _x,
-      _r,
-      _arr = [],
-      _n = !0,
-      _d = !1;
-    try {
-      if (_x = (_i = _i.call(arr)).next, 0 === i) {
-        if (Object(_i) !== _i) return;
-        _n = !1;
-      } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
-    } catch (err) {
-      _d = !0, _e = err;
-    } finally {
-      try {
-        if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return;
-      } finally {
-        if (_d) throw _e;
-      }
-    }
-    return _arr;
-  }
-}
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
   if (Object.getOwnPropertySymbols) {
@@ -525,28 +498,6 @@ function _createSuper(Derived) {
     }
     return _possibleConstructorReturn(this, result);
   };
-}
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-  return arr2;
-}
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function _toPrimitive(input, hint) {
   if (typeof input !== "object" || input === null) return input;
@@ -1696,10 +1647,10 @@ function initializeScreenfull() {
 }
 
 /** @typedef {import('./timing-src-connector.types').PlayerControls} PlayerControls */
-/** @typedef {import('timing-object').ITimingObject} TimingObject */
+/** @typedef {import('./timing-object.types').TimingObject} TimingObject */
 /** @typedef {import('./timing-src-connector.types').TimingSrcConnectorOptions} TimingSrcConnectorOptions */
 /** @typedef {(msg: string) => any} Logger */
-/** @typedef {import('timing-object').TConnectionState} TConnectionState */
+/** @typedef {import('timing-object.types').TConnectionState} TConnectionState */
 
 /**
  * @type {TimingSrcConnectorOptions}
@@ -1867,23 +1818,37 @@ var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
     key: "updateTimingObject",
     value: function () {
       var _updateTimingObject = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(timingObject, player) {
-        var _yield$Promise$all, _yield$Promise$all2, position, isPaused, playbackRate;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              _context3.next = 2;
-              return Promise.all([player.getCurrentTime(), player.getPaused(), player.getPlaybackRate()]);
-            case 2:
-              _yield$Promise$all = _context3.sent;
-              _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
-              position = _yield$Promise$all2[0];
-              isPaused = _yield$Promise$all2[1];
-              playbackRate = _yield$Promise$all2[2];
-              timingObject.update({
-                position: position,
-                velocity: isPaused ? 0 : playbackRate
-              });
-            case 8:
+              _context3.t0 = timingObject;
+              _context3.next = 3;
+              return player.getCurrentTime();
+            case 3:
+              _context3.t1 = _context3.sent;
+              _context3.next = 6;
+              return player.getPaused();
+            case 6:
+              if (!_context3.sent) {
+                _context3.next = 10;
+                break;
+              }
+              _context3.t2 = 0;
+              _context3.next = 13;
+              break;
+            case 10:
+              _context3.next = 12;
+              return player.getPlaybackRate();
+            case 12:
+              _context3.t2 = _context3.sent;
+            case 13:
+              _context3.t3 = _context3.t2;
+              _context3.t4 = {
+                position: _context3.t1,
+                velocity: _context3.t3
+              };
+              _context3.t0.update.call(_context3.t0, _context3.t4);
+            case 16:
             case "end":
               return _context3.stop();
           }
@@ -3532,7 +3497,7 @@ var Player = /*#__PURE__*/function () {
       return this.set('volume', volume);
     }
 
-    /** @typedef {import('timing-object').ITimingObject} TimingObject */
+    /** @typedef {import('./lib/timing-object.types').TimingObject} TimingObject */
     /** @typedef {import('./lib/timing-src-connector.types').TimingSrcConnectorOptions} TimingSrcConnectorOptions */
     /** @typedef {import('./lib/timing-src-connector').TimingSrcConnector} TimingSrcConnector */
 
