@@ -793,7 +793,7 @@ var npo_src = createCommonjsModule(function (module) {
 (function UMD(name, context, definition) {
   // special form of UMD for polyfilling across evironments
   context[name] = context[name] || definition();
-  if (module.exports) {
+  if ( module.exports) {
     module.exports = context[name];
   }
 })("Promise", typeof commonjsGlobal != "undefined" ? commonjsGlobal : commonjsGlobal, function DEF() {
@@ -2240,11 +2240,14 @@ var Player = /*#__PURE__*/function () {
       return new npo_src(function (resolve, reject) {
         // We are storing the resolve/reject handlers to call later, so we
         // can’t return here.
+        // eslint-disable-next-line promise/always-return
         return _this2.ready().then(function () {
           storeCallback(_this2, name, {
             resolve: resolve,
             reject: reject
           });
+
+          // eslint-disable-next-line promise/always-return
           if (args.length === 0) {
             args = {};
           } else if (args.length === 1) {
@@ -2269,6 +2272,7 @@ var Player = /*#__PURE__*/function () {
 
         // We are storing the resolve/reject handlers to call later, so we
         // can’t return here.
+        // eslint-disable-next-line promise/always-return
         return _this3.ready().then(function () {
           storeCallback(_this3, name, {
             resolve: resolve,
@@ -2298,6 +2302,7 @@ var Player = /*#__PURE__*/function () {
 
         // We are storing the resolve/reject handlers to call later, so we
         // can’t return here.
+        // eslint-disable-next-line promise/always-return
         return _this4.ready().then(function () {
           storeCallback(_this4, name, {
             resolve: resolve,
