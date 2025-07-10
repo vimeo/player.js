@@ -360,16 +360,13 @@ export function updateDRMEmbeds() {
         const allowSupportsDRM = currentAllow.includes('encrypted-media');
 
         if (!allowSupportsDRM) {
-            // For DRM to work successfully, the iframe `allow` attribute must include 'encrypted-media'.
+            // For DRM playback to successfully occur, the iframe `allow` attribute must include 'encrypted-media'.
             // If the video requires DRM but doesn't have the attribute, we try to add on behalf of the embed owner
             // as a temporary measure to enable playback until they're able to update their embeds.
             senderIFrame.setAttribute('allow', `${currentAllow}; encrypted-media`);
             const currentUrl = new URL(senderIFrame.getAttribute('src'));
 
-            // Keeping the param name short to reduce log size, but 'daaa' stands for 'DRM Allow Added At'.
-            // Adding this forces the embed to reload once `allow` has been updated with `encrypted-media`
-            // and gives us a way to track how often and where this is happening,
-            // so Vimeo can inform the embed owners they should upgrade their embed.
+            // Adding this forces the embed to reload once `allow` has been updated with `encrypted-media`.
             currentUrl.searchParams.set('daaa', new Date().toISOString());
             senderIFrame.setAttribute('src', currentUrl.toString());
             return;
