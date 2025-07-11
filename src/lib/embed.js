@@ -3,7 +3,7 @@
  */
 
 import Player from '../player';
-import { isVimeoUrl, isVimeoEmbed, getVimeoUrl, getOembedDomain } from './functions';
+import { isVimeoUrl, getVimeoUrl, getOembedDomain, isVimeoEmbed, findIframeBySourceWindow } from './functions';
 import { parseMessageData } from './postmessage';
 
 const oEmbedParameters = [
@@ -224,19 +224,13 @@ export function resizeEmbeds(parent = document) {
             return;
         }
 
-        const iframes = parent.querySelectorAll('iframe');
+        const senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
 
-        for (let i = 0; i < iframes.length; i++) {
-            if (iframes[i].contentWindow !== event.source) {
-                continue;
-            }
-
+        if (senderIFrame) {
             // Change padding-bottom of the enclosing div to accommodate
             // card carousel without distorting aspect ratio
-            const space = iframes[i].parentElement;
+            const space = senderIFrame.parentElement;
             space.style.paddingBottom = `${event.data.data[0].bottom}px`;
-
-            break;
         }
     };
 
@@ -266,16 +260,12 @@ export function initAppendVideoMetadata(parent = document) {
             return;
         }
 
-        const iframes = parent.querySelectorAll('iframe');
-        for (let i = 0; i < iframes.length; i++) {
-            const iframe = iframes[i];
+        const senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
 
-            // Initiate appendVideoMetadata if iframe is a Vimeo embed
-            const isValidMessageSource = iframe.contentWindow === event.source;
-            if (isVimeoEmbed(iframe.src) && isValidMessageSource) {
-                const player = new Player(iframe);
-                player.callMethod('appendVideoMetadata', window.location.href);
-            }
+        // Initiate appendVideoMetadata if iframe is a Vimeo embed
+        if (senderIFrame && isVimeoEmbed(senderIFrame.src)) {
+            const player = new Player(senderIFrame);
+            player.callMethod('appendVideoMetadata', window.location.href);
         }
     };
 
@@ -311,25 +301,75 @@ export function checkUrlTimeParam(parent = document) {
             return;
         }
 
-        const iframes = parent.querySelectorAll('iframe');
-        for (let i = 0; i < iframes.length; i++) {
-            const iframe = iframes[i];
-            const isValidMessageSource = iframe.contentWindow === event.source;
+        const senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
 
-            if (isVimeoEmbed(iframe.src) && isValidMessageSource) {
-                const player = new Player(iframe);
-                player
-                    .getVideoId()
-                    .then((videoId) => {
-                        const matches = new RegExp(`[?&]vimeo_t_${videoId}=([^&#]*)`).exec(window.location.href);
-                        if (matches && matches[1]) {
-                            const sec = decodeURI(matches[1]);
-                            player.setCurrentTime(sec);
-                        }
-                        return;
-                    })
-                    .catch(handleError);
-            }
+        if (senderIFrame && isVimeoEmbed(senderIFrame.src)) {
+            const player = new Player(senderIFrame);
+            player
+                .getVideoId()
+                .then((videoId) => {
+                    const matches = new RegExp(`[?&]vimeo_t_${videoId}=([^&#]*)`).exec(window.location.href);
+                    if (matches && matches[1]) {
+                        const sec = decodeURI(matches[1]);
+                        player.setCurrentTime(sec);
+                    }
+                    return;
+                })
+                .catch(handleError);
+        }
+    };
+
+    window.addEventListener('message', onMessage);
+}
+
+
+/**
+ * Updates iframe embeds to support DRM content playback by adding the 'encrypted-media' permission
+ * to the iframe's allow attribute when DRM initialization fails. This function acts as a fallback
+ * mechanism to enable playback of DRM-protected content in embeds that weren't properly configured.
+ *
+ * @return {void}
+ */
+export function updateDRMEmbeds() {
+    if (window.VimeoDRMEmbedsUpdated) {
+        return;
+    }
+    window.VimeoDRMEmbedsUpdated = true;
+
+    /**
+     * Handle message events for DRM initialization failures
+     * @param {MessageEvent} event - The message event from the iframe
+     */
+    const onMessage = (event) => {
+        if (!isVimeoUrl(event.origin)) {
+            return;
+        }
+
+        const data = parseMessageData(event.data);
+        if (!data || data.event !== 'drminitfailed') {
+            return;
+        }
+
+        const senderIFrame = event.source ? findIframeBySourceWindow(event.source) : null;
+
+        if (!senderIFrame) {
+            return;
+        }
+
+        const currentAllow = senderIFrame.getAttribute('allow') || '';
+        const allowSupportsDRM = currentAllow.includes('encrypted-media');
+
+        if (!allowSupportsDRM) {
+            // For DRM playback to successfully occur, the iframe `allow` attribute must include 'encrypted-media'.
+            // If the video requires DRM but doesn't have the attribute, we try to add on behalf of the embed owner
+            // as a temporary measure to enable playback until they're able to update their embeds.
+            senderIFrame.setAttribute('allow', `${currentAllow}; encrypted-media`);
+            const currentUrl = new URL(senderIFrame.getAttribute('src'));
+
+            // Adding this forces the embed to reload once `allow` has been updated with `encrypted-media`.
+            currentUrl.searchParams.set('forcereload', 'drm');
+            senderIFrame.setAttribute('src', currentUrl.toString());
+            return;
         }
     };
 
