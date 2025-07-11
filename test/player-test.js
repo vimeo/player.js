@@ -6,19 +6,19 @@ import Player from '../src/player';
 test('constructor accepts only Vimeo embeds', (t) => {
     t.throws(() => {
         void new Player(html`<div data-vimeo-initialized><iframe></iframe></div>`);
-    }, null);
+    });
 
     t.throws(() => {
         void new Player('string');
-    }, null);
+    });
 
     t.throws(() => {
         void new Player(html`<iframe></iframe>`);
-    }, null);
+    });
 
     t.throws(() => {
         void new Player(html`<iframe src="https://www.youtube.com/embed/Uj3_KqkI9Zo"></iframe>`);
-    }, null);
+    });
 });
 
 test('contructor does not throw if jquery is not present', (t) => {

@@ -1,4 +1,4 @@
-# Vimeo Player API [![npm](https://img.shields.io/npm/v/@vimeo/player.svg?cacheSeconds=120)](https://www.npmjs.com/package/@vimeo/player) [![Coverage](https://img.shields.io/codecov/c/github/vimeo/player.js.svg?cacheSeconds=120)](https://codecov.io/gh/vimeo/player.js) ![Badge size](https://img.badgesize.io/https://raw.githubusercontent.com/vimeo/player.js/master/dist/player.min.js?compression=gzip&label=gzip)
+# Vimeo Player API [![npm](https://img.shields.io/npm/v/@vimeo/player.svg?cacheSeconds=120)](https://www.npmjs.com/package/@vimeo/player) [![Coverage](https://img.shields.io/codecov/c/github/vimeo/player.js.svg?cacheSeconds=120)](https://codecov.io/gh/vimeo/player.js) ![Badge size](https://img.badgesize.io/https://player.vimeo.com/api/player.js?compression=gzip&label=gzip)
 
 The Vimeo Player API allows you to interact with and control an embedded Vimeo
 Player.
@@ -57,7 +57,7 @@ You can use the library to make the embed for you. All you need is an empty
 element and the video id or vimeo.com url (and optional
 [embed options](#embed-options)).
 
-**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
+**NOTE:** If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
 
 ```html
 <div id="made-in-ny"></div>
@@ -88,7 +88,7 @@ attributes. Each element must have at least a `data-vimeo-id` or
 You can also add attributes for any of the [embed options](#embed-options),
 prefixed with `data-vimeo` (`data-vimeo-portrait="false"`, for example).
 
-**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Unlisted", instead of providing a `data-vimeo-id` attribute, you will need to provide the full video URL in a `data-vimeo-url` attribute and include the `h` parameter.
+**NOTE:** If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing a `data-vimeo-id` attribute, you will need to provide the full video URL in a `data-vimeo-url` attribute and include the `h` parameter.
 
 ```html
 <div data-vimeo-id="19231868" data-vimeo-width="640" id="handstick"></div>
@@ -122,7 +122,7 @@ for details on how to update your code to use this library.
 
 ## Using with a module bundler
 
-If you’re using a module bundler like [webpack](https://webpack.js.org) or
+If you’re using a module bundler like [webpack](https://webpack.js.org/) or
 [rollup](https://rollupjs.org/), the exported object will be the Player
 constructor (unlike the browser where it is attached to `window.Vimeo`):
 
@@ -295,7 +295,7 @@ Pass any element and an options object to the `Vimeo.Player` constructor to make
 an embed inside that element. The options object should consist of either an
 `id` or `url` and any other [embed options](#embed-options) for the embed.
 
-**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
+**NOTE:** If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
 
 ```html
 <div id="made-in-ny"></div>
@@ -439,7 +439,7 @@ player.off('play');
 Load a new video into this embed. The promise will be resolved if the video is
 successfully loaded, or it will be rejected if it could not be loaded.
 
-**NOTE:** If the video [privacy settings](https://vimeo.zendesk.com/hc/en-us/articles/224817847-Privacy-settings-overview) are "Unlisted", instead of providing an `id` argument, you will need to provide the full video URL as a `url` argument and include the `h` parameter.
+**NOTE:** If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing an `id` argument, you will need to provide the full video URL as a `url` argument and include the `h` parameter.
 
 ```js
 player.loadVideo(76979871).then(function(id) {
@@ -1270,7 +1270,7 @@ Promise.all([player.getVideoWidth(), player.getVideoHeight()]).then(function(dim
 
 ### getVideoUrl(): Promise<string, (PrivacyError|Error)>
 
-Get the [vimeo.com](https://vimeo.com) url for the video.
+Get the [vimeo.com](https://vimeo.com/) url for the video.
 
 ```js
 player.getVideoUrl().then(function(url) {
@@ -1784,7 +1784,7 @@ Triggered when the player leaves picture-in-picture.
 
 Triggered when the availability of remote playback changes.
 
-Listening for this event is equivalent to the [RemotePlayback.watchAvailability() API](http://developer.mozilla.org/en-US/docs/Web/API/RemotePlayback/watchAvailability), except that there is no `cancelWatchAvailability()`. You can remove the listener for this event instead.
+Listening for this event is equivalent to the [RemotePlayback.watchAvailability() API](https://developer.mozilla.org/en-US/docs/Web/API/RemotePlayback/watchAvailability), except that there is no `cancelWatchAvailability()`. You can remove the listener for this event instead.
 
 ### remoteplaybackconnecting
 
