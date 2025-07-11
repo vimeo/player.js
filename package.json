@@ -61,29 +61,27 @@
     "@babel/plugin-transform-runtime": "^7.21.4",
     "@babel/preset-env": "^7.21.5",
     "@babel/register": "^7.21.0",
-    "@vimeo/eslint-config-player": "^5.0.1",
-    "ava": "^3.15.0",
-    "chalk": "^4.1.0",
-    "chokidar": "^3.5.2",
+    "ava": "5.3.1",
+    "chalk": "4.1.2",
+    "chokidar": "^4.0.3",
     "chokidar-cli": "^3.0.0",
-    "codecov": "^3.7.2",
-    "cross-env": "^7.0.0",
-    "eslint": "^7.7.0",
-    "eslint-plugin-ava": "^11.0.0",
-    "eslint-plugin-compat": "^3.5.1",
-    "jquery": "^3.4.1",
-    "jsdom": "^22.0.0",
-    "maxmin": "^3.0.0",
+    "cross-env": "^7.0.3",
+    "eslint": "7.32.0",
+    "eslint-plugin-ava": "13.2.0",
+    "eslint-plugin-compat": "^6.0.2",
+    "jquery": "^3.7.1",
+    "jsdom": "^26.1.0",
+    "maxmin": "3.0.0",
     "npm-run-all": "^4.1.5",
-    "nyc": "^15.1.0",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.26.6",
+    "nyc": "^17.1.0",
+    "rimraf": "5.0.10",
+    "rollup": "2.39.1",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.0.0",
-    "sinon": "^9.0.3",
-    "uglify-js": "^3.7.7",
-    "xhr2": "0.2.0"
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "sinon": "^21.0.0",
+    "uglify-js": "^3.19.3",
+    "xhr2": "0.2.1"
   },
   "babel": {
     "presets": [
@@ -133,7 +131,7 @@
     "not ie < 11"
   ],
   "volta": {
-    "node": "16.16.0",
-    "yarn": "1.22.19"
+    "node": "18.20.8",
+    "yarn": "1.22.22"
   }
 }

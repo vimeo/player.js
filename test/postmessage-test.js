@@ -160,7 +160,7 @@ test('processData rejects a method promise on an error event', async (t) => {
     });
 
     t.true(getCallbacks(player, 'getColor').length === 0);
-    const error = await t.throwsAsync(() => methodPromise, null);
+    const error = await t.throwsAsync(methodPromise);
     t.is(error.name, 'TypeError');
     t.is(error.message, 'The color should be 3- or 6-digit hex value.');
 });
