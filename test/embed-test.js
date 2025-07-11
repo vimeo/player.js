@@ -112,7 +112,7 @@ test('updateDRMEmbeds adds encrypted-media to allow attribute when DRM init fail
     triggerMessageHandler(() => updateDRMEmbeds(), mockEvent);
     
     t.true(iframe.getAttribute('allow').includes('encrypted-media'), 'encrypted-media was added to allow attribute');
-    t.true(iframe.getAttribute('src').includes('daaa='), 'daaa parameter was added to src');
+    t.true(iframe.getAttribute('src').includes('forcereload='), 'forcereload parameter was added to src');
     
     document.body.removeChild(iframe);
 });
