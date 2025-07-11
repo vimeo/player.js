@@ -4,7 +4,7 @@ import 'weakmap-polyfill';
 import Promise from 'native-promise-only';
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks';
-import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode, logSurveyLink } from './lib/functions';
+import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isServerRuntime, logSurveyLink } from './lib/functions';
 import {
     getOEmbedParameters,
     getOEmbedData,
@@ -1351,8 +1351,8 @@ class Player {
     }
 }
 
-// Setup embed only if this is not a node environment
-if (!isNode) {
+// Setup embed only if this is not a server runtime
+if (!isServerRuntime) {
     screenfull = initializeScreenfull();
     initializeEmbeds();
     resizeEmbeds();
