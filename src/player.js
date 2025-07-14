@@ -12,7 +12,8 @@ import {
     initializeEmbeds,
     resizeEmbeds,
     initAppendVideoMetadata,
-    checkUrlTimeParam
+    checkUrlTimeParam,
+    updateDRMEmbeds
 } from './lib/embed';
 import { parseMessageData, postMessage, processData } from './lib/postmessage';
 import { initializeScreenfull } from './lib/screenfull.js';
@@ -1369,6 +1370,7 @@ if (!isServerRuntime) {
     initAppendVideoMetadata();
     checkUrlTimeParam();
     logSurveyLink();
+    updateDRMEmbeds();
 }
 
 export default Player;

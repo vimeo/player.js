@@ -171,3 +171,26 @@ export const logSurveyLink = () => {
         'color:#aaa;font-size:0.8em;'
     );
 };
+
+/**
+ * Find the iframe element that contains a specific source window
+ *
+ * @param {Window} sourceWindow The source window to find the iframe for
+ * @param {Document} [doc=document] The document to search within
+ * @return {HTMLIFrameElement|null} The iframe element if found, otherwise null
+ */
+export function findIframeBySourceWindow(sourceWindow, doc = document) {
+    if (!sourceWindow || !doc || typeof doc.querySelectorAll !== 'function') {
+        return null;
+    }
+
+    const iframes = doc.querySelectorAll('iframe');
+
+    for (let i = 0; i < iframes.length; i++) {
+        if (iframes[i] && iframes[i].contentWindow === sourceWindow) {
+            return iframes[i];
+        }
+    }
+
+    return null;
+}
