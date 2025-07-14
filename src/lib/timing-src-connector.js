@@ -1,10 +1,10 @@
 import { subscribe } from './functions';
 
 /** @typedef {import('./timing-src-connector.types').PlayerControls} PlayerControls */
-/** @typedef {import('./timing-object.types').TimingObject} TimingObject */
+/** @typedef {import('timing-object').ITimingObject} TimingObject */
 /** @typedef {import('./timing-src-connector.types').TimingSrcConnectorOptions} TimingSrcConnectorOptions */
 /** @typedef {(msg: string) => any} Logger */
-/** @typedef {import('timing-object.types').TConnectionState} TConnectionState */
+/** @typedef {import('timing-object').TConnectionState} TConnectionState */
 
 /**
  * @type {TimingSrcConnectorOptions}
@@ -92,9 +92,15 @@ export class TimingSrcConnector extends EventTarget {
      * @return {Promise<void>}
      */
     async updateTimingObject(timingObject, player) {
+        const [
+            position,
+            isPaused,
+            playbackRate
+        ] = await Promise.all([player.getCurrentTime(), player.getPaused(), player.getPlaybackRate()]);
+
         timingObject.update({
-            position: await player.getCurrentTime(),
-            velocity: await player.getPaused() ? 0 : await player.getPlaybackRate()
+            position,
+            velocity: isPaused ? 0 : playbackRate
         });
     }
 
