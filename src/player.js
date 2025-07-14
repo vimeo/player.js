@@ -4,7 +4,7 @@ import 'weakmap-polyfill';
 import Promise from 'native-promise-only';
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks';
-import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode, logSurveyLink } from './lib/functions';
+import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isServerRuntime, logSurveyLink } from './lib/functions';
 import {
     getOEmbedParameters,
     getOEmbedData,
@@ -161,6 +161,16 @@ class Player {
     }
 
     /**
+     * Check to see if the URL is a Vimeo URL.
+     *
+     * @param {string} url The URL string.
+     * @return {boolean}
+     */
+    static isVimeoUrl(url) {
+        return isVimeoUrl(url);
+    }
+
+    /**
      * Get a promise for a method.
      *
      * @param {string} name The API method to call.
@@ -175,14 +185,12 @@ class Player {
         return new Promise((resolve, reject) => {
             // We are storing the resolve/reject handlers to call later, so we
             // can’t return here.
-            // eslint-disable-next-line promise/always-return
             return this.ready().then(() => {
                 storeCallback(this, name, {
                     resolve,
                     reject
                 });
 
-                // eslint-disable-next-line promise/always-return
                 if (args.length === 0) {
                     args = {};
                 }
@@ -206,7 +214,6 @@ class Player {
 
             // We are storing the resolve/reject handlers to call later, so we
             // can’t return here.
-            // eslint-disable-next-line promise/always-return
             return this.ready().then(() => {
                 storeCallback(this, name, {
                     resolve,
@@ -235,7 +242,6 @@ class Player {
 
             // We are storing the resolve/reject handlers to call later, so we
             // can’t return here.
-            // eslint-disable-next-line promise/always-return
             return this.ready().then(() => {
                 storeCallback(this, name, {
                     resolve,
@@ -1330,7 +1336,7 @@ class Player {
         return this.set('volume', volume);
     }
 
-    /** @typedef {import('./lib/timing-object.types').TimingObject} TimingObject */
+    /** @typedef {import('timing-object').ITimingObject} TimingObject */
     /** @typedef {import('./lib/timing-src-connector.types').TimingSrcConnectorOptions} TimingSrcConnectorOptions */
     /** @typedef {import('./lib/timing-src-connector').TimingSrcConnector} TimingSrcConnector */
 
@@ -1356,8 +1362,8 @@ class Player {
     }
 }
 
-// Setup embed only if this is not a node environment
-if (!isNode) {
+// Setup embed only if this is not a server runtime
+if (!isServerRuntime) {
     screenfull = initializeScreenfull();
     initializeEmbeds();
     resizeEmbeds();

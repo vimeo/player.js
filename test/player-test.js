@@ -6,19 +6,19 @@ import Player from '../src/player';
 test('constructor accepts only Vimeo embeds', (t) => {
     t.throws(() => {
         void new Player(html`<div data-vimeo-initialized><iframe></iframe></div>`);
-    }, null);
+    });
 
     t.throws(() => {
         void new Player('string');
-    }, null);
+    });
 
     t.throws(() => {
         void new Player(html`<iframe></iframe>`);
-    }, null);
+    });
 
     t.throws(() => {
         void new Player(html`<iframe src="https://www.youtube.com/embed/Uj3_KqkI9Zo"></iframe>`);
-    }, null);
+    });
 });
 
 test('contructor does not throw if jquery is not present', (t) => {
@@ -151,4 +151,11 @@ test('off requires an event name, and the optional callback must be a function',
     t.throws(() => player.off('play', 'string'), { instanceOf: TypeError }, 'The callback must be a function.');
     t.notThrows(() => player.off('play', () => {
     }));
+});
+
+test('player class static method isVimeoUrl ', (t) => {
+    t.true(typeof Player.isVimeoUrl === 'function', 'isVimeoUrl should be a function');
+    t.true(Player.isVimeoUrl('https://vimeo.com/76979871'));
+    t.true(Player.isVimeoUrl('https://player.vimeo.com/video/19231868?h=1034d5269b&loop=1'));
+    t.false(Player.isVimeoUrl('https://livestream.com/123456789'));
 });
