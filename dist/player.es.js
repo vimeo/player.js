@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.29.0 | (c) 2025 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.29.1 | (c) 2025 Vimeo | MIT License | https://github.com/vimeo/player.js */
 function _OverloadYield(e, d) {
   this.v = e, this.k = d;
 }
