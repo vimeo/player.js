@@ -166,7 +166,6 @@ it will also import the Player constructor directly:
   - [Create an embed](#create-an-embed)
 - [Embed Options](#embed-options)
 - [Methods](#methods)
-  - [static isVimeoUrl(url: string): boolean](#static-isvimeourlurl-string-boolean)
   - [on(event: string, callback: function): void](#onevent-string-callback-function-void)
   - [off(event: string, callback?: function): void](#offevent-string-callback-function-void)
   - [loadVideo(options: number|string|object): Promise<number|object, (TypeError|PasswordError|Error)>](#loadvideooptions-numberstringobject-promisenumberobject-typeerrorpassworderrorerror)
@@ -259,6 +258,7 @@ it will also import the Player constructor directly:
   - [remoteplaybackdisconnect](#remoteplaybackdisconnect)
   - [interactivehotspotclicked](#interactivehotspotclicked)
   - [interactiveoverlaypanelclicked](#interactiveoverlaypanelclicked)
+  - [static isVimeoUrl(url: string): boolean](#static-isvimeourlurl-string-boolean)
 - [Dev Options](#dev-options)
   - [prefer_mms](#prefer_mms)
 
@@ -389,14 +389,6 @@ player.setColor('#00adef').then(function(color) {
 }).catch(function(error) {
     // an error occurred setting the color
 });
-```
-
-### static isVimeoUrl(url: string): boolean
-
-Check to see if the URL is a Vimeo URL.
-
-```js
-Vimeo.Player.isVimeoUrl('https://vimeo.com/76979871'); // true
 ```
 
 ### on(event: string, callback: function): void
@@ -1334,7 +1326,7 @@ player.setVolume(0.5).then(function(volume) {
 Syncs a Timing Object to the video player (https://webtiming.github.io/timingobject/)
 
 
-```console
+```bash
 npm install @vimeo/player timing-object
 ```
 
@@ -1834,6 +1826,14 @@ Triggered when the overlay panel (buttons or images) within the interactive over
     overlayId: 864334,
     panelId: 'c47193a0-8320-4572-9bcd-8425851b36e9'
 }
+```
+
+### static isVimeoUrl(url: string): boolean
+
+Check to see if the URL is a Vimeo URL.
+
+```js
+Vimeo.Player.isVimeoUrl('https://vimeo.com/76979871'); // true
 ```
 
 ## Dev Options
