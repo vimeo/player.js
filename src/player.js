@@ -33,9 +33,11 @@ class Player {
      * @return {Player}
      */
     constructor(element, options = {}) {
+        this._allowLogging = options.logging || options.logging === undefined;
+
         /* global jQuery */
         if (window.jQuery && element instanceof jQuery) {
-            if (element.length > 1 && window.console && console.warn) {
+            if (element.length > 1 && window.console && console.warn && this._allowLogging) {
                 console.warn('A jQuery object with multiple elements was passed, using the first element.');
             }
 
@@ -155,6 +157,10 @@ class Player {
             };
 
             screenfull.on('fullscreenchange', this.fullscreenchangeHandler);
+        }
+
+        if (this._allowLogging) {
+            logSurveyLink();
         }
 
         return this;
@@ -1369,7 +1375,6 @@ if (!isServerRuntime) {
     resizeEmbeds();
     initAppendVideoMetadata();
     checkUrlTimeParam();
-    logSurveyLink();
     updateDRMEmbeds();
 }
 
