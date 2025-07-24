@@ -2040,7 +2040,7 @@
                         case 3:
                           _context4.next = 5;
                           return player.play().catch(function (err2) {
-                            return console.error('Couldn\'t play the video from TimingSrcConnector. Error:', err2);
+                            return player.allowLogging && console.error('Couldn\'t play the video from TimingSrcConnector. Error:', err2);
                           });
                         case 5:
                         case "end":
@@ -2223,11 +2223,11 @@
       var _this = this;
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       _classCallCheck(this, Player);
-      this._allowLogging = options.logging || options.logging === undefined;
+      this.allowLogging = options.logging || options.logging === undefined;
 
       /* global jQuery */
       if (window.jQuery && element instanceof jQuery) {
-        if (element.length > 1 && window.console && console.warn && this._allowLogging) {
+        if (element.length > 1 && window.console && console.warn && this.allowLogging) {
           console.warn('A jQuery object with multiple elements was passed, using the first element.');
         }
         element = element[0];
@@ -2332,7 +2332,7 @@
         };
         screenfull.on('fullscreenchange', this.fullscreenchangeHandler);
       }
-      if (this._allowLogging) {
+      if (this.allowLogging) {
         logSurveyLink();
       }
       return this;

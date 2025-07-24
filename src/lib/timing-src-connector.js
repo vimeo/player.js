@@ -130,7 +130,7 @@ export class TimingSrcConnector extends EventTarget {
                         .catch(async(err) => {
                             if (err.name === 'NotAllowedError' && options.autoPlayMuted) {
                                 await player.setMuted(true);
-                                await player.play().catch((err2) => console.error('Couldn\'t play the video from TimingSrcConnector. Error:', err2));
+                                await player.play().catch((err2) => player.allowLogging && console.error('Couldn\'t play the video from TimingSrcConnector. Error:', err2));
                             }
                         });
                     this.updatePlayer(timingObject, player, options);
