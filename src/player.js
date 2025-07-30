@@ -4,7 +4,7 @@ import 'weakmap-polyfill';
 import Promise from 'native-promise-only';
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks';
-import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isServerRuntime, logSurveyLink } from './lib/functions';
+import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isServerRuntime } from './lib/functions';
 import {
     getOEmbedParameters,
     getOEmbedData,
@@ -33,11 +33,10 @@ class Player {
      * @return {Player}
      */
     constructor(element, options = {}) {
-        this.allowLogging = options.logging || options.logging === undefined;
 
         /* global jQuery */
         if (window.jQuery && element instanceof jQuery) {
-            if (element.length > 1 && window.console && console.warn && this.allowLogging) {
+            if (element.length > 1 && window.console && console.warn) {
                 console.warn('A jQuery object with multiple elements was passed, using the first element.');
             }
 
@@ -157,10 +156,6 @@ class Player {
             };
 
             screenfull.on('fullscreenchange', this.fullscreenchangeHandler);
-        }
-
-        if (this.allowLogging) {
-            logSurveyLink();
         }
 
         return this;
