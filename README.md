@@ -352,12 +352,6 @@ lightbox opened from clicking on a thumbnail, for example).
 These options are available to be appended to the query string of the player URL, used as `data-vimeo-` attributes on elements, or included as
 an object passed to the `Vimeo.Player` constructor. The complete list of embed options can be found in our [official SDK documentation](https://developer.vimeo.com/player/sdk/embed).
 
-An additional embed option for disabling logging by Player.js (true by default) can be included in the object passed to the constructor:
-
-```
-const iframePlayer = new Vimeo.Player(iframe, { logging: 0 });
-```
-
 ## Methods
 
 You can call methods on the player by calling the function on the Player object:
