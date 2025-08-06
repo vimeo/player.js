@@ -1,7 +1,6 @@
 /** Base error type for Vimeo Player errors */
 export interface VimeoError extends Error {
     name: string;
-    message: string;
 }
 
 /** Error when a value is out of the acceptable range */

@@ -1,6 +1,9 @@
 /** Time value in seconds */
 export type Seconds = number;
 
+/** Pixels value */
+export type Pixels = number;
+
 /** Proportion percent value between 0 and 1 */
 export type ProportionPercent = number;
 
@@ -19,7 +22,7 @@ export type VimeoUrl = `https://vimeo.com/${string}` | `https://player.vimeo.com
 /** Vimeo video ID */
 export type VideoId = number | VimeoUrl;
 
-/** Vimeo video loading options */
+/** Options for loading a video. Provide either clip id, video url, or embed parameters */
 export type LoadVideoOptions = VideoId | VimeoEmbedParameters;
 
 /** 
@@ -51,6 +54,7 @@ export interface VimeoEmbedParameters {
     muted?: boolean;
     playsinline?: boolean;
     portrait?: boolean;
+    prefer_mms?: boolean;
     responsive?: boolean;
     speed?: boolean;
     quality?: VimeoQuality;
@@ -60,14 +64,31 @@ export interface VimeoEmbedParameters {
     width?: number;
 }
 
-export interface VimeoCuePoint {
+export interface VimeoCuePoint<T = Record<string, unknown>> {
     time: number;
-    data: Record<string, any>;
+    data: T;
     id: string;
 }
 
-export interface VimeoTextTrackCuePoint extends VimeoTextTrack {
+export interface VimeoTextTrack {
+    /** Language ISO code */
+    language: string;
+    /** Kind of text track (e.g. "subtitles", "captions") */
+    kind: string;
+    /** Human readable label for the text track */
+    label: string;
+    mode: "showing" | "hidden" | "disabled";
+}
+
+export interface VimeoTextTrackCuePoint {
+    /**
+     * The html property contains the HTML that the Player renders for that cue.
+     */
     html: string;
+    /**
+     * The text property of each cue is the raw
+     * value parsed from the caption or subtitle file.
+     */
     text: string;
 }
 
@@ -75,12 +96,6 @@ export interface VimeoChapter {
     startTime: number;
     title: string;
     index: number;
-}
-
-export interface VimeoTextTrack {
-    language: string;
-    kind: string;
-    label: string;
 }
 
 export interface CameraProperties {
@@ -95,6 +110,16 @@ export interface TimeRange {
     end: Seconds;
 }
 
-export type VimeoQuality = 'auto' | '240p' | '360p' | '540p' | '720p' | '1080p' | '2k' | '4k';
+export type VideoQuality = 'auto' | '240p' | '360p' | '540p' | '720p' | '1080p' | '2k' | '4k';
 
-export type VimeoColors = [HexColor, HexColor, HexColor, HexColor]; // [Primary, Accent, Text/Icon, Background]
+export interface VimeoQuality {
+    /** Human readable label for the video quality (e.g. "720p") */
+    label: string;
+    /** The identifier for the video quality */
+    id: VideoQuality;
+    /** Whether the video quality is currently active */
+    active: boolean;
+}
+
+/** Array of four hex colors representing the player's color scheme */
+export type VimeoColors = readonly [primary: HexColor, accent: HexColor, text: HexColor, background: HexColor];

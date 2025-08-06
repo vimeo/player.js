@@ -1,12 +1,13 @@
 import {
     Seconds,
-    VideoId,
     VolumeLevel,
     PlaybackRate,
-    VimeoQuality,
     CameraProperties,
     VimeoTextTrackCuePoint,
     ProportionPercent,
+    VideoQuality,
+    VimeoCuePoint,
+    Pixels,
 } from "./formats";
 
 export type PlayerEvent =
@@ -19,6 +20,7 @@ export type PlayerEvent =
     | "seeked"
     | "texttrackchange"
     | "cuechange"
+    | "chapterchange"
     | "cuepoint"
     | "loaded"
     | "loadedmetadata"
@@ -30,24 +32,25 @@ export type PlayerEvent =
     | "resize"
     | "enterpictureinpicture"
     | "leavepictureinpicture"
-    | "error";
+    | "error"
+    | "bufferstart"
+    | "bufferend"
+    | "durationchange"
+    | "remoteplaybackavailabilitychanged"
+    | "remoteplaybackconnecting"
+    | "remoteplaybackconnected"
+    | "remoteplaybackdisconnected"
+    | "interactivehotspotclicked"
+    | "interactiveoverlaypanelclicked";
 
-export interface TimeUpdateEvent {
+export interface VimeoEvent {
     duration: Seconds;
     percent: ProportionPercent;
     seconds: Seconds;
 }
 
-export interface ProgressEvent {
-    duration: Seconds;
-    percent: ProportionPercent;
-    seconds: Seconds;
-}
-
-export interface SeekEvent {
-    duration: Seconds;
-    percent: ProportionPercent;
-    seconds: Seconds;
+export interface FullscreenChangeEvent {
+    fullscreen: boolean;
 }
 
 export interface TextTrackChangeEvent {
@@ -58,22 +61,23 @@ export interface TextTrackChangeEvent {
 
 export interface ChapterChangeEvent {
     startTime: Seconds;
+    /** Title of the chapter */
     title: string;
+    /**
+     * The index property of each chapter is the place it holds
+     * in the order of all the chapters. It starts at 1.
+     */
     index: number;
 }
 
-export interface CuePointEvent {
-    time: Seconds;
-    data: Record<string, any>;
-    id: string;
-}
+export interface CuePointEvent extends VimeoCuePoint {}
 
 export interface CueChangeEvent extends TextTrackChangeEvent {
     cues: VimeoTextTrackCuePoint[];
 }
 
 export interface LoadedEvent {
-    id: VideoId;
+    id: number;
 }
 
 export interface DurationChangeEvent {
@@ -82,6 +86,7 @@ export interface DurationChangeEvent {
 
 export interface VolumeChangeEvent {
     volume: VolumeLevel;
+    muted: boolean;
 }
 
 export interface PlaybackRateChangeEvent {
@@ -89,14 +94,14 @@ export interface PlaybackRateChangeEvent {
 }
 
 export interface QualityChangeEvent {
-    quality: VimeoQuality;
+    quality: VideoQuality;
 }
 
 export interface CameraChangeEvent extends CameraProperties {}
 
 export interface ResizeEvent {
-    videoWidth: number;
-    videoHeight: number;
+    videoWidth: Pixels;
+    videoHeight: Pixels;
 }
 
 export interface ErrorEvent {
@@ -105,16 +110,57 @@ export interface ErrorEvent {
     method: string;
 }
 
+export interface InteractiveHotspotClickEvent {
+    action: 'seek' | 'event' | 'none' | 'overlay' | 'url';
+    actionPreference: {
+        /**
+         * // on `event`, `overlay`, `seek`, `url` action
+         */
+        pauseOnAction?: boolean;
+        /**
+         * on `overlay` action
+         */
+        overlayId?: number;
+        /**
+         * on `seek` action
+         */
+        seekTo?: number;
+        /**
+         * on `url` action
+         */
+        url?: string;
+    };
+    currentTime: number;
+    customPayloadData: any | null;
+    hotspotId: number;
+}
+export interface InteractiveOverlayPanelClickEvent {
+    action: 'seek' | 'clickthrough' | 'close' | 'event' | 'none';
+    actionPreference: {
+        /** on `close`, `seek` action */
+        pauseOnAction?: boolean;
+        /** on `seek` action */
+        seekTo?: number;
+        /** on `clickthrough` action */
+        url?: string;
+    };
+    currentTime: Seconds;
+    customPayloadData: unknown | null;
+    overlayId: number;
+    panelId: string;
+}
+
 /** Maps event names to their corresponding event data types */
-export interface PlayerEventMap {
-    play: void;
-    pause: void;
-    ended: void;
-    timeupdate: TimeUpdateEvent;
-    progress: ProgressEvent;
-    seeking: SeekEvent;
-    seeked: SeekEvent;
+export type PlayerEventMap = {
+    play: VimeoEvent;
+    pause: VimeoEvent;
+    ended: VimeoEvent;
+    timeupdate: VimeoEvent;
+    progress: VimeoEvent;
+    seeking: VimeoEvent;
+    seeked: VimeoEvent;
     texttrackchange: TextTrackChangeEvent;
+    chapterchange: ChapterChangeEvent;
     cuechange: CueChangeEvent;
     cuepoint: CuePointEvent;
     loaded: LoadedEvent;
@@ -122,10 +168,19 @@ export interface PlayerEventMap {
     volumechange: VolumeChangeEvent;
     playbackratechange: PlaybackRateChangeEvent;
     qualitychange: QualityChangeEvent;
-    fullscreenchange: boolean;
+    fullscreenchange: FullscreenChangeEvent;
     camerachange: CameraChangeEvent;
     resize: ResizeEvent;
     enterpictureinpicture: void;
     leavepictureinpicture: void;
     error: ErrorEvent;
+    bufferstart: void;
+    bufferend: void;
+    durationchange: DurationChangeEvent;
+    remoteplaybackavailabilitychanged: void;
+    remoteplaybackconnecting: void;
+    remoteplaybackconnected: void;
+    remoteplaybackdisconnected: void;
+    interactivehotspotclicked: InteractiveHotspotClickEvent;
+    interactiveoverlaypanelclicked: InteractiveOverlayPanelClickEvent;
 }

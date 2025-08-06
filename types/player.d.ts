@@ -13,12 +13,17 @@ import type {
     CameraProperties,
     Seconds,
     VimeoColors,
+    Pixels,
+    VideoQuality,
 } from "./formats";
 
 import type {
     PlayerEvent,
     PlayerEventMap,
 } from "./events";
+
+import type { TimingObject } from "timing-object";
+import type { TimingSrcConnector, TimingSrcConnectorOptions } from "../src/lib/timing-src-connector";
 
 /**
  * @typedef {import('./errors').RangeError} RangeError
@@ -30,13 +35,23 @@ import type {
  */
 
 declare class Player {
+    /**
+     * Create a new Player instance
+     * @param {HTMLIFrameElement | HTMLElement | string} elementOrSelector - The element to inject the player to
+     * @param {VimeoEmbedParameters} [options] - Optional parameters for the player
+     */
     constructor(
-        element: HTMLIFrameElement | HTMLElement | string,
+        elementOrSelector: HTMLIFrameElement | HTMLElement | string,
         options?: VimeoEmbedParameters
     );
 
     static isVimeoUrl(url: VimeoUrl | string): boolean;
 
+    /**
+     * Trigger a function when the player iframe has initialized. 
+     * You do not need to wait for ready to trigger to begin adding 
+     * event listeners or calling other methods.
+     */
     ready(): Promise<void>;
     destroy(): Promise<void>;
 
@@ -56,7 +71,7 @@ declare class Player {
     play(): Promise<void>;
 
     /**
-     * Play the video
+     * Pause the video if it is playing
      * @throws {PasswordError} If the video requires a password that was not provided
      * @throws {PrivacyError} If the video is private and requires authentication
      */
@@ -64,11 +79,25 @@ declare class Player {
     getPaused(): Promise<boolean>;
 
     /**
-     * Set the volume level
+     * Set the volume of the player on a scale from 0 to 1.
+     * When set via the API, the volume level will not be synchronized to
+     * other players or stored as the viewer’s preference.
+     * Most mobile devices (including iOS and Android) do not support
+     * setting the volume because the volume is controlled at the system level.
+     * An error will not be triggered in that situation.
      * @throws {RangeError} If volume is less than 0 or greater than 1
      */
     setVolume(volume: VolumeLevel): Promise<VolumeLevel>;
+
+    /**
+     * Get the current volume level between 0 and 1
+     */
     getVolume(): Promise<VolumeLevel>;
+
+    /**
+     * Mute or unmute the video
+     * @param {boolean} muted - Whether to mute the video
+     */
     setMuted(muted: boolean): Promise<boolean>;
     getMuted(): Promise<boolean>;
 
@@ -92,9 +121,21 @@ declare class Player {
     setLoop(loop: boolean): Promise<boolean>;
     getLoop(): Promise<boolean>;
 
+    /**
+     * Get the available video qualities
+     */
     getQualities(): Promise<VimeoQuality[]>;
-    getQuality(): Promise<VimeoQuality>;
-    setQuality(quality: VimeoQuality): Promise<VimeoQuality>;
+
+    /**
+     * Get the current video quality
+     */
+    getQuality(): Promise<VideoQuality>;
+
+    /**
+     * Set the quality of the video. (available to Plus, PRO and Business accounts)
+     * @throws {TypeError} If the specified quality is not available
+     */
+    setQuality(quality: VideoQuality): Promise<VimeoQuality>;
 
     getSeekable(): Promise<TimeRange[]>;
     getSeeking(): Promise<boolean>;
@@ -105,8 +146,10 @@ declare class Player {
     /**
      * Enable a text track
      * @throws {InvalidParameterError} If no track was available with the specified language
+     * @throws {InvalidTrackError} If no track was available with the specified language and kind
      */
     enableTextTrack(language: string, kind?: string): Promise<VimeoTextTrack>;
+
     disableTextTrack(): Promise<void>;
     getTextTracks(): Promise<VimeoTextTrack[]>;
 
@@ -118,7 +161,7 @@ declare class Player {
      * @throws {RangeError} If time is less than 0 or greater than the video's duration
      * @throws {UnsupportedError} If cue points are not supported
      */
-    addCuePoint(time: Seconds, data?: Record<string, any>): Promise<string>;
+    addCuePoint(time: Seconds, data?: VimeoCuePoint): Promise<string>;
 
     /**
      * Remove a cue point from the video
@@ -151,16 +194,24 @@ declare class Player {
      * @throws {TypeError} If any color is not a valid hex or rgb color
      */
     setColors(
-        colors: [HexColor?, HexColor?, HexColor?, HexColor?]
+        colors: VimeoColors
     ): Promise<VimeoColors>;
 
+    /**
+     * Get the camera properties for 360° videos
+     */
     getCameraProps(): Promise<CameraProperties>;
+
+    /**
+     * Set the camera properties for 360° videos
+     * @throws {RangeError} If any camera property is out of range
+     */
     setCameraProps(
         camera: Partial<CameraProperties>
     ): Promise<CameraProperties>;
 
     /**
-     * Get the embed code of the video
+     * Get the embed code of the video (HTML iframe)
      * @throws {PrivacyError} If the video is private
      */
     getVideoEmbedCode(): Promise<string>;
@@ -170,6 +221,33 @@ declare class Player {
      * @throws {PrivacyError} If the video is private
      */
     getVideoUrl(): Promise<VimeoUrl>;
+
+    /**
+     * Get the video ID
+     */
+    getVideoId(): Promise<number>;
+
+    /**
+     * Get the video title
+     */
+    getVideoTitle(): Promise<string>;
+
+    /**
+     * Get the native width of the currently‐playing video.
+     * The width of the highest resolution available will be used before playback begins.
+     */
+    getVideoWidth(): Promise<Pixels>;
+
+    /**
+     * Get the native height of the currently‐playing video.
+     * The height of the highest resolution available will be used before playback begins.
+     */
+    getVideoHeight(): Promise<Pixels>;
+
+    /**
+     * Syncs a Timing Object to the video player (https://webtiming.github.io/timingobject/)
+     */
+    setTimingSrc(timingObject: typeof TimingObject, options?: TimingSrcConnectorOptions): Promise<TimingSrcConnector>;
 
     requestPictureInPicture(): Promise<void>;
     exitPictureInPicture(): Promise<void>;
@@ -190,7 +268,7 @@ declare class Player {
     ): void;
 
     /**
-     * Remove an event listener for the specified event
+     * Remove an event listener for the specified eventi.s
      * @param event The event name to stop listening for
      * @param callback The function to remove (optional, removes all listeners if not provided)
      */
