@@ -1,0 +1,24 @@
+.navigation {
+  padding: 1rem;
+  background-color: #f5f5f5;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.navigation a {
+  color: #333;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.navigation a:hover {
+  background-color: #e0e0e0;
+}
+
+.navigation a.active {
+  background-color: #00adef;
+  color: white;
+}
