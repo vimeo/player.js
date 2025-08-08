@@ -1,0 +1,132 @@
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+main {
+  padding: 2rem 0;
+}
+
+.example-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.example-page h1 {
+  margin-bottom: 1rem;
+}
+
+.example-page p {
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+.example-page ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.example-page li {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+#player-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 16/9;
+  margin: 0 auto;
+  background: #000;
+}
+
+#player {
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+
+.controls {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.controls button {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #00adef;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.controls button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.status {
+  margin-top: 1rem;
+  color: #666;
+}
+
+#player-container[data-player="true"] #player {
+  display: block;
+}
+
+#player-container[data-player="false"] #player {
+  display: none;
+}
+
+#player-container[data-player="true"] .play-button {
+  display: none;
+}
+
+#player-container[data-player="true"] #thumbnail {
+  display: none;
+}
+
+#thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+}
+
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  pointer-events: none;
+}
+
+.play-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 12px 0 12px 20px;
+  border-color: transparent transparent transparent white;
+}
+
+#player-container:hover .play-button {
+  background: rgba(0, 0, 0, 0.9);
+}

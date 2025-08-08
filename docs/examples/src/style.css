@@ -1,0 +1,89 @@
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+main {
+  padding: 2rem 0;
+}
+
+.example-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.example-page h1 {
+  margin-bottom: 1rem;
+}
+
+.example-page p {
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+.example-page ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.example-page li {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.navigation {
+  padding: 1rem;
+  background-color: #f5f5f5;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.navigation a {
+  color: #333;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.navigation a:hover {
+  background-color: #e0e0e0;
+}
+
+.navigation a.active {
+  background-color: #00adef;
+  color: white;
+}
+
+.color-info {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.color-info p {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.color-info span {
+  font-size: 1.5rem;
+}
