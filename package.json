@@ -27,7 +27,9 @@
   "directories": {
     "lib": "src/"
   },
+  "types": "types/player.d.ts",
   "files": [
+    "types/",
     "src",
     "dist"
   ],
