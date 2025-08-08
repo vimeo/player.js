@@ -13,14 +13,14 @@ export type VolumeLevel = number;
 /** Playback rate between 0.5 and 2 */
 export type PlaybackRate = number;
 
-/** Hex color code (e.g. '#00adef') */
-export type HexColor = `#${string}`;
+/** Hex color code without the hash (e.g. '00adef') */
+export type HexColor = string;
 
 /** Vimeo URL format */
 export type VimeoUrl = `https://vimeo.com/${string}` | `https://player.vimeo.com/video/${string}`;
 
 /** Vimeo video ID */
-export type VideoId = number | VimeoUrl;
+export type VideoId = string | number | VimeoUrl;
 
 /** Options for loading a video. Provide either clip id, video url, or embed parameters */
 export type LoadVideoOptions = VideoId | VimeoEmbedParameters;
@@ -45,6 +45,7 @@ export interface VimeoEmbedParameters {
     background?: boolean;
     byline?: boolean;
     color?: HexColor;
+    colors?: VimeoColors;
     controls?: boolean;
     dnt?: boolean;
     height?: number;
@@ -62,6 +63,8 @@ export interface VimeoEmbedParameters {
     title?: boolean;
     transparent?: boolean;
     width?: number;
+    start_time?: number;
+    end_time?: number;
 }
 
 export interface VimeoCuePoint<T = Record<string, unknown>> {
@@ -122,4 +125,4 @@ export interface VimeoQuality {
 }
 
 /** Array of four hex colors representing the player's color scheme */
-export type VimeoColors = readonly [primary: HexColor, accent: HexColor, text: HexColor, background: HexColor];
+export type VimeoColors = readonly [primary?: HexColor, accent?: HexColor, text?: HexColor, background?: HexColor];

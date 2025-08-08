@@ -161,7 +161,7 @@ declare class Player {
      * @throws {RangeError} If time is less than 0 or greater than the video's duration
      * @throws {UnsupportedError} If cue points are not supported
      */
-    addCuePoint(time: Seconds, data?: VimeoCuePoint): Promise<string>;
+    addCuePoint<T = Record<string, unknown>>(time: Seconds, data?: T): Promise<string>;
 
     /**
      * Remove a cue point from the video
@@ -262,19 +262,19 @@ declare class Player {
      * @param event The event name to listen for
      * @param callback The function to call when the event occurs
      */
-    on<E extends PlayerEvent>(
-        event: E,
-        callback: (data: PlayerEventMap[E]) => void
+    on<E extends keyof PlayerEventMap, T = Record<string, unknown>>(
+        event: E | PlayerEvent,
+        callback: (data: EventDataWithGenerics<E, T>) => void
     ): void;
 
     /**
-     * Remove an event listener for the specified eventi.s
+     * Remove an event listener for the specified event
      * @param event The event name to stop listening for
      * @param callback The function to remove (optional, removes all listeners if not provided)
      */
-    off<E extends PlayerEvent>(
-        event: E,
-        callback?: (data: PlayerEventMap[E]) => void
+    off<E extends keyof PlayerEventMap, T = Record<string, unknown>>(
+        event: E | PlayerEvent,
+        callback?: (data: EventDataWithGenerics<E, T>) => void
     ): void;
 
     /**
@@ -282,10 +282,13 @@ declare class Player {
      * @param event The event name to listen for
      * @param callback The function to call when the event occurs
      */
-    once<E extends PlayerEvent>(
-        event: E,
-        callback: (data: PlayerEventMap[E]) => void
+    once<E extends keyof PlayerEventMap, T = Record<string, unknown>>(
+        event: E | PlayerEvent,
+        callback: (data: EventDataWithGenerics<E, T>) => void
     ): void;
 }
 
 export default Player;
+export * from "./events";
+export * from "./errors";
+export * from "./formats";
