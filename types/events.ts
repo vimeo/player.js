@@ -215,12 +215,11 @@ export interface InteractiveOverlayPanelClickEvent {
 /**
  * Utility type that maps an event's data type to a generic version if supported
  */
-export type EventDataWithGenerics<E extends PlayerEvent, T> = PlayerEventMap[E] extends CuePointEvent<any>
-    ? CuePointEvent<T>
-    : PlayerEventMap[E];
-
-/** Maps event names to their corresponding event data types */
-type EventString<T extends PlayerEvent> = T | (string & { _eventBrand?: T });
+export type EventDataWithGenerics<E extends keyof PlayerEventMap | PlayerEvent, T> = E extends keyof PlayerEventMap 
+    ? PlayerEventMap[E] extends CuePointEvent<any>
+        ? CuePointEvent<T>
+        : PlayerEventMap[E]
+    : PlayerEventMap[E extends PlayerEvent ? E : never];
 
 /** Maps event names to their corresponding event data types */
 export interface PlayerEventMap {

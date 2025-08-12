@@ -37,9 +37,11 @@ export type PitchAngle = number;
 export type RollAngle = number;
 export type FieldOfView = number;
 
-export interface VimeoEmbedParameters {
-    id?: VideoId;
-    url?: VimeoUrl;
+export type VimeoEmbedParameters = (
+    // Provide either clip id or video url
+    { id: VideoId; url?: VimeoUrl } |
+    { id?: VideoId; url: VimeoUrl }
+) & {
     autopause?: boolean;
     autoplay?: boolean;
     background?: boolean;
