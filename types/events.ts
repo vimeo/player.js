@@ -176,7 +176,7 @@ export interface InteractiveHotspotClickEvent {
     action: 'seek' | 'event' | 'none' | 'overlay' | 'url';
     actionPreference: {
         /**
-         * // on `event`, `overlay`, `seek`, `url` action
+         * on `event`, `overlay`, `seek`, `url` action
          */
         pauseOnAction?: boolean;
         /**
