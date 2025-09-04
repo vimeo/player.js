@@ -25,8 +25,7 @@ export type VideoId = string | number | VimeoUrl;
 /** Options for loading a video. Provide either clip id, video url, or embed parameters */
 export type LoadVideoOptions = VideoId | VimeoEmbedParameters & (
     // Provide either clip id or video url when using VimeoEmbedParameters in LoadVideoOptions
-    { id: VideoId; url?: VimeoUrl } |
-    { id?: VideoId; url: VimeoUrl }
+    Required<{ id: VideoId }> | Required<{ url: VimeoUrl }>
 );
 
 /** 
