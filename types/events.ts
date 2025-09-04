@@ -5,7 +5,7 @@ import {
     CameraProperties,
     VimeoTextTrackCuePoint,
     ProportionPercent,
-    VideoQuality,
+    VideoQualityId,
     VimeoCuePoint,
     Pixels,
 } from "./formats";
@@ -156,7 +156,7 @@ export interface PlaybackRateChangeEvent {
 }
 
 export interface QualityChangeEvent {
-    quality: VideoQuality;
+    quality: VideoQualityId;
 }
 
 export interface CameraChangeEvent extends CameraProperties {}

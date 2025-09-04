@@ -14,8 +14,8 @@ import {
     VimeoCuePoint,
     VimeoTextTrack,
     VimeoChapter,
-    VideoQuality,
-    VimeoColors
+    VimeoColors,
+    VimeoQuality
 } from './formats';
 
 // Test basic types
@@ -144,9 +144,8 @@ type EventMapTest = {
 const colors: VimeoColors = ['00adef', 'ff0000', '00ff00', '0000ff'];
 
 // Test quality settings
-const quality: VideoQuality = '1080p';
-const qualities: { label: string; id: VideoQuality; active: boolean; }[] = [
-    { label: '4K', id: '4k', active: false },
+const qualities: VimeoQuality[] = [
+    { label: '4K', id: '2160p', active: false },
     { label: '1080p', id: '1080p', active: true },
     { label: '720p', id: '720p', active: false }
 ];
@@ -167,10 +166,6 @@ const invalidUrl: VimeoUrl = 'http://www.invalid-url.com';
 // Invalid volume level
 // @ts-expect-error
 const invalidVolume: VolumeLevel = '0.5';
-
-// Invalid video quality
-// @ts-expect-error
-const invalidQuality: VideoQuality = '480p';
 
 // Invalid camera properties
 // @ts-expect-error

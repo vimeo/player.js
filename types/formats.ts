@@ -115,13 +115,16 @@ export interface TimeRange {
     end: Seconds;
 }
 
-export type VideoQuality = 'auto' | '240p' | '360p' | '540p' | '720p' | '1080p' | '2k' | '4k';
+/**
+ * The identifier (not label) for the video quality (e.g. "2160p")
+ */
+export type VideoQualityId = string;
 
 export interface VimeoQuality {
-    /** Human readable label for the video quality (e.g. "720p") */
+    /** Human readable label for the video quality (e.g. "4K") */
     label: string;
-    /** The identifier for the video quality */
-    id: VideoQuality;
+    /** The identifier for the video quality (e.g. "2160p") */
+    id: VideoQualityId;
     /** Whether the video quality is currently active */
     active: boolean;
 }

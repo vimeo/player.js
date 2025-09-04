@@ -14,7 +14,7 @@ import type {
     Seconds,
     VimeoColors,
     Pixels,
-    VideoQuality,
+    VideoQualityId,
 } from "./formats";
 
 import type {
@@ -130,13 +130,13 @@ declare class Player {
     /**
      * Get the current video quality
      */
-    getQuality(): Promise<VideoQuality>;
+    getQuality(): Promise<VideoQualityId>;
 
     /**
-     * Set the quality of the video. (available to Plus, PRO and Business accounts)
+     * Set the quality of the video using the quality id (e.g. "2160p"). (available to Plus, PRO and Business accounts)
      * @throws {TypeError} If the specified quality is not available
      */
-    setQuality(quality: VideoQuality): Promise<VimeoQuality>;
+    setQuality(quality: VideoQualityId): Promise<VimeoQuality>;
 
     getSeekable(): Promise<TimeRange[]>;
     getSeeking(): Promise<boolean>;
