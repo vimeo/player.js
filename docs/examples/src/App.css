@@ -130,3 +130,8 @@ main {
 #player-container:hover .play-button {
   background: rgba(0, 0, 0, 0.9);
 }
+
+#player-iframe {
+  width: 100%;
+  height: 100%;
+}

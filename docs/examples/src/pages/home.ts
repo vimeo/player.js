@@ -9,6 +9,7 @@ export function initHomePage() {
       
       <ul>
         <li><a href="/lazy-load"><strong>Lazy Loading</strong></a> - Load the player only when needed</li>
+        <li><a href="/wrap-iframe"><strong>Wrap Iframe</strong></a> - Wrap the player in an iframe</li>
         <li><a href="/cue-points"><strong>Cue Points</strong></a> - Trigger actions at specific timestamps</li>
         <li><a href="/custom-colors"><strong>Custom Colors</strong></a> - Customize the player's appearance</li>
         <li><a href="/react-wrapper"><strong>React Wrapper</strong></a> - Wrap the player in a React component with event handling</li>

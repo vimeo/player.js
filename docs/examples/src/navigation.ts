@@ -5,6 +5,7 @@ interface Route {
 
 const routes: Route[] = [
   { path: '/', title: 'Home' },
+  { path: '/wrap-iframe', title: 'Wrap Iframe' },
   { path: '/lazy-load', title: 'Lazy Loading' },
   { path: '/cue-points', title: 'Cue Points' },
   { path: '/custom-colors', title: 'Custom Colors' },
@@ -45,6 +46,9 @@ export function handleNavigation() {
   switch (path) {
     case '/':
       import('./pages/home').then(module => module.initHomePage());
+      break;
+    case '/wrap-iframe':
+      import('./pages/wrap-iframe').then(module => module.initWrapIframe());
       break;
     case '/lazy-load':
       import('./pages/lazy-load').then(module => module.initLazyLoadPage());
