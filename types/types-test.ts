@@ -1,5 +1,4 @@
-import Player from '../src/player';
-import type VimeoPlayer from './player';
+import Player from './player';
 import { PlayerEvent, PlayerEventMap } from './events';
 import {
     Seconds,
@@ -97,8 +96,18 @@ const chapter: VimeoChapter = {
     index: 0
 };
 
+const iframe = document.querySelector('iframe');
+if (!iframe) throw new Error('iframe not found');
+
+const playerFromIframe = new Player(iframe);
+const playerFromId = new Player('video-container');
+const playerFromIframeWithOptions = new Player(iframe, {
+    responsive: true,
+});
+
+
 // Ensure TS types take priority over JSDoc comments
-const player: VimeoPlayer = new Player('#video-container') as unknown as VimeoPlayer;
+const player = new Player('video-container');
 
 // Event handler type tests
 player.on(PlayerEvent.Play, (event) => {
@@ -154,7 +163,10 @@ const qualities: VimeoQuality[] = [
 const loadOptions: LoadVideoOptions[] = [
     '123456789',
     'https://vimeo.com/123456789',
-    { id: '123456789', autoplay: true }
+    { id: '123456789', autoplay: true },
+    { url: 'https://vimeo.com/123456789', autoplay: true },
+    // @ts-expect-error - missing url or id
+    { autoplay: true }
 ];
 
 // Test invalid types with ts-expect-error
@@ -177,8 +189,8 @@ const callback = (event: { wrongProp: string }) => void event.wrongProp;
 player.on(PlayerEvent.Play, callback);
 
 // Invalid embed parameters
-// @ts-expect-error - id or url is required
-const invalidEmbed: VimeoEmbedParameters = { color: '#00adef' };
+// @ts-expect-error
+const invalidEmbed: VimeoEmbedParameters = { colour: '#00adef' };
 
 // Invalid colors array
 // @ts-expect-error

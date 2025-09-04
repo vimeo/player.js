@@ -38,7 +38,7 @@ import type { TimingSrcConnector, TimingSrcConnectorOptions } from "../src/lib/t
 declare class Player {
     /**
      * Create a new Player instance
-     * @param {HTMLIFrameElement | HTMLElement | string} elementOrSelector - The element to inject the player to
+     * @param {HTMLIFrameElement | HTMLElement | string} elementOrSelector - iframe to attach Player to, element to inject player into, or element id to find and inject player into
      * @param {VimeoEmbedParameters} [options] - Optional parameters for the player
      */
     constructor(
