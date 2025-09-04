@@ -14,10 +14,11 @@ import type {
     Seconds,
     VimeoColors,
     Pixels,
-    VideoQuality,
+    VideoQualityId,
 } from "./formats";
 
 import type {
+    EventDataWithGenerics,
     PlayerEvent,
     PlayerEventMap,
 } from "./events";
@@ -129,13 +130,13 @@ declare class Player {
     /**
      * Get the current video quality
      */
-    getQuality(): Promise<VideoQuality>;
+    getQuality(): Promise<VideoQualityId>;
 
     /**
-     * Set the quality of the video. (available to Plus, PRO and Business accounts)
+     * Set the quality of the video using the quality id (e.g. "2160p"). (available to Plus, PRO and Business accounts)
      * @throws {TypeError} If the specified quality is not available
      */
-    setQuality(quality: VideoQuality): Promise<VimeoQuality>;
+    setQuality(quality: VideoQualityId): Promise<VimeoQuality>;
 
     getSeekable(): Promise<TimeRange[]>;
     getSeeking(): Promise<boolean>;
@@ -174,7 +175,7 @@ declare class Player {
      * Get all active cue points
      * @throws {UnsupportedError} If cue points are not supported
      */
-    getCuePoints(): Promise<VimeoCuePoint[]>;
+    getCuePoints<T = Record<string, unknown>>(): Promise<VimeoCuePoint<T>[]>;
 
     /**
      * Get the primary player color
@@ -262,8 +263,8 @@ declare class Player {
      * @param event The event name to listen for
      * @param callback The function to call when the event occurs
      */
-    on<E extends keyof PlayerEventMap, T = Record<string, unknown>>(
-        event: E | PlayerEvent,
+    on<E extends keyof PlayerEventMap | PlayerEvent, T = Record<string, unknown>>(
+        event: E,
         callback: (data: EventDataWithGenerics<E, T>) => void
     ): void;
 
@@ -272,8 +273,8 @@ declare class Player {
      * @param event The event name to stop listening for
      * @param callback The function to remove (optional, removes all listeners if not provided)
      */
-    off<E extends keyof PlayerEventMap, T = Record<string, unknown>>(
-        event: E | PlayerEvent,
+    off<E extends keyof PlayerEventMap | PlayerEvent, T = Record<string, unknown>>(
+        event: E,
         callback?: (data: EventDataWithGenerics<E, T>) => void
     ): void;
 
@@ -282,8 +283,8 @@ declare class Player {
      * @param event The event name to listen for
      * @param callback The function to call when the event occurs
      */
-    once<E extends keyof PlayerEventMap, T = Record<string, unknown>>(
-        event: E | PlayerEvent,
+    once<E extends keyof PlayerEventMap | PlayerEvent, T = Record<string, unknown>>(
+        event: E,
         callback: (data: EventDataWithGenerics<E, T>) => void
     ): void;
 }

@@ -5,7 +5,7 @@ import {
     CameraProperties,
     VimeoTextTrackCuePoint,
     ProportionPercent,
-    VideoQuality,
+    VideoQualityId,
     VimeoCuePoint,
     Pixels,
 } from "./formats";
@@ -156,7 +156,7 @@ export interface PlaybackRateChangeEvent {
 }
 
 export interface QualityChangeEvent {
-    quality: VideoQuality;
+    quality: VideoQualityId;
 }
 
 export interface CameraChangeEvent extends CameraProperties {}
@@ -176,7 +176,7 @@ export interface InteractiveHotspotClickEvent {
     action: 'seek' | 'event' | 'none' | 'overlay' | 'url';
     actionPreference: {
         /**
-         * // on `event`, `overlay`, `seek`, `url` action
+         * on `event`, `overlay`, `seek`, `url` action
          */
         pauseOnAction?: boolean;
         /**
@@ -215,12 +215,11 @@ export interface InteractiveOverlayPanelClickEvent {
 /**
  * Utility type that maps an event's data type to a generic version if supported
  */
-export type EventDataWithGenerics<E extends PlayerEvent, T> = PlayerEventMap[E] extends CuePointEvent<any>
-    ? CuePointEvent<T>
-    : PlayerEventMap[E];
-
-/** Maps event names to their corresponding event data types */
-type EventString<T extends PlayerEvent> = T | (string & { _eventBrand?: T });
+export type EventDataWithGenerics<E extends keyof PlayerEventMap | PlayerEvent, T> = E extends keyof PlayerEventMap 
+    ? PlayerEventMap[E] extends CuePointEvent<any>
+        ? CuePointEvent<T>
+        : PlayerEventMap[E]
+    : PlayerEventMap[E extends PlayerEvent ? E : never];
 
 /** Maps event names to their corresponding event data types */
 export interface PlayerEventMap {
