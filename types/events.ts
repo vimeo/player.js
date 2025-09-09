@@ -152,7 +152,7 @@ export interface PlayerEventMap {
     bufferstart: void;
     bufferend: void;
     durationchange: DurationChangeEvent;
-    remoteplaybackavailabilitychanged: void;
+    remoteplaybackavailabilitychange: void;
     remoteplaybackconnecting: void;
     remoteplaybackconnect: void;
     remoteplaybackdisconnect: void;
