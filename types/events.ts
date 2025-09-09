@@ -21,9 +21,9 @@ export interface FullscreenChangeEvent {
 }
 
 export interface TextTrackChangeEvent {
-    kind: string | undefined;
-    label: string | undefined;
-    language: string | undefined;
+    kind: string | null;
+    label: string | null;
+    language: string | null;
 }
 
 export interface ChapterChangeEvent {
