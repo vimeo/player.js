@@ -1,5 +1,5 @@
 import Player from './player';
-import { PlayerEvent, PlayerEventMap } from './events';
+import { PlayerEventMap } from './events';
 import {
     Seconds,
     VolumeLevel,
@@ -110,7 +110,7 @@ const playerFromIframeWithOptions = new Player(iframe, {
 const player = new Player('video-container');
 
 // Event handler type tests
-player.on(PlayerEvent.Play, (event) => {
+player.on('play', (event) => {
     const duration: Seconds = event.duration;
     const percent: number = event.percent;
     const seconds: Seconds = event.seconds;
@@ -131,22 +131,22 @@ player.on('foo', (data) => {
     console.log(data.duration);
 });
 
-player.on(PlayerEvent.VolumeChange, (event) => {
+player.on('volumechange', (event) => {
     const volume: VolumeLevel = event.volume;
     const muted: boolean = event.muted;
 });
 
-player.on(PlayerEvent.CameraChange, (event) => {
+player.on('camerachange', (event) => {
     const camera: CameraProperties = event;
 });
 
-player.on(PlayerEvent.CuePoint, (event) => {
+player.on('cuepoint', (event) => {
     const cuePoint: VimeoCuePoint = event;
 });
 
 // Test event map completeness
 type EventMapTest = {
-    [K in PlayerEvent]: K extends keyof PlayerEventMap ? PlayerEventMap[K] : never;
+    [K in keyof PlayerEventMap]: PlayerEventMap[K];
 };
 
 // Test colors array type
@@ -211,11 +211,11 @@ const invalidTextTrack: VimeoTextTrack = {
 
 // Test event handler with wrong event type
 // @ts-expect-error
-player.on(PlayerEvent.Play, (event: { foo: string }) => {
+player.on('play', (event: { foo: string }) => {
     const foo: string = event.foo;
 });
 
 // Test event handler with missing parameter
 // @ts-expect-error
-player.on(PlayerEvent.Play);
+player.on('play');
 
