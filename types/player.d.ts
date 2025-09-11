@@ -19,7 +19,6 @@ import type {
 
 import type {
     EventDataWithGenerics,
-    PlayerEvent,
     PlayerEventMap,
 } from "./events";
 
@@ -258,12 +257,20 @@ declare class Player {
     exitFullscreen(): Promise<void>;
     getFullscreen(): Promise<boolean>;
 
+    getEnded(): Promise<boolean>;
+
+    unload(): Promise<void>;
+
+    remotePlaybackPrompt(): Promise<void>;
+    getRemotePlaybackAvailability(): Promise<boolean>;
+    getRemotePlaybackState(): Promise<'connecting' | 'connected' | 'disconnected'>;
+
     /**
      * Add an event listener for the specified event
      * @param event The event name to listen for
      * @param callback The function to call when the event occurs
      */
-    on<E extends keyof PlayerEventMap | PlayerEvent, T = Record<string, unknown>>(
+    on<E extends keyof PlayerEventMap, T = Record<string, unknown>>(
         event: E,
         callback: (data: EventDataWithGenerics<E, T>) => void
     ): void;
@@ -273,7 +280,7 @@ declare class Player {
      * @param event The event name to stop listening for
      * @param callback The function to remove (optional, removes all listeners if not provided)
      */
-    off<E extends keyof PlayerEventMap | PlayerEvent, T = Record<string, unknown>>(
+    off<E extends keyof PlayerEventMap, T = Record<string, unknown>>(
         event: E,
         callback?: (data: EventDataWithGenerics<E, T>) => void
     ): void;
@@ -283,7 +290,7 @@ declare class Player {
      * @param event The event name to listen for
      * @param callback The function to call when the event occurs
      */
-    once<E extends keyof PlayerEventMap | PlayerEvent, T = Record<string, unknown>>(
+    once<E extends keyof PlayerEventMap, T = Record<string, unknown>>(
         event: E,
         callback: (data: EventDataWithGenerics<E, T>) => void
     ): void;
