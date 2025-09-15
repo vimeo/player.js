@@ -1,4 +1,4 @@
-name: Build, Test, and Lint
+name: Build, Test, Lint, and Check Types
 on: [pull_request]
 jobs:
     run:
@@ -25,6 +25,11 @@ jobs:
               uses: borales/actions-yarn@v4
               with:
                   cmd: lint
+
+            - name: Check types
+              uses: borales/actions-yarn@v4
+              with:
+                  cmd: check-types
 
             - name: Test
               uses: borales/actions-yarn@v4
