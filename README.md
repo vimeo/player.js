@@ -57,7 +57,8 @@ You can use the library to make the embed for you. All you need is an empty
 element and the video id or vimeo.com url (and optional
 [embed options](#embed-options)).
 
-[] If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
+> [!NOTE]
+> If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
 
 ```html
 <div id="made-in-ny"></div>
