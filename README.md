@@ -57,7 +57,7 @@ You can use the library to make the embed for you. All you need is an empty
 element and the video id or vimeo.com url (and optional
 [embed options](#embed-options)).
 
-**NOTE:** If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
+[] If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
 
 ```html
 <div id="made-in-ny"></div>
@@ -80,6 +80,9 @@ element and the video id or vimeo.com url (and optional
 </script>
 ```
 
+> [!IMPORTANT]
+> Embed options will only be used when creating a new embed, not when attaching to an existing iframe.
+
 ### Automatically with HTML attributes
 
 When the library loads, it will scan your page for elements with Vimeo
@@ -88,7 +91,8 @@ attributes. Each element must have at least a `data-vimeo-id` or
 You can also add attributes for any of the [embed options](#embed-options),
 prefixed with `data-vimeo` (`data-vimeo-portrait="false"`, for example).
 
-**NOTE:** If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing a `data-vimeo-id` attribute, you will need to provide the full video URL in a `data-vimeo-url` attribute and include the `h` parameter.
+> [!NOTE]
+> If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing a `data-vimeo-id` attribute, you will need to provide the full video URL in a `data-vimeo-url` attribute and include the `h` parameter.
 
 ```html
 <div data-vimeo-id="19231868" data-vimeo-width="640" id="handstick"></div>
@@ -112,13 +116,8 @@ prefixed with `data-vimeo` (`data-vimeo-portrait="false"`, for example).
 
 ## Browser Support
 
-The Player API library is supported in IE 11+, Chrome, Firefox, Safari, and
-Opera.
-
-## Migrate from Froogaloop
-
-Using our old Froogaloop library? See the [migration doc](docs/migrate-from-froogaloop.md)
-for details on how to update your code to use this library.
+The Player API library is supported in the last two versions of Edge, Firefox, Safari,
+Opera, and Chrome (incl. Chromium based browsers).
 
 ## Using with a module bundler
 
@@ -295,7 +294,8 @@ Pass any element and an options object to the `Vimeo.Player` constructor to make
 an embed inside that element. The options object should consist of either an
 `id` or `url` and any other [embed options](#embed-options) for the embed.
 
-**NOTE:** If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
+> [!NOTE]
+> If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing an `id` property, you will need to provide the full video URL as a `url` property and include the `h` parameter.
 
 ```html
 <div id="made-in-ny"></div>
@@ -431,7 +431,8 @@ player.off('play');
 Load a new video into this embed. The promise will be resolved if the video is
 successfully loaded, or it will be rejected if it could not be loaded.
 
-**NOTE:** If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing an `id` argument, you will need to provide the full video URL as a `url` argument and include the `h` parameter.
+> [!NOTE]
+> If the video [privacy settings](https://help.vimeo.com/hc/en-us/articles/12426199699985-Overview-of-video-privacy-settings) are "Unlisted", instead of providing an `id` argument, you will need to provide the full video URL as a `url` argument and include the `h` parameter.
 
 ```js
 player.loadVideo(76979871).then(function(id) {
