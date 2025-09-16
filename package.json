@@ -19,7 +19,8 @@
     "version": "npm run build && git add -A dist",
     "postversion": "git branch -f latest master",
     "push-release": "git push origin master latest && git push --tags",
-    "prepublishOnly": "npm run build && git add -A dist"
+    "prepublishOnly": "npm run build && git add -A dist",
+    "check-types": "tsc"
   },
   "main": "dist/player.js",
   "module": "dist/player.es.js",
@@ -83,6 +84,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "sinon": "^21.0.0",
     "timing-object": "^3.1.92",
+    "typescript": "5.9.2",
     "uglify-js": "^3.19.3",
     "xhr2": "0.2.1"
   },
