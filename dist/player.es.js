@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.29.6 | (c) 2025 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.29.7 | (c) 2025 Vimeo | MIT License | https://github.com/vimeo/player.js */
 function _iterableToArrayLimit(arr, i) {
   var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
   if (null != _i) {
