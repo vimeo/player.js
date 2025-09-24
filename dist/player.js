@@ -886,7 +886,7 @@
   (function UMD(name, context, definition) {
     // special form of UMD for polyfilling across evironments
     context[name] = context[name] || definition();
-    if (module.exports) {
+    if ( module.exports) {
       module.exports = context[name];
     }
   })("Promise", typeof commonjsGlobal != "undefined" ? commonjsGlobal : commonjsGlobal, function DEF() {
@@ -3458,6 +3458,37 @@
       key: "getTextTracks",
       value: function getTextTracks() {
         return this.get('textTracks');
+      }
+    }, {
+      key: "getAudioTracks",
+      value: function getAudioTracks() {
+        return this.get('audioTracks');
+      }
+    }, {
+      key: "getEnabledAudioTrack",
+      value: function getEnabledAudioTrack() {
+        return this.get('enabledAudioTrack');
+      }
+    }, {
+      key: "getMainAudioTrack",
+      value: function getMainAudioTrack() {
+        return this.get('mainAudioTrack');
+      }
+    }, {
+      key: "enableAudioTrack",
+      value: function enableAudioTrack(language, kind) {
+        if (!language) {
+          throw new TypeError('You must pass a language.');
+        }
+        return this.callMethod('enableAudioTrack', {
+          language: language,
+          kind: kind
+        });
+      }
+    }, {
+      key: "enableMainAudioTrack",
+      value: function enableMainAudioTrack() {
+        return this.callMethod('enableMainAudioTrack');
       }
 
       /**

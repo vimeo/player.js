@@ -1204,6 +1204,33 @@ class Player {
         return this.get('textTracks');
     }
 
+    getAudioTracks() {
+        return this.get('audioTracks');
+    }
+
+    getEnabledAudioTrack() {
+        return this.get('enabledAudioTrack');
+    }
+
+    getMainAudioTrack() {
+        return this.get('mainAudioTrack');
+    }
+
+    enableAudioTrack(language, kind) {
+        if (!language) {
+            throw new TypeError('You must pass a language.');
+        }
+
+        return this.callMethod('enableAudioTrack', {
+            language,
+            kind,
+        });
+    }
+
+    enableMainAudioTrack() {
+        return this.callMethod('enableMainAudioTrack');
+    }
+
     /**
      * A promise to get the embed code for the video.
      *
