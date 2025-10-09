@@ -2631,6 +2631,60 @@ var Player = /*#__PURE__*/function () {
     }
 
     /**
+     * A representation of an audio track on a video.
+     *
+     * @typedef {Object} VimeoAudioTrack
+     * @property {string} language The ISO language code.
+     * @property {string} kind The kind of track it is (main, translation, descriptions, or commentary).
+     * @property {string} label The human‐readable label for the track.
+     * @property {string} provenance String describing how the track was generated (user-uploaded, auto-generated, etc.)
+     * @property {boolean} enabled Boolean reflecting whether the track is currently enabled
+     */
+    /**
+     * A promise to enable an audio track.
+     *
+     * @promise EnableAudioTrackPromise
+     * @fulfill {VimeoAudioTrack} The audio track that was enabled.
+     * @reject {NoAudioTracksError} No audio exists for the video.
+     * @reject {NoAlternateAudioTracksError} No alternate audio tracks exist for the video.
+     * @reject {NoMatchingAudioTrackError} No track was available with the specified
+     *         language and kind.
+     */
+    /**
+     * Enable the audio track with the specified language, and optionally the
+     * specified kind (main, translation, descriptions, or commentary).
+     *
+     * When set via the API, the track language will not change the viewer’s
+     * stored preference.
+     *
+     * @param {string} language The two‐letter language code.
+     * @param {string} [kind] The kind of track to enable (main, translation, descriptions, commentary).
+     * @return {EnableAudioTrackPromise}
+     */
+  }, {
+    key: "enableAudioTrack",
+    value: function enableAudioTrack(language, kind) {
+      if (!language) {
+        throw new TypeError('You must pass a language.');
+      }
+      return this.callMethod('enableAudioTrack', {
+        language: language,
+        kind: kind
+      });
+    }
+
+    /**
+     * Enable the main audio track for the video.
+     *
+     * @return {EnableAudioTrackPromise}
+     */
+  }, {
+    key: "enableMainAudioTrack",
+    value: function enableMainAudioTrack() {
+      return this.callMethod('enableMainAudioTrack');
+    }
+
+    /**
      * A promise to pause the video.
      *
      * @promise PausePromise
@@ -3453,36 +3507,50 @@ var Player = /*#__PURE__*/function () {
     value: function getTextTracks() {
       return this.get('textTracks');
     }
+
+    /**
+     * A promise to get the audio tracks of a video.
+     *
+     * @promise GetAudioTracksPromise
+     * @fulfill {VimeoAudioTrack[]} The audio tracks associated with the video.
+     */
+    /**
+     * Get an array of the audio tracks that exist for the video.
+     *
+     * @return {GetAudioTracksPromise}
+     */
   }, {
     key: "getAudioTracks",
     value: function getAudioTracks() {
       return this.get('audioTracks');
     }
+
+    /**
+     * A promise to get the enabled audio track of a video.
+     *
+     * @promise GetAudioTrackPromise
+     * @fulfill {VimeoAudioTrack} The enabled audio track.
+     */
+    /**
+     * Get the enabled audio track for a video.
+     *
+     * @return {GetAudioTrackPromise}
+     */
   }, {
     key: "getEnabledAudioTrack",
     value: function getEnabledAudioTrack() {
       return this.get('enabledAudioTrack');
     }
+
+    /**
+     * Get the main audio track for a video.
+     *
+     * @return {GetAudioTrackPromise}
+     */
   }, {
     key: "getMainAudioTrack",
     value: function getMainAudioTrack() {
       return this.get('mainAudioTrack');
-    }
-  }, {
-    key: "enableAudioTrack",
-    value: function enableAudioTrack(language, kind) {
-      if (!language) {
-        throw new TypeError('You must pass a language.');
-      }
-      return this.callMethod('enableAudioTrack', {
-        language: language,
-        kind: kind
-      });
-    }
-  }, {
-    key: "enableMainAudioTrack",
-    value: function enableMainAudioTrack() {
-      return this.callMethod('enableMainAudioTrack');
     }
 
     /**
