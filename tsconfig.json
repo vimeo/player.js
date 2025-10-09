@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "target": "es2020",
+        "lib": ["es2020", "dom", "dom.iterable"],
+        "module": "esnext",
+        "noEmit": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "erasableSyntaxOnly": true
+    },
+    "include": [
+        "types/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "src",
+        "test",
+    ]
+}
