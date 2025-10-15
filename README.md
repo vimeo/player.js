@@ -529,10 +529,10 @@ preference.
 
 ```js
 player.enableAudioTrack('en').then(function(track) {
-    // track.language = the iso code for the language
-    // track.kind = 'main', 'translation', 'descriptions', or 'commentary'
+    // track.language = the iso code for the language. e.g. 'en' or 'en-US'.
+    // track.kind = the type of audio track ('main', 'translation', 'descriptions', 'commentary')
     // track.label = the human-readable label
-    // track.provenance = string describing how the track was generated (user-uploaded, auto-generated, etc.)
+    // track.provenance = string describing how the track was generated ('PROVENANCE_USER_UPLOADED', 'PROVENANCE_AI_GENERATED', 'PROVENANCE_USER_UPLOADED_AI_GENERATED')
     // track.enabled = boolean reflecting whether the track is currently enabled
 }).catch(function(error) {
     switch (error.name) {
@@ -1288,7 +1288,7 @@ Each track object looks like this:
 }
 ```
 
-Kind can be any of the following: "main", "translation", "descriptions", or "commentary".
+Language will follow the ISO standard of either a language code or language-locale code (e.g. "en" or "en-US"). Kind can be any of the following: "main", "translation", "descriptions", or "commentary". Provenance can be any of the following: "PROVENANCE_USER_UPLOADED", "PROVENANCE_AI_GENERATED", "PROVENANCE_USER_UPLOADED_AI_GENERATED".
 
 ### getEnabledAudioTrack(): Promise<object, Error>
 

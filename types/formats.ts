@@ -28,7 +28,7 @@ export type LoadVideoOptions = VideoId | VimeoEmbedParameters & (
     Required<{ id: VideoId }> | Required<{ url: VimeoUrl }>
 );
 
-/** 
+/**
  * Camera angles for 360° videos:
  * - YawAngle: 0 to 360°
  * - PitchAngle: -90 to 90°
@@ -117,13 +117,13 @@ export type VimeoEmbedParameters = {
      */
     chapters?: boolean;
 
-    /** 
+    /**
      * Whether the Chromecast button appears in the embeddable player
-     * @default true 
+     * @default true
      */
     chromecast?: boolean;
 
-    /** 
+    /**
      * The hexadecimal accent color value of the playback controls (normally 00ADEF)
      * @default undefined
      */
@@ -223,7 +223,7 @@ export type VimeoEmbedParameters = {
 
     /**
      * Whether the video is muted upon loading. The true value is required for the autoplay behavior in some browsers
-     * @default false 
+     * @default false
      */
     muted?: boolean;
 
@@ -306,7 +306,7 @@ export type VimeoEmbedParameters = {
     start_time?: Seconds;
 
     /**
-     * The text track to display with the video. Can be language code (en), 
+     * The text track to display with the video. Can be language code (en),
      * language code and locale (en-US), or language code and kind (en.captions).
      * Use 'en-x-autogen' for automatically generated closed captions
      * @default undefined
@@ -436,3 +436,49 @@ export interface VimeoQuality {
 
 /** Array of four hex colors representing the player's color scheme */
 export type VimeoColors = readonly [primary?: HexColor, accent?: HexColor, text?: HexColor, background?: HexColor];
+
+/**
+ * The ISO language, or language-locale, code for a track.
+ * e.g. 'en' or 'en-US'.
+ * {@link https://www.w3schools.com/tags/ref_language_codes.asp}
+ * {@link https://www.w3schools.com/tags/ref_country_codes.asp}
+*/
+export type AudioLanguage = string;
+
+/**
+ * The different kinds of audio tracks.
+ */
+export type AudioKind =
+    /** The original audio track associated with the video. */
+    'main' |
+    /** A track translated into a language other than the main track. */
+    'translation' |
+    /** An audio track containing audio descriptions for visually impaired users. */
+    'descriptions' |
+    /** An audio track containing commentary. */
+    'commentary';
+
+/**
+ * The origin of the audio track.
+ */
+export type AudioProvenance =
+    'PROVENANCE_USER_UPLOADED' |
+    'PROVENANCE_AI_GENERATED' |
+    'PROVENANCE_USER_UPLOADED_AI_GENERATED';
+
+/**
+ * A representation of an audio track on a video.
+ *
+ */
+export type VimeoAudioTrack = {
+    /** The ISO language code, optionally including the locale, such as 'en' or 'en-US'. */
+    language: AudioLanguage;
+    /** The kind of track it is (main, translation, descriptions, or commentary). */
+    kind: AudioKind;
+    /** The human‐readable label for the track. */
+    label: string;
+    /** String describing how the track was generated (PROVENANCE_USER_UPLOADED, PROVENANCE_AI_GENERATED, PROVENANCE_USER_UPLOADED_AI_GENERATED). */
+    provenance: AudioProvenance;
+    /** Boolean reflecting whether the track is currently enabled. */
+    enabled: boolean;
+}

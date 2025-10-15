@@ -15,6 +15,9 @@ import type {
     VimeoColors,
     Pixels,
     VideoQualityId,
+    VimeoAudioTrack,
+    AudioLanguage,
+    AudioKind,
 } from "./formats";
 
 import type {
@@ -158,7 +161,7 @@ declare class Player {
      * @throws {InvalidParameterError} If no track was available with the specified language
      * @throws {InvalidTrackError} If no track was available with the specified language and kind
      */
-    enableAudioTrack(language: string, kind?: string): Promise<VimeoAudioTrack>;
+    enableAudioTrack(language: AudioLanguage, kind?: AudioKind): Promise<VimeoAudioTrack>;
     enableMainAudioTrack(): Promise<VimeoAudioTrack>;
 
     getAudioTracks(): Promise<VimeoAudioTrack[]>;
