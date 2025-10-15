@@ -2649,7 +2649,7 @@
       /**
        * A promise to enable an audio track.
        *
-       * @promise EnableAudioTrackPromise
+       * @promise SelectAudioTrackPromise
        * @fulfill {VimeoAudioTrack} The audio track that was enabled.
        * @reject {NoAudioTracksError} No audio exists for the video.
        * @reject {NoAlternateAudioTracksError} No alternate audio tracks exist for the video.
@@ -2665,15 +2665,15 @@
        *
        * @param {string} language The two‐letter language code.
        * @param {string} [kind] The kind of track to enable (main, translation, descriptions, commentary).
-       * @return {EnableAudioTrackPromise}
+       * @return {SelectAudioTrackPromise}
        */
     }, {
-      key: "enableAudioTrack",
-      value: function enableAudioTrack(language, kind) {
+      key: "selectAudioTrack",
+      value: function selectAudioTrack(language, kind) {
         if (!language) {
           throw new TypeError('You must pass a language.');
         }
-        return this.callMethod('enableAudioTrack', {
+        return this.callMethod('selectAudioTrack', {
           language: language,
           kind: kind
         });
@@ -2682,12 +2682,12 @@
       /**
        * Enable the main audio track for the video.
        *
-       * @return {EnableAudioTrackPromise}
+       * @return {SelectAudioTrackPromise}
        */
     }, {
-      key: "enableMainAudioTrack",
-      value: function enableMainAudioTrack() {
-        return this.callMethod('enableMainAudioTrack');
+      key: "selectDefaultAudioTrack",
+      value: function selectDefaultAudioTrack() {
+        return this.callMethod('selectDefaultAudioTrack');
       }
 
       /**

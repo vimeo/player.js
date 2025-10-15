@@ -465,7 +465,7 @@ class Player {
     /**
      * A promise to enable an audio track.
      *
-     * @promise EnableAudioTrackPromise
+     * @promise SelectAudioTrackPromise
      * @fulfill {VimeoAudioTrack} The audio track that was enabled.
      * @reject {NoAudioTracksError} No audio exists for the video.
      * @reject {NoAlternateAudioTracksError} No alternate audio tracks exist for the video.
@@ -481,14 +481,14 @@ class Player {
      *
      * @param {string} language The two‐letter language code.
      * @param {string} [kind] The kind of track to enable (main, translation, descriptions, commentary).
-     * @return {EnableAudioTrackPromise}
+     * @return {SelectAudioTrackPromise}
      */
-    enableAudioTrack(language, kind) {
+    selectAudioTrack(language, kind) {
         if (!language) {
             throw new TypeError('You must pass a language.');
         }
 
-        return this.callMethod('enableAudioTrack', {
+        return this.callMethod('selectAudioTrack', {
             language,
             kind,
         });
@@ -497,10 +497,10 @@ class Player {
     /**
      * Enable the main audio track for the video.
      *
-     * @return {EnableAudioTrackPromise}
+     * @return {SelectAudioTrackPromise}
      */
-    enableMainAudioTrack() {
-        return this.callMethod('enableMainAudioTrack');
+    selectDefaultAudioTrack() {
+        return this.callMethod('selectDefaultAudioTrack');
     }
 
     /**

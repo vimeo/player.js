@@ -172,8 +172,8 @@ it will also import the Player constructor directly:
   - [ready(): Promise<void, Error>](#ready-promisevoid-error)
   - [enableTextTrack(language: string, kind?: string): Promise<object, (InvalidTrackLanguageError|InvalidTrackError|Error)>](#enabletexttracklanguage-string-kind-string-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
   - [disableTextTrack(): Promise<void, Error>](#disabletexttrack-promisevoid-error)
-  - [enableAudioTrack(language: string, kind?: string): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>](#enableaudiotracklanguage-string-kind-string-promiseobject-noaudiotrackserrornoalternateaudiotrackserrornomatchingaudiotrackerrorerror)
-  - [enableMainAudioTrack(): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>](#enablemainaudiotrack-promiseobject-noaudiotrackserrornoalternateaudiotrackserrornomatchingaudiotrackerrorerror)
+  - [selectAudioTrack(language: string, kind?: string): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>](#selectaudiotracklanguage-string-kind-string-promiseobject-noaudiotrackserrornoalternateaudiotrackserrornomatchingaudiotrackerrorerror)
+  - [selectDefaultAudioTrack(): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>](#selectdefaultaudiotrack-promiseobject-noaudiotrackserrornoalternateaudiotrackserrornomatchingaudiotrackerrorerror)
   - [pause(): Promise<void, (PasswordError|PrivacyError|Error)>](#pause-promisevoid-passworderrorprivacyerrorerror)
   - [play(): Promise<void, (PasswordError|PrivacyError|Error)>](#play-promisevoid-passworderrorprivacyerrorerror)
   - [unload(): Promise<void, Error>](#unload-promisevoid-error)
@@ -519,7 +519,7 @@ player.disableTextTrack().then(function() {
 });
 ```
 
-### enableAudioTrack(language: string, kind?: string): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>
+### selectAudioTrack(language: string, kind?: string): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>
 
 Enable the audio track with the specified language, and optionally the specified
 kind (main, translation, descriptions, or commentary).
@@ -528,7 +528,7 @@ When set via the API, the track language will not change the viewer’s stored
 preference.
 
 ```js
-player.enableAudioTrack('en').then(function(track) {
+player.selectAudioTrack('en').then(function(track) {
     // track.language = the iso code for the language. e.g. 'en' or 'en-US'.
     // track.kind = the type of audio track ('main', 'translation', 'descriptions', 'commentary')
     // track.label = the human-readable label
@@ -555,16 +555,16 @@ player.enableAudioTrack('en').then(function(track) {
 });
 ```
 
-### enableMainAudioTrack(): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>
+### selectDefaultAudioTrack(): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>
 
-Enable the main audio track for the video (the audio included with the original video upload).
+Enable the default audio track for the video (the audio included with the original video upload).
 
 ```js
-player.enableMainAudioTrack().then(function(track) {
-    // track.language = the iso code for the language
-    // track.kind = 'main', 'translation', 'descriptions', or 'commentary'
+player.selectDefaultAudioTrack().then(function(track) {
+    // track.language = the iso code for the language. e.g. 'en' or 'en-US'.
+    // track.kind = the type of audio track ('main', 'translation', 'descriptions', 'commentary')
     // track.label = the human-readable label
-    // track.provenance = string describing how the track was generated (user-uploaded, auto-generated, etc.)
+    // track.provenance = string describing how the track was generated ('PROVENANCE_USER_UPLOADED', 'PROVENANCE_AI_GENERATED', 'PROVENANCE_USER_UPLOADED_AI_GENERATED')
     // track.enabled = boolean reflecting whether the track is currently enabled
 }).catch(function(error) {
     switch (error.name) {

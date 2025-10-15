@@ -161,8 +161,8 @@ declare class Player {
      * @throws {InvalidParameterError} If no track was available with the specified language
      * @throws {InvalidTrackError} If no track was available with the specified language and kind
      */
-    enableAudioTrack(language: AudioLanguage, kind?: AudioKind): Promise<VimeoAudioTrack>;
-    enableMainAudioTrack(): Promise<VimeoAudioTrack>;
+    selectAudioTrack(language: AudioLanguage, kind?: AudioKind): Promise<VimeoAudioTrack>;
+    selectDefaultAudioTrack(): Promise<VimeoAudioTrack>;
 
     getAudioTracks(): Promise<VimeoAudioTrack[]>;
     getEnabledAudioTrack(): Promise<VimeoAudioTrack | undefined>;
