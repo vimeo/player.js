@@ -166,7 +166,7 @@ declare class Player {
 
     getAudioTracks(): Promise<VimeoAudioTrack[]>;
     getEnabledAudioTrack(): Promise<VimeoAudioTrack | undefined>;
-    getMainAudioTrack(): Promise<VimeoAudioTrack | undefined>;
+    getDefaultAudioTrack(): Promise<VimeoAudioTrack | undefined>;
 
     getChapters(): Promise<VimeoChapter[]>;
     getCurrentChapter(): Promise<VimeoChapter | undefined>;

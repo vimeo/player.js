@@ -216,7 +216,7 @@ it will also import the Player constructor directly:
   - [getTextTracks(): Promise<object[], Error>](#gettexttracks-promiseobject-error)
   - [getAudioTracks(): Promise<object[], Error>](#getaudiotracks-promiseobject-error)
   - [getEnabledAudioTrack(): Promise<object[], Error>](#getenabledaudiotrack-promiseobject-error)
-  - [getMainAudioTrack(): Promise<object[], Error>](#getmainaudiotrack-promiseobject-error)
+  - [getDefaultAudioTrack(): Promise<object[], Error>](#getmainaudiotrack-promiseobject-error)
   - [getVideoEmbedCode(): Promise<string, Error>](#getvideoembedcode-promisestring-error)
   - [getVideoId(): Promise<number, Error>](#getvideoid-promisenumber-error)
   - [getVideoTitle(): Promise<string, Error>](#getvideotitle-promisestring-error)
@@ -1316,12 +1316,12 @@ The track object looks like this:
 
 Kind can be any of the following: "main", "translation", "descriptions", or "commentary".
 
-### getMainAudioTrack(): Promise<object, Error>
+### getDefaultAudioTrack(): Promise<object, Error>
 
 Get the main audio track for the video (the one included with the video on upload). For example:
 
 ```js
-player.getMainAudioTrack().then(function(track) {
+player.getDefaultAudioTrack().then(function(track) {
     // track = track object
 }).catch(function(error) {
     // an error occurred

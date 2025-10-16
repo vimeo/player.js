@@ -3554,9 +3554,9 @@
        * @return {GetAudioTrackPromise}
        */
     }, {
-      key: "getMainAudioTrack",
-      value: function getMainAudioTrack() {
-        return this.get('mainAudioTrack');
+      key: "getDefaultAudioTrack",
+      value: function getDefaultAudioTrack() {
+        return this.get('defaultAudioTrack');
       }
 
       /**
