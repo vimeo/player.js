@@ -2631,6 +2631,8 @@ var Player = /*#__PURE__*/function () {
     }
 
     /** @typedef {import('../types/formats.js').VimeoAudioTrack} VimeoAudioTrack */
+    /** @typedef {import('../types/formats.js').AudioLanguage} AudioLanguage */
+    /** @typedef {import('../types/formats.js').AudioKind} AudioKind */
     /**
      * A promise to enable an audio track.
      *
@@ -2648,8 +2650,8 @@ var Player = /*#__PURE__*/function () {
      * When set via the API, the track language will not change the viewer’s
      * stored preference.
      *
-     * @param {string} language The two‐letter language code.
-     * @param {string} [kind] The kind of track to enable (main, translation, descriptions, commentary).
+     * @param {AudioLanguage} language The two‐letter language code.
+     * @param {AudioKind} [kind] The kind of track to enable (main, translation, descriptions, commentary).
      * @return {SelectAudioTrackPromise}
      */
   }, {
