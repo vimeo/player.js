@@ -2630,16 +2630,7 @@ var Player = /*#__PURE__*/function () {
       return this.callMethod('disableTextTrack');
     }
 
-    /**
-     * A representation of an audio track on a video.
-     *
-     * @typedef {Object} VimeoAudioTrack
-     * @property {string} language The ISO language code.
-     * @property {string} kind The kind of track it is (main, translation, descriptions, or commentary).
-     * @property {string} label The human‐readable label for the track.
-     * @property {string} provenance String describing how the track was generated (user-uploaded, auto-generated, etc.)
-     * @property {boolean} enabled Boolean reflecting whether the track is currently enabled
-     */
+    /** @typedef {import('../types/formats.js').VimeoAudioTrack} VimeoAudioTrack */
     /**
      * A promise to enable an audio track.
      *
