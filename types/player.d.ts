@@ -15,6 +15,9 @@ import type {
     VimeoColors,
     Pixels,
     VideoQualityId,
+    VimeoAudioTrack,
+    AudioLanguage,
+    AudioKind,
 } from "./formats";
 
 import type {
@@ -48,8 +51,8 @@ declare class Player {
     static isVimeoUrl(url: VimeoUrl | string): boolean;
 
     /**
-     * Trigger a function when the player iframe has initialized. 
-     * You do not need to wait for ready to trigger to begin adding 
+     * Trigger a function when the player iframe has initialized.
+     * You do not need to wait for ready to trigger to begin adding
      * event listeners or calling other methods.
      */
     ready(): Promise<void>;
@@ -152,6 +155,18 @@ declare class Player {
 
     disableTextTrack(): Promise<void>;
     getTextTracks(): Promise<VimeoTextTrack[]>;
+
+    /**
+     * Enable an audio track
+     * @throws {InvalidParameterError} If no track was available with the specified language
+     * @throws {InvalidTrackError} If no track was available with the specified language and kind
+     */
+    selectAudioTrack(language: AudioLanguage, kind?: AudioKind): Promise<VimeoAudioTrack>;
+    selectDefaultAudioTrack(): Promise<VimeoAudioTrack>;
+
+    getAudioTracks(): Promise<VimeoAudioTrack[]>;
+    getEnabledAudioTrack(): Promise<VimeoAudioTrack | undefined>;
+    getDefaultAudioTrack(): Promise<VimeoAudioTrack | undefined>;
 
     getChapters(): Promise<VimeoChapter[]>;
     getCurrentChapter(): Promise<VimeoChapter | undefined>;

@@ -886,7 +886,7 @@
   (function UMD(name, context, definition) {
     // special form of UMD for polyfilling across evironments
     context[name] = context[name] || definition();
-    if (module.exports) {
+    if ( module.exports) {
       module.exports = context[name];
     }
   })("Promise", typeof commonjsGlobal != "undefined" ? commonjsGlobal : commonjsGlobal, function DEF() {
@@ -2636,6 +2636,53 @@
         return this.callMethod('disableTextTrack');
       }
 
+      /** @typedef {import('../types/formats.js').VimeoAudioTrack} VimeoAudioTrack */
+      /** @typedef {import('../types/formats.js').AudioLanguage} AudioLanguage */
+      /** @typedef {import('../types/formats.js').AudioKind} AudioKind */
+      /**
+       * A promise to enable an audio track.
+       *
+       * @promise SelectAudioTrackPromise
+       * @fulfill {VimeoAudioTrack} The audio track that was enabled.
+       * @reject {NoAudioTracksError} No audio exists for the video.
+       * @reject {NoAlternateAudioTracksError} No alternate audio tracks exist for the video.
+       * @reject {NoMatchingAudioTrackError} No track was available with the specified
+       *         language and kind.
+       */
+      /**
+       * Enable the audio track with the specified language, and optionally the
+       * specified kind (main, translation, descriptions, or commentary).
+       *
+       * When set via the API, the track language will not change the viewer’s
+       * stored preference.
+       *
+       * @param {AudioLanguage} language The two‐letter language code.
+       * @param {AudioKind} [kind] The kind of track to enable (main, translation, descriptions, commentary).
+       * @return {SelectAudioTrackPromise}
+       */
+    }, {
+      key: "selectAudioTrack",
+      value: function selectAudioTrack(language, kind) {
+        if (!language) {
+          throw new TypeError('You must pass a language.');
+        }
+        return this.callMethod('selectAudioTrack', {
+          language: language,
+          kind: kind
+        });
+      }
+
+      /**
+       * Enable the main audio track for the video.
+       *
+       * @return {SelectAudioTrackPromise}
+       */
+    }, {
+      key: "selectDefaultAudioTrack",
+      value: function selectDefaultAudioTrack() {
+        return this.callMethod('selectDefaultAudioTrack');
+      }
+
       /**
        * A promise to pause the video.
        *
@@ -3458,6 +3505,51 @@
       key: "getTextTracks",
       value: function getTextTracks() {
         return this.get('textTracks');
+      }
+
+      /**
+       * A promise to get the audio tracks of a video.
+       *
+       * @promise GetAudioTracksPromise
+       * @fulfill {VimeoAudioTrack[]} The audio tracks associated with the video.
+       */
+      /**
+       * Get an array of the audio tracks that exist for the video.
+       *
+       * @return {GetAudioTracksPromise}
+       */
+    }, {
+      key: "getAudioTracks",
+      value: function getAudioTracks() {
+        return this.get('audioTracks');
+      }
+
+      /**
+       * A promise to get the enabled audio track of a video.
+       *
+       * @promise GetAudioTrackPromise
+       * @fulfill {VimeoAudioTrack} The enabled audio track.
+       */
+      /**
+       * Get the enabled audio track for a video.
+       *
+       * @return {GetAudioTrackPromise}
+       */
+    }, {
+      key: "getEnabledAudioTrack",
+      value: function getEnabledAudioTrack() {
+        return this.get('enabledAudioTrack');
+      }
+
+      /**
+       * Get the main audio track for a video.
+       *
+       * @return {GetAudioTrackPromise}
+       */
+    }, {
+      key: "getDefaultAudioTrack",
+      value: function getDefaultAudioTrack() {
+        return this.get('defaultAudioTrack');
       }
 
       /**

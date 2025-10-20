@@ -172,6 +172,8 @@ it will also import the Player constructor directly:
   - [ready(): Promise<void, Error>](#ready-promisevoid-error)
   - [enableTextTrack(language: string, kind?: string): Promise<object, (InvalidTrackLanguageError|InvalidTrackError|Error)>](#enabletexttracklanguage-string-kind-string-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
   - [disableTextTrack(): Promise<void, Error>](#disabletexttrack-promisevoid-error)
+  - [selectAudioTrack(language: string, kind?: string): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>](#selectaudiotracklanguage-string-kind-string-promiseobject-noaudiotrackserrornoalternateaudiotrackserrornomatchingaudiotrackerrorerror)
+  - [selectDefaultAudioTrack(): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>](#selectdefaultaudiotrack-promiseobject-noaudiotrackserrornoalternateaudiotrackserrornomatchingaudiotrackerrorerror)
   - [pause(): Promise<void, (PasswordError|PrivacyError|Error)>](#pause-promisevoid-passworderrorprivacyerrorerror)
   - [play(): Promise<void, (PasswordError|PrivacyError|Error)>](#play-promisevoid-passworderrorprivacyerrorerror)
   - [unload(): Promise<void, Error>](#unload-promisevoid-error)
@@ -212,6 +214,9 @@ it will also import the Player constructor directly:
   - [getSeekable(): Promise<array, Error>](#getseekable-promisearray-error)
   - [getSeeking(): Promise<boolean, Error>](#getseeking-promiseboolean-error)
   - [getTextTracks(): Promise<object[], Error>](#gettexttracks-promiseobject-error)
+  - [getAudioTracks(): Promise<object[], Error>](#getaudiotracks-promiseobject-error)
+  - [getEnabledAudioTrack(): Promise<object[], Error>](#getenabledaudiotrack-promiseobject-error)
+  - [getDefaultAudioTrack(): Promise<object[], Error>](#getmainaudiotrack-promiseobject-error)
   - [getVideoEmbedCode(): Promise<string, Error>](#getvideoembedcode-promisestring-error)
   - [getVideoId(): Promise<number, Error>](#getvideoid-promisenumber-error)
   - [getVideoTitle(): Promise<string, Error>](#getvideotitle-promisestring-error)
@@ -511,6 +516,74 @@ player.disableTextTrack().then(function() {
     // the track was disabled
 }).catch(function(error) {
     // an error occurred
+});
+```
+
+### selectAudioTrack(language: string, kind?: string): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>
+
+Enable the audio track with the specified language, and optionally the specified
+kind (main, translation, descriptions, or commentary).
+
+When set via the API, the track language will not change the viewer’s stored
+preference.
+
+```js
+player.selectAudioTrack('en').then(function(track) {
+    // track.language = the iso code for the language. e.g. 'en' or 'en-US'.
+    // track.kind = the type of audio track ('main', 'translation', 'descriptions', 'commentary')
+    // track.label = the human-readable label
+    // track.provenance = string describing how the track was generated ('PROVENANCE_USER_UPLOADED', 'PROVENANCE_AI_GENERATED', 'PROVENANCE_USER_UPLOADED_AI_GENERATED')
+    // track.enabled = boolean reflecting whether the track is currently enabled
+}).catch(function(error) {
+    switch (error.name) {
+        case 'NoAudioTracksError':
+            // no audio for this video
+            break;
+
+        case 'NoAlternateAudioTracksError':
+            // no alternate audio tracks to select from for this video
+            break;
+
+        case 'NoMatchingAudioTrackError':
+            // no audio track matches the options provided
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
+});
+```
+
+### selectDefaultAudioTrack(): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>
+
+Enable the default audio track for the video (the audio included with the original video upload).
+
+```js
+player.selectDefaultAudioTrack().then(function(track) {
+    // track.language = the iso code for the language. e.g. 'en' or 'en-US'.
+    // track.kind = the type of audio track ('main', 'translation', 'descriptions', 'commentary')
+    // track.label = the human-readable label
+    // track.provenance = string describing how the track was generated ('PROVENANCE_USER_UPLOADED', 'PROVENANCE_AI_GENERATED', 'PROVENANCE_USER_UPLOADED_AI_GENERATED')
+    // track.enabled = boolean reflecting whether the track is currently enabled
+}).catch(function(error) {
+    switch (error.name) {
+        case 'NoAudioTracksError':
+            // no audio for this video
+            break;
+
+        case 'NoAlternateAudioTracksError':
+            // no alternate audio tracks to select from for this video
+            break;
+
+        case 'NoMatchingAudioTrackError':
+            // no audio track matches the options provided
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
 });
 ```
 
@@ -1190,6 +1263,84 @@ Each track object looks like this:
 Kind can be either `captions` or `subtitles`. The mode can be either `showing`
 or `disabled`. Only one track can be `showing` at any given time; the rest will
 be `disabled`.
+
+### getAudioTracks(): Promise<object[], Error>
+
+Get an array of the audio tracks that exist for the video. For example:
+
+```js
+player.getAudioTracks().then(function(tracks) {
+    // tracks = an array of track objects
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
+Each track object looks like this:
+
+```js
+{
+    "label": "English",
+    "language": "en",
+    "kind": "main",
+    "provenance": "PROVENANCE_USER_UPLOADED",
+    "enabled": true,
+}
+```
+
+Language will follow the ISO standard of either a language code or language-locale code (e.g. "en" or "en-US"). Kind can be any of the following: "main", "translation", "descriptions", or "commentary". Provenance can be any of the following: "PROVENANCE_USER_UPLOADED", "PROVENANCE_AI_GENERATED", "PROVENANCE_USER_UPLOADED_AI_GENERATED".
+
+### getEnabledAudioTrack(): Promise<object, Error>
+
+Get the currently enabled audio track for the video. For example:
+
+```js
+player.getEnabledAudioTrack().then(function(track) {
+    // track = track object
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
+The track object looks like this:
+
+```js
+{
+    "label": "English",
+    "language": "en",
+    "kind": "main",
+    "provenance": "PROVENANCE_USER_UPLOADED",
+    "enabled": true,
+}
+```
+
+Kind can be any of the following: "main", "translation", "descriptions", or "commentary".
+
+### getDefaultAudioTrack(): Promise<object, Error>
+
+Get the main audio track for the video (the one included with the video on upload). For example:
+
+```js
+player.getDefaultAudioTrack().then(function(track) {
+    // track = track object
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
+The track object looks like this:
+
+```js
+{
+    "label": "English",
+    "language": "en",
+    "kind": "main",
+    "provenance": "PROVENANCE_USER_UPLOADED",
+    "enabled": true,
+}
+```
+
+Kind can be any of the following: "main", "translation", "descriptions", or "commentary".
 
 ### getVideoEmbedCode(): Promise<string, Error>
 
