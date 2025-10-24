@@ -151,7 +151,7 @@ declare class Player {
      * @throws {InvalidParameterError} If no track was available with the specified language
      * @throws {InvalidTrackError} If no track was available with the specified language and kind
      */
-    enableTextTrack(language: string, kind?: string): Promise<VimeoTextTrack>;
+    enableTextTrack(language: string, kind?: string, showing?: boolean): Promise<VimeoTextTrack>;
 
     disableTextTrack(): Promise<void>;
     getTextTracks(): Promise<VimeoTextTrack[]>;
