@@ -482,7 +482,7 @@ player.ready().then(function() {
 Enable the text track with the specified language, and optionally the specified
 kind (captions or subtitles). If `showing` is `false`, we will fire `cuechange` events,
 but will not render the captions with the player's internal captions renderer. If the
-video is using native playback (no player UI), captions will still be displayed since it's
+video is using native playback (no Vimeo player UI), captions will still be displayed since it's
 using the native captions rendering.
 
 When set via the API, the track language will not change the viewer’s stored
