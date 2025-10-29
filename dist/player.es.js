@@ -2599,7 +2599,7 @@ var Player = /*#__PURE__*/function () {
      *
      * @param {string} language The two‐letter language code.
      * @param {string} [kind] The kind of track to enable (captions or subtitles).
-     * @param {string} [showing] Whether to enable display of closed captions for enabled text track.
+     * @param {boolean} [showing] Whether to enable display of closed captions for enabled text track within the player.
      * @return {EnableTextTrackPromise}
      */
   }, {
