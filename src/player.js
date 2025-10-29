@@ -424,7 +424,7 @@ class Player {
      *
      * @param {string} language The two‐letter language code.
      * @param {string} [kind] The kind of track to enable (captions or subtitles).
-     * @param {string} [showing] Whether to enable display of closed captions for enabled text track.
+     * @param {string} [showing] Whether to enable display of closed captions for enabled text track within the player.
      * @return {EnableTextTrackPromise}
      */
     enableTextTrack(language, kind = null, showing = true) {
