@@ -118,6 +118,8 @@ test('player object includes all api methods', async (t) => {
     await t.throws(() => player.selectAudioTrack(), { instanceOf: TypeError });
     await t.throwsAsync(() => player.setTimingSrc(), { instanceOf: TypeError });
     t.true(player.enableTextTrack('en') instanceof Promise);
+    t.true(player.enableTextTrack('en', 'captions') instanceof Promise);
+    t.true(player.enableTextTrack('en', 'captions', true) instanceof Promise);
     t.true(player.selectAudioTrack('en') instanceof Promise);
     t.true(player.selectDefaultAudioTrack() instanceof Promise);
     t.true(player.disableTextTrack() instanceof Promise);

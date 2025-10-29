@@ -170,7 +170,7 @@ it will also import the Player constructor directly:
   - [off(event: string, callback?: function): void](#offevent-string-callback-function-void)
   - [loadVideo(options: number|string|object): Promise<number|object, (TypeError|PasswordError|Error)>](#loadvideooptions-numberstringobject-promisenumberobject-typeerrorpassworderrorerror)
   - [ready(): Promise<void, Error>](#ready-promisevoid-error)
-  - [enableTextTrack(language: string, kind?: string): Promise<object, (InvalidTrackLanguageError|InvalidTrackError|Error)>](#enabletexttracklanguage-string-kind-string-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
+  - [enableTextTrack(language: string, kind?: string, showing?: boolean): Promise<object, (InvalidTrackLanguageError|InvalidTrackError|Error)>](#enabletexttracklanguage-string-kind-string-showing-boolean-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
   - [disableTextTrack(): Promise<void, Error>](#disabletexttrack-promisevoid-error)
   - [selectAudioTrack(language: string, kind?: string): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>](#selectaudiotracklanguage-string-kind-string-promiseobject-noaudiotrackserrornoalternateaudiotrackserrornomatchingaudiotrackerrorerror)
   - [selectDefaultAudioTrack(): Promise<object, (NoAudioTracksError|NoAlternateAudioTracksError|NoMatchingAudioTrackError|Error)>](#selectdefaultaudiotrack-promiseobject-noaudiotrackserrornoalternateaudiotrackserrornomatchingaudiotrackerrorerror)
@@ -215,8 +215,8 @@ it will also import the Player constructor directly:
   - [getSeeking(): Promise<boolean, Error>](#getseeking-promiseboolean-error)
   - [getTextTracks(): Promise<object[], Error>](#gettexttracks-promiseobject-error)
   - [getAudioTracks(): Promise<object[], Error>](#getaudiotracks-promiseobject-error)
-  - [getEnabledAudioTrack(): Promise<object[], Error>](#getenabledaudiotrack-promiseobject-error)
-  - [getDefaultAudioTrack(): Promise<object[], Error>](#getmainaudiotrack-promiseobject-error)
+  - [getEnabledAudioTrack(): Promise<object, Error>](#getenabledaudiotrack-promiseobject-error)
+  - [getDefaultAudioTrack(): Promise<object, Error>](#getdefaultaudiotrack-promiseobject-error)
   - [getVideoEmbedCode(): Promise<string, Error>](#getvideoembedcode-promisestring-error)
   - [getVideoId(): Promise<number, Error>](#getvideoid-promisenumber-error)
   - [getVideoTitle(): Promise<string, Error>](#getvideotitle-promisestring-error)
@@ -477,10 +477,13 @@ player.ready().then(function() {
 });
 ```
 
-### enableTextTrack(language: string, kind?: string): Promise<object, (InvalidTrackLanguageError|InvalidTrackError|Error)>
+### enableTextTrack(language: string, kind?: string, showing?: boolean): Promise<object, (InvalidTrackLanguageError|InvalidTrackError|Error)>
 
 Enable the text track with the specified language, and optionally the specified
-kind (captions or subtitles).
+kind (captions or subtitles). If `showing` is `false`, we will fire `cuechange` events,
+but will not render the captions with the player's internal captions renderer. If the
+video is using native playback (no Vimeo player UI), captions will still be displayed since it's
+using the native captions rendering.
 
 When set via the API, the track language will not change the viewer’s stored
 preference.
@@ -505,6 +508,11 @@ player.enableTextTrack('en').then(function(track) {
             break;
     }
 });
+```
+
+```js
+// enable text track but don't render captions within the player
+player.enableTextTrack('en', null, false);
 ```
 
 ### disableTextTrack(): Promise<void, Error>
