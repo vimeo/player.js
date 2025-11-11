@@ -25,10 +25,17 @@ export const isBun = typeof Bun !== 'undefined';
 export const isDeno = typeof Deno !== 'undefined';
 
 /**
+ * Check to see if this is a Cloudflare Worker environment.
+ * @see https://community.cloudflare.com/t/how-to-detect-the-cloudflare-worker-runtime/293715
+ * @type {boolean}
+ */
+export const isCloudflareWorker = typeof WebSocketPair === 'function' && typeof caches?.default !== 'undefined';
+
+/**
  * Check if this is a server runtime
  * @type {boolean}
  */
-export const isServerRuntime = isNode || isBun || isDeno;
+export const isServerRuntime = isNode || isBun || isDeno || isCloudflareWorker;
 
 /**
  * Get the name of the method for a given getter or setter.
