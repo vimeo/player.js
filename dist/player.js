@@ -569,6 +569,7 @@
     return typeof key === "symbol" ? key : String(key);
   }
 
+  var _caches;
   /**
    * @module lib/functions
    */
@@ -595,10 +596,17 @@
   var isDeno = typeof Deno !== 'undefined';
 
   /**
+   * Check to see if this is a Cloudflare Worker environment.
+   * @see https://community.cloudflare.com/t/how-to-detect-the-cloudflare-worker-runtime/293715
+   * @type {boolean}
+   */
+  var isCloudflareWorker = typeof WebSocketPair === 'function' && typeof ((_caches = caches) === null || _caches === void 0 ? void 0 : _caches.default) !== 'undefined';
+
+  /**
    * Check if this is a server runtime
    * @type {boolean}
    */
-  var isServerRuntime = isNode || isBun || isDeno;
+  var isServerRuntime = isNode || isBun || isDeno || isCloudflareWorker;
 
   /**
    * Get the name of the method for a given getter or setter.
