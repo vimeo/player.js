@@ -133,7 +133,7 @@
     "> 1%",
     "last 2 versions",
     "Firefox ESR",
-    "not ie < 11"
+    "not ie > 0"
   ],
   "volta": {
     "node": "18.20.8",
