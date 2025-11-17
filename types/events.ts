@@ -117,6 +117,14 @@ export interface InteractiveOverlayPanelClickEvent {
     panelId: string;
 }
 
+export interface LikeButtonPressed {
+    liked: boolean;
+}
+
+export interface WatchLaterButtonPressed {
+    watchLater: boolean;
+}
+
 /**
  * Utility type that maps an event's data type to a generic version if supported
  */
@@ -158,4 +166,6 @@ export interface PlayerEventMap {
     remoteplaybackdisconnect: void;
     interactivehotspotclicked: InteractiveHotspotClickEvent;
     interactiveoverlaypanelclicked: InteractiveOverlayPanelClickEvent;
+    likebuttonpressed: LikeButtonPressed;
+    watchlaterbuttonpressed: WatchLaterButtonPressed;
 }

@@ -263,6 +263,8 @@ it will also import the Player constructor directly:
   - [remoteplaybackdisconnect](#remoteplaybackdisconnect)
   - [interactivehotspotclicked](#interactivehotspotclicked)
   - [interactiveoverlaypanelclicked](#interactiveoverlaypanelclicked)
+  - [likebuttonpressed](#likebuttonpressed)
+  - [watchlaterbuttonpressed](#watchlaterbuttonpressed)
   - [static isVimeoUrl(url: string): boolean](#static-isvimeourlurl-string-boolean)
 - [Dev Options](#dev-options)
   - [prefer_mms](#prefer_mms)
@@ -1986,6 +1988,26 @@ Triggered when the overlay panel (buttons or images) within the interactive over
     customPayloadData: null,
     overlayId: 864334,
     panelId: 'c47193a0-8320-4572-9bcd-8425851b36e9'
+}
+```
+
+### likebuttonpressed
+
+Triggered when a user likes or unlikes a video.
+
+```js
+{
+    liked: true
+}
+```
+
+### watchlaterbuttonpressed
+
+Triggered when a user adds or removes the current video from their Watch Later list.
+
+```js
+{
+    watchLater: true
 }
 ```
 
