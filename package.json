@@ -20,7 +20,8 @@
     "postversion": "git branch -f latest master",
     "push-release": "git push origin master latest && git push --tags",
     "prepublishOnly": "npm run build && git add -A dist",
-    "check-types": "tsc"
+    "check-types": "tsc",
+    "update-caniusedb": "npx update-browserslist-db@latest --yarn"
   },
   "main": "dist/player.js",
   "module": "dist/player.es.js",
@@ -133,7 +134,7 @@
     "> 1%",
     "last 2 versions",
     "Firefox ESR",
-    "not ie > 0"
+    "not dead"
   ],
   "volta": {
     "node": "18.20.8",
