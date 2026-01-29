@@ -1,569 +1,4 @@
-/*! @vimeo/player v2.30.1 | (c) 2025 Vimeo | MIT License | https://github.com/vimeo/player.js */
-function _iterableToArrayLimit(arr, i) {
-  var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
-  if (null != _i) {
-    var _s,
-      _e,
-      _x,
-      _r,
-      _arr = [],
-      _n = !0,
-      _d = !1;
-    try {
-      if (_x = (_i = _i.call(arr)).next, 0 === i) {
-        if (Object(_i) !== _i) return;
-        _n = !1;
-      } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
-    } catch (err) {
-      _d = !0, _e = err;
-    } finally {
-      try {
-        if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return;
-      } finally {
-        if (_d) throw _e;
-      }
-    }
-    return _arr;
-  }
-}
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    enumerableOnly && (symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    })), keys.push.apply(keys, symbols);
-  }
-  return keys;
-}
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {};
-    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
-      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-    });
-  }
-  return target;
-}
-function _regeneratorRuntime() {
-  _regeneratorRuntime = function () {
-    return exports;
-  };
-  var exports = {},
-    Op = Object.prototype,
-    hasOwn = Op.hasOwnProperty,
-    defineProperty = Object.defineProperty || function (obj, key, desc) {
-      obj[key] = desc.value;
-    },
-    $Symbol = "function" == typeof Symbol ? Symbol : {},
-    iteratorSymbol = $Symbol.iterator || "@@iterator",
-    asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator",
-    toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-  function define(obj, key, value) {
-    return Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: !0,
-      configurable: !0,
-      writable: !0
-    }), obj[key];
-  }
-  try {
-    define({}, "");
-  } catch (err) {
-    define = function (obj, key, value) {
-      return obj[key] = value;
-    };
-  }
-  function wrap(innerFn, outerFn, self, tryLocsList) {
-    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator,
-      generator = Object.create(protoGenerator.prototype),
-      context = new Context(tryLocsList || []);
-    return defineProperty(generator, "_invoke", {
-      value: makeInvokeMethod(innerFn, self, context)
-    }), generator;
-  }
-  function tryCatch(fn, obj, arg) {
-    try {
-      return {
-        type: "normal",
-        arg: fn.call(obj, arg)
-      };
-    } catch (err) {
-      return {
-        type: "throw",
-        arg: err
-      };
-    }
-  }
-  exports.wrap = wrap;
-  var ContinueSentinel = {};
-  function Generator() {}
-  function GeneratorFunction() {}
-  function GeneratorFunctionPrototype() {}
-  var IteratorPrototype = {};
-  define(IteratorPrototype, iteratorSymbol, function () {
-    return this;
-  });
-  var getProto = Object.getPrototypeOf,
-    NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-  NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
-  var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
-  function defineIteratorMethods(prototype) {
-    ["next", "throw", "return"].forEach(function (method) {
-      define(prototype, method, function (arg) {
-        return this._invoke(method, arg);
-      });
-    });
-  }
-  function AsyncIterator(generator, PromiseImpl) {
-    function invoke(method, arg, resolve, reject) {
-      var record = tryCatch(generator[method], generator, arg);
-      if ("throw" !== record.type) {
-        var result = record.arg,
-          value = result.value;
-        return value && "object" == typeof value && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) {
-          invoke("next", value, resolve, reject);
-        }, function (err) {
-          invoke("throw", err, resolve, reject);
-        }) : PromiseImpl.resolve(value).then(function (unwrapped) {
-          result.value = unwrapped, resolve(result);
-        }, function (error) {
-          return invoke("throw", error, resolve, reject);
-        });
-      }
-      reject(record.arg);
-    }
-    var previousPromise;
-    defineProperty(this, "_invoke", {
-      value: function (method, arg) {
-        function callInvokeWithMethodAndArg() {
-          return new PromiseImpl(function (resolve, reject) {
-            invoke(method, arg, resolve, reject);
-          });
-        }
-        return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
-      }
-    });
-  }
-  function makeInvokeMethod(innerFn, self, context) {
-    var state = "suspendedStart";
-    return function (method, arg) {
-      if ("executing" === state) throw new Error("Generator is already running");
-      if ("completed" === state) {
-        if ("throw" === method) throw arg;
-        return doneResult();
-      }
-      for (context.method = method, context.arg = arg;;) {
-        var delegate = context.delegate;
-        if (delegate) {
-          var delegateResult = maybeInvokeDelegate(delegate, context);
-          if (delegateResult) {
-            if (delegateResult === ContinueSentinel) continue;
-            return delegateResult;
-          }
-        }
-        if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) {
-          if ("suspendedStart" === state) throw state = "completed", context.arg;
-          context.dispatchException(context.arg);
-        } else "return" === context.method && context.abrupt("return", context.arg);
-        state = "executing";
-        var record = tryCatch(innerFn, self, context);
-        if ("normal" === record.type) {
-          if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
-          return {
-            value: record.arg,
-            done: context.done
-          };
-        }
-        "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
-      }
-    };
-  }
-  function maybeInvokeDelegate(delegate, context) {
-    var methodName = context.method,
-      method = delegate.iterator[methodName];
-    if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel;
-    var record = tryCatch(method, delegate.iterator, context.arg);
-    if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
-    var info = record.arg;
-    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
-  }
-  function pushTryEntry(locs) {
-    var entry = {
-      tryLoc: locs[0]
-    };
-    1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
-  }
-  function resetTryEntry(entry) {
-    var record = entry.completion || {};
-    record.type = "normal", delete record.arg, entry.completion = record;
-  }
-  function Context(tryLocsList) {
-    this.tryEntries = [{
-      tryLoc: "root"
-    }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
-  }
-  function values(iterable) {
-    if (iterable) {
-      var iteratorMethod = iterable[iteratorSymbol];
-      if (iteratorMethod) return iteratorMethod.call(iterable);
-      if ("function" == typeof iterable.next) return iterable;
-      if (!isNaN(iterable.length)) {
-        var i = -1,
-          next = function next() {
-            for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
-            return next.value = undefined, next.done = !0, next;
-          };
-        return next.next = next;
-      }
-    }
-    return {
-      next: doneResult
-    };
-  }
-  function doneResult() {
-    return {
-      value: undefined,
-      done: !0
-    };
-  }
-  return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", {
-    value: GeneratorFunctionPrototype,
-    configurable: !0
-  }), defineProperty(GeneratorFunctionPrototype, "constructor", {
-    value: GeneratorFunction,
-    configurable: !0
-  }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) {
-    var ctor = "function" == typeof genFun && genFun.constructor;
-    return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
-  }, exports.mark = function (genFun) {
-    return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
-  }, exports.awrap = function (arg) {
-    return {
-      __await: arg
-    };
-  }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
-    return this;
-  }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) {
-    void 0 === PromiseImpl && (PromiseImpl = Promise);
-    var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
-    return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) {
-      return result.done ? result.value : iter.next();
-    });
-  }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () {
-    return this;
-  }), define(Gp, "toString", function () {
-    return "[object Generator]";
-  }), exports.keys = function (val) {
-    var object = Object(val),
-      keys = [];
-    for (var key in object) keys.push(key);
-    return keys.reverse(), function next() {
-      for (; keys.length;) {
-        var key = keys.pop();
-        if (key in object) return next.value = key, next.done = !1, next;
-      }
-      return next.done = !0, next;
-    };
-  }, exports.values = values, Context.prototype = {
-    constructor: Context,
-    reset: function (skipTempReset) {
-      if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
-    },
-    stop: function () {
-      this.done = !0;
-      var rootRecord = this.tryEntries[0].completion;
-      if ("throw" === rootRecord.type) throw rootRecord.arg;
-      return this.rval;
-    },
-    dispatchException: function (exception) {
-      if (this.done) throw exception;
-      var context = this;
-      function handle(loc, caught) {
-        return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught;
-      }
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i],
-          record = entry.completion;
-        if ("root" === entry.tryLoc) return handle("end");
-        if (entry.tryLoc <= this.prev) {
-          var hasCatch = hasOwn.call(entry, "catchLoc"),
-            hasFinally = hasOwn.call(entry, "finallyLoc");
-          if (hasCatch && hasFinally) {
-            if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-            if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-          } else if (hasCatch) {
-            if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-          } else {
-            if (!hasFinally) throw new Error("try statement without catch or finally");
-            if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-          }
-        }
-      }
-    },
-    abrupt: function (type, arg) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
-          var finallyEntry = entry;
-          break;
-        }
-      }
-      finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
-      var record = finallyEntry ? finallyEntry.completion : {};
-      return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
-    },
-    complete: function (record, afterLoc) {
-      if ("throw" === record.type) throw record.arg;
-      return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel;
-    },
-    finish: function (finallyLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel;
-      }
-    },
-    catch: function (tryLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc === tryLoc) {
-          var record = entry.completion;
-          if ("throw" === record.type) {
-            var thrown = record.arg;
-            resetTryEntry(entry);
-          }
-          return thrown;
-        }
-      }
-      throw new Error("illegal catch attempt");
-    },
-    delegateYield: function (iterable, resultName, nextLoc) {
-      return this.delegate = {
-        iterator: values(iterable),
-        resultName: resultName,
-        nextLoc: nextLoc
-      }, "next" === this.method && (this.arg = undefined), ContinueSentinel;
-    }
-  }, exports;
-}
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-      args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-      _next(undefined);
-    });
-  };
-}
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-  }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  Object.defineProperty(Constructor, "prototype", {
-    writable: false
-  });
-  return Constructor;
-}
-function _defineProperty(obj, key, value) {
-  key = _toPropertyKey(key);
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-  return obj;
-}
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  Object.defineProperty(subClass, "prototype", {
-    writable: false
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-  return _setPrototypeOf(o, p);
-}
-function _isNativeReflectConstruct() {
-  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-  if (Reflect.construct.sham) return false;
-  if (typeof Proxy === "function") return true;
-  try {
-    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-function _construct(Parent, args, Class) {
-  if (_isNativeReflectConstruct()) {
-    _construct = Reflect.construct.bind();
-  } else {
-    _construct = function _construct(Parent, args, Class) {
-      var a = [null];
-      a.push.apply(a, args);
-      var Constructor = Function.bind.apply(Parent, a);
-      var instance = new Constructor();
-      if (Class) _setPrototypeOf(instance, Class.prototype);
-      return instance;
-    };
-  }
-  return _construct.apply(null, arguments);
-}
-function _isNativeFunction(fn) {
-  return Function.toString.call(fn).indexOf("[native code]") !== -1;
-}
-function _wrapNativeSuper(Class) {
-  var _cache = typeof Map === "function" ? new Map() : undefined;
-  _wrapNativeSuper = function _wrapNativeSuper(Class) {
-    if (Class === null || !_isNativeFunction(Class)) return Class;
-    if (typeof Class !== "function") {
-      throw new TypeError("Super expression must either be null or a function");
-    }
-    if (typeof _cache !== "undefined") {
-      if (_cache.has(Class)) return _cache.get(Class);
-      _cache.set(Class, Wrapper);
-    }
-    function Wrapper() {
-      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
-    }
-    Wrapper.prototype = Object.create(Class.prototype, {
-      constructor: {
-        value: Wrapper,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    return _setPrototypeOf(Wrapper, Class);
-  };
-  return _wrapNativeSuper(Class);
-}
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  return self;
-}
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  } else if (call !== void 0) {
-    throw new TypeError("Derived constructors may only return object or undefined");
-  }
-  return _assertThisInitialized(self);
-}
-function _createSuper(Derived) {
-  var hasNativeReflectConstruct = _isNativeReflectConstruct();
-  return function _createSuperInternal() {
-    var Super = _getPrototypeOf(Derived),
-      result;
-    if (hasNativeReflectConstruct) {
-      var NewTarget = _getPrototypeOf(this).constructor;
-      result = Reflect.construct(Super, arguments, NewTarget);
-    } else {
-      result = Super.apply(this, arguments);
-    }
-    return _possibleConstructorReturn(this, result);
-  };
-}
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-  return arr2;
-}
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _toPrimitive(input, hint) {
-  if (typeof input !== "object" || input === null) return input;
-  var prim = input[Symbol.toPrimitive];
-  if (prim !== undefined) {
-    var res = prim.call(input, hint || "default");
-    if (typeof res !== "object") return res;
-    throw new TypeError("@@toPrimitive must return a primitive value.");
-  }
-  return (hint === "string" ? String : Number)(input);
-}
-function _toPropertyKey(arg) {
-  var key = _toPrimitive(arg, "string");
-  return typeof key === "symbol" ? key : String(key);
-}
-
-var _caches;
+/*! @vimeo/player v2.30.2 | (c) 2026 Vimeo | MIT License | https://github.com/vimeo/player.js */
 /**
  * @module lib/functions
  */
@@ -573,34 +8,34 @@ var _caches;
  * @type {boolean}
  */
 /* global global */
-var isNode = typeof global !== 'undefined' && {}.toString.call(global) === '[object global]';
+const isNode = typeof global !== 'undefined' && {}.toString.call(global) === '[object global]';
 
 /**
  * Check to see if this is a Bun environment.
  * @see https://bun.sh/guides/util/detect-bun
  * @type {boolean}
  */
-var isBun = typeof Bun !== 'undefined';
+const isBun = typeof Bun !== 'undefined';
 
 /**
  * Check to see if this is a Deno environment.
  * @see https://docs.deno.com/api/deno/~/Deno
  * @type {boolean}
  */
-var isDeno = typeof Deno !== 'undefined';
+const isDeno = typeof Deno !== 'undefined';
 
 /**
  * Check to see if this is a Cloudflare Worker environment.
  * @see https://community.cloudflare.com/t/how-to-detect-the-cloudflare-worker-runtime/293715
  * @type {boolean}
  */
-var isCloudflareWorker = typeof WebSocketPair === 'function' && typeof ((_caches = caches) === null || _caches === void 0 ? void 0 : _caches.default) !== 'undefined';
+const isCloudflareWorker = typeof WebSocketPair === 'function' && typeof caches?.default !== 'undefined';
 
 /**
  * Check if this is a server runtime
  * @type {boolean}
  */
-var isServerRuntime = isNode || isBun || isDeno || isCloudflareWorker;
+const isServerRuntime = isNode || isBun || isDeno || isCloudflareWorker;
 
 /**
  * Get the name of the method for a given getter or setter.
@@ -613,7 +48,7 @@ function getMethodName(prop, type) {
   if (prop.indexOf(type.toLowerCase()) === 0) {
     return prop;
   }
-  return "".concat(type.toLowerCase()).concat(prop.substr(0, 1).toUpperCase()).concat(prop.substr(1));
+  return `${type.toLowerCase()}${prop.substr(0, 1).toUpperCase()}${prop.substr(1)}`;
 }
 
 /**
@@ -656,15 +91,14 @@ function isVimeoUrl(url) {
  * @return {boolean}
  */
 function isVimeoEmbed(url) {
-  var expr = /^https:\/\/player\.((vimeo\.com)|([a-zA-Z0-9-]+\.(videoji\.(hk|cn)|vimeo\.work)))\/video\/\d+/;
+  const expr = /^https:\/\/player\.((vimeo\.com)|([a-zA-Z0-9-]+\.(videoji\.(hk|cn)|vimeo\.work)))\/video\/\d+/;
   return expr.test(url);
 }
 function getOembedDomain(url) {
-  var match = (url || '').match(/^(?:https?:)?(?:\/\/)?([^/?]+)/);
-  var domain = (match && match[1] || '').replace('player.', '');
-  var customDomains = ['.videoji.hk', '.vimeo.work', '.videoji.cn'];
-  for (var _i = 0, _customDomains = customDomains; _i < _customDomains.length; _i++) {
-    var customDomain = _customDomains[_i];
+  const match = (url || '').match(/^(?:https?:)?(?:\/\/)?([^/?]+)/);
+  const domain = (match && match[1] || '').replace('player.', '');
+  const customDomains = ['.videoji.hk', '.vimeo.work', '.videoji.cn'];
+  for (const customDomain of customDomains) {
     if (domain.endsWith(customDomain)) {
       return domain;
     }
@@ -680,23 +114,23 @@ function getOembedDomain(url) {
  * @return {string}
  */
 function getVimeoUrl() {
-  var oEmbedParameters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var id = oEmbedParameters.id;
-  var url = oEmbedParameters.url;
-  var idOrUrl = id || url;
+  let oEmbedParameters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  const id = oEmbedParameters.id;
+  const url = oEmbedParameters.url;
+  const idOrUrl = id || url;
   if (!idOrUrl) {
     throw new Error('An id or url must be passed, either in an options object or as a data-vimeo-id or data-vimeo-url attribute.');
   }
   if (isInteger(idOrUrl)) {
-    return "https://vimeo.com/".concat(idOrUrl);
+    return `https://vimeo.com/${idOrUrl}`;
   }
   if (isVimeoUrl(idOrUrl)) {
     return idOrUrl.replace('http:', 'https:');
   }
   if (id) {
-    throw new TypeError("\u201C".concat(id, "\u201D is not a valid video id."));
+    throw new TypeError(`“${id}” is not a valid video id.`);
   }
-  throw new TypeError("\u201C".concat(idOrUrl, "\u201D is not a vimeo.com url."));
+  throw new TypeError(`“${idOrUrl}” is not a vimeo.com url.`);
 }
 
 /* eslint-disable max-params */
@@ -710,19 +144,15 @@ function getVimeoUrl() {
  * @param {'removeEventListener' | 'off'} offName
  * @return {{cancel: (function(): void)}}
  */
-var subscribe = function subscribe(target, eventName, callback) {
-  var onName = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'addEventListener';
-  var offName = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'removeEventListener';
-  var eventNames = typeof eventName === 'string' ? [eventName] : eventName;
-  eventNames.forEach(function (evName) {
+const subscribe = function (target, eventName, callback) {
+  let onName = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'addEventListener';
+  let offName = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'removeEventListener';
+  const eventNames = typeof eventName === 'string' ? [eventName] : eventName;
+  eventNames.forEach(evName => {
     target[onName](evName, callback);
   });
   return {
-    cancel: function cancel() {
-      return eventNames.forEach(function (evName) {
-        return target[offName](evName, callback);
-      });
-    }
+    cancel: () => eventNames.forEach(evName => target[offName](evName, callback))
   };
 };
 
@@ -734,12 +164,12 @@ var subscribe = function subscribe(target, eventName, callback) {
  * @return {HTMLIFrameElement|null} The iframe element if found, otherwise null
  */
 function findIframeBySourceWindow(sourceWindow) {
-  var doc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
+  let doc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
   if (!sourceWindow || !doc || typeof doc.querySelectorAll !== 'function') {
     return null;
   }
-  var iframes = doc.querySelectorAll('iframe');
-  for (var i = 0; i < iframes.length; i++) {
+  const iframes = doc.querySelectorAll('iframe');
+  for (let i = 0; i < iframes.length; i++) {
     if (iframes[i] && iframes[i].contentWindow === sourceWindow) {
       return iframes[i];
     }
@@ -747,8 +177,8 @@ function findIframeBySourceWindow(sourceWindow) {
   return null;
 }
 
-var arrayIndexOfSupport = typeof Array.prototype.indexOf !== 'undefined';
-var postMessageSupport = typeof window !== 'undefined' && typeof window.postMessage !== 'undefined';
+const arrayIndexOfSupport = typeof Array.prototype.indexOf !== 'undefined';
+const postMessageSupport = typeof window !== 'undefined' && typeof window.postMessage !== 'undefined';
 if (!isServerRuntime && (!arrayIndexOfSupport || !postMessageSupport)) {
   throw new Error('Sorry, the Vimeo Player API is not available in this browser.');
 }
@@ -1199,7 +629,7 @@ var npo_src = createCommonjsModule(function (module) {
  * @module lib/callbacks
  */
 
-var callbackMap = new WeakMap();
+const callbackMap = new WeakMap();
 
 /**
  * Store a callback for a method or event for a player.
@@ -1211,7 +641,7 @@ var callbackMap = new WeakMap();
  * @return {void}
  */
 function storeCallback(player, name, callback) {
-  var playerCallbacks = callbackMap.get(player.element) || {};
+  const playerCallbacks = callbackMap.get(player.element) || {};
   if (!(name in playerCallbacks)) {
     playerCallbacks[name] = [];
   }
@@ -1227,7 +657,7 @@ function storeCallback(player, name, callback) {
  * @return {function[]}
  */
 function getCallbacks(player, name) {
-  var playerCallbacks = callbackMap.get(player.element) || {};
+  const playerCallbacks = callbackMap.get(player.element) || {};
   return playerCallbacks[name] || [];
 }
 
@@ -1240,7 +670,7 @@ function getCallbacks(player, name) {
  * @return {boolean} Was this the last callback?
  */
 function removeCallback(player, name, callback) {
-  var playerCallbacks = callbackMap.get(player.element) || {};
+  const playerCallbacks = callbackMap.get(player.element) || {};
   if (!playerCallbacks[name]) {
     return true;
   }
@@ -1251,7 +681,7 @@ function removeCallback(player, name, callback) {
     callbackMap.set(player.element, playerCallbacks);
     return true;
   }
-  var index = playerCallbacks[name].indexOf(callback);
+  const index = playerCallbacks[name].indexOf(callback);
   if (index !== -1) {
     playerCallbacks[name].splice(index, 1);
   }
@@ -1267,11 +697,11 @@ function removeCallback(player, name, callback) {
  * @return {function} The callback, or false if there were none
  */
 function shiftCallbacks(player, name) {
-  var playerCallbacks = getCallbacks(player, name);
+  const playerCallbacks = getCallbacks(player, name);
   if (playerCallbacks.length < 1) {
     return false;
   }
-  var callback = playerCallbacks.shift();
+  const callback = playerCallbacks.shift();
   removeCallback(player, name, callback);
   return callback;
 }
@@ -1284,7 +714,7 @@ function shiftCallbacks(player, name) {
  * @return {void}
  */
 function swapCallbacks(oldElement, newElement) {
-  var playerCallbacks = callbackMap.get(oldElement);
+  const playerCallbacks = callbackMap.get(oldElement);
   callbackMap.set(newElement, playerCallbacks);
   callbackMap.delete(oldElement);
 }
@@ -1324,15 +754,15 @@ function postMessage(player, method, params) {
   if (!player.element.contentWindow || !player.element.contentWindow.postMessage) {
     return;
   }
-  var message = {
-    method: method
+  let message = {
+    method
   };
   if (params !== undefined) {
     message.value = params;
   }
 
   // IE 8 and 9 do not support passing messages, so stringify them
-  var ieVersion = parseFloat(navigator.userAgent.toLowerCase().replace(/^.*msie (\d+).*$/, '$1'));
+  const ieVersion = parseFloat(navigator.userAgent.toLowerCase().replace(/^.*msie (\d+).*$/, '$1'));
   if (ieVersion >= 8 && ieVersion < 10) {
     message = JSON.stringify(message);
   }
@@ -1348,28 +778,28 @@ function postMessage(player, method, params) {
  */
 function processData(player, data) {
   data = parseMessageData(data);
-  var callbacks = [];
-  var param;
+  let callbacks = [];
+  let param;
   if (data.event) {
     if (data.event === 'error') {
-      var promises = getCallbacks(player, data.data.method);
-      promises.forEach(function (promise) {
-        var error = new Error(data.data.message);
+      const promises = getCallbacks(player, data.data.method);
+      promises.forEach(promise => {
+        const error = new Error(data.data.message);
         error.name = data.data.name;
         promise.reject(error);
         removeCallback(player, data.data.method, promise);
       });
     }
-    callbacks = getCallbacks(player, "event:".concat(data.event));
+    callbacks = getCallbacks(player, `event:${data.event}`);
     param = data.data;
   } else if (data.method) {
-    var callback = shiftCallbacks(player, data.method);
+    const callback = shiftCallbacks(player, data.method);
     if (callback) {
       callbacks.push(callback);
       param = data.value;
     }
   }
-  callbacks.forEach(function (callback) {
+  callbacks.forEach(callback => {
     try {
       if (typeof callback === 'function') {
         callback.call(player, param);
@@ -1385,7 +815,7 @@ function processData(player, data) {
 /**
  * @module lib/embed
  */
-var oEmbedParameters = ['airplay', 'audio_tracks', 'audiotrack', 'autopause', 'autoplay', 'background', 'byline', 'cc', 'chapter_id', 'chapters', 'chromecast', 'color', 'colors', 'controls', 'dnt', 'end_time', 'fullscreen', 'height', 'id', 'initial_quality', 'interactive_params', 'keyboard', 'loop', 'maxheight', 'max_quality', 'maxwidth', 'min_quality', 'muted', 'play_button_position', 'playsinline', 'portrait', 'preload', 'progress_bar', 'quality', 'quality_selector', 'responsive', 'skipping_forward', 'speed', 'start_time', 'texttrack', 'thumbnail_id', 'title', 'transcript', 'transparent', 'unmute_button', 'url', 'vimeo_logo', 'volume', 'watch_full_video', 'width'];
+const oEmbedParameters = ['airplay', 'audio_tracks', 'audiotrack', 'autopause', 'autoplay', 'background', 'byline', 'cc', 'chapter_id', 'chapters', 'chromecast', 'color', 'colors', 'controls', 'dnt', 'end_time', 'fullscreen', 'height', 'id', 'initial_quality', 'interactive_params', 'keyboard', 'loop', 'maxheight', 'max_quality', 'maxwidth', 'min_quality', 'muted', 'play_button_position', 'playsinline', 'portrait', 'preload', 'progress_bar', 'quality', 'quality_selector', 'responsive', 'skipping_forward', 'speed', 'start_time', 'texttrack', 'thumbnail_id', 'title', 'transcript', 'transparent', 'unmute_button', 'url', 'vimeo_logo', 'volume', 'watch_full_video', 'width'];
 
 /**
  * Get the 'data-vimeo'-prefixed attributes from an element as an object.
@@ -1395,9 +825,9 @@ var oEmbedParameters = ['airplay', 'audio_tracks', 'audiotrack', 'autopause', 'a
  * @return {Object<string, string>}
  */
 function getOEmbedParameters(element) {
-  var defaults = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return oEmbedParameters.reduce(function (params, param) {
-    var value = element.getAttribute("data-vimeo-".concat(param));
+  let defaults = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return oEmbedParameters.reduce((params, param) => {
+    const value = element.getAttribute(`data-vimeo-${param}`);
     if (value || value === '') {
       params[param] = value === '' ? 1 : value;
     }
@@ -1413,14 +843,16 @@ function getOEmbedParameters(element) {
  * @return {HTMLIFrameElement} The iframe embed.
  */
 function createEmbed(_ref, element) {
-  var html = _ref.html;
+  let {
+    html
+  } = _ref;
   if (!element) {
     throw new TypeError('An element must be provided');
   }
   if (element.getAttribute('data-vimeo-initialized') !== null) {
     return element.querySelector('iframe');
   }
-  var div = document.createElement('div');
+  const div = document.createElement('div');
   div.innerHTML = html;
   element.appendChild(div.firstChild);
   element.setAttribute('data-vimeo-initialized', 'true');
@@ -1436,37 +868,37 @@ function createEmbed(_ref, element) {
  * @return {Promise}
  */
 function getOEmbedData(videoUrl) {
-  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var element = arguments.length > 2 ? arguments[2] : undefined;
-  return new Promise(function (resolve, reject) {
+  let params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  let element = arguments.length > 2 ? arguments[2] : undefined;
+  return new Promise((resolve, reject) => {
     if (!isVimeoUrl(videoUrl)) {
-      throw new TypeError("\u201C".concat(videoUrl, "\u201D is not a vimeo.com url."));
+      throw new TypeError(`“${videoUrl}” is not a vimeo.com url.`);
     }
-    var domain = getOembedDomain(videoUrl);
-    var url = "https://".concat(domain, "/api/oembed.json?url=").concat(encodeURIComponent(videoUrl));
-    for (var param in params) {
+    const domain = getOembedDomain(videoUrl);
+    let url = `https://${domain}/api/oembed.json?url=${encodeURIComponent(videoUrl)}`;
+    for (const param in params) {
       if (params.hasOwnProperty(param)) {
-        url += "&".concat(param, "=").concat(encodeURIComponent(params[param]));
+        url += `&${param}=${encodeURIComponent(params[param])}`;
       }
     }
-    var xhr = 'XDomainRequest' in window ? new XDomainRequest() : new XMLHttpRequest();
+    const xhr = 'XDomainRequest' in window ? new XDomainRequest() : new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.onload = function () {
       if (xhr.status === 404) {
-        reject(new Error("\u201C".concat(videoUrl, "\u201D was not found.")));
+        reject(new Error(`“${videoUrl}” was not found.`));
         return;
       }
       if (xhr.status === 403) {
-        reject(new Error("\u201C".concat(videoUrl, "\u201D is not embeddable.")));
+        reject(new Error(`“${videoUrl}” is not embeddable.`));
         return;
       }
       try {
-        var json = JSON.parse(xhr.responseText);
+        const json = JSON.parse(xhr.responseText);
         // Check api response for 403 on oembed
         if (json.domain_status_code === 403) {
           // We still want to create the embed to give users visual feedback
           createEmbed(json, element);
-          reject(new Error("\u201C".concat(videoUrl, "\u201D is not embeddable.")));
+          reject(new Error(`“${videoUrl}” is not embeddable.`));
           return;
         }
         resolve(json);
@@ -1475,8 +907,8 @@ function getOEmbedData(videoUrl) {
       }
     };
     xhr.onerror = function () {
-      var status = xhr.status ? " (".concat(xhr.status, ")") : '';
-      reject(new Error("There was an error fetching the embed code from Vimeo".concat(status, ".")));
+      const status = xhr.status ? ` (${xhr.status})` : '';
+      reject(new Error(`There was an error fetching the embed code from Vimeo${status}.`));
     };
     xhr.send();
   });
@@ -1489,22 +921,22 @@ function getOEmbedData(videoUrl) {
  * @return {void}
  */
 function initializeEmbeds() {
-  var parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
-  var elements = [].slice.call(parent.querySelectorAll('[data-vimeo-id], [data-vimeo-url]'));
-  var handleError = function handleError(error) {
+  let parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
+  const elements = [].slice.call(parent.querySelectorAll('[data-vimeo-id], [data-vimeo-url]'));
+  const handleError = error => {
     if ('console' in window && console.error) {
-      console.error("There was an error creating an embed: ".concat(error));
+      console.error(`There was an error creating an embed: ${error}`);
     }
   };
-  elements.forEach(function (element) {
+  elements.forEach(element => {
     try {
       // Skip any that have data-vimeo-defer
       if (element.getAttribute('data-vimeo-defer') !== null) {
         return;
       }
-      var params = getOEmbedParameters(element);
-      var url = getVimeoUrl(params);
-      getOEmbedData(url, params, element).then(function (data) {
+      const params = getOEmbedParameters(element);
+      const url = getVimeoUrl(params);
+      getOEmbedData(url, params, element).then(data => {
         return createEmbed(data, element);
       }).catch(handleError);
     } catch (error) {
@@ -1520,13 +952,13 @@ function initializeEmbeds() {
  * @return {void}
  */
 function resizeEmbeds() {
-  var parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
+  let parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
   // Prevent execution if users include the player.js script multiple times.
   if (window.VimeoPlayerResizeEmbeds_) {
     return;
   }
   window.VimeoPlayerResizeEmbeds_ = true;
-  var onMessage = function onMessage(event) {
+  const onMessage = event => {
     if (!isVimeoUrl(event.origin)) {
       return;
     }
@@ -1535,12 +967,12 @@ function resizeEmbeds() {
     if (!event.data || event.data.event !== 'spacechange') {
       return;
     }
-    var senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
+    const senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
     if (senderIFrame) {
       // Change padding-bottom of the enclosing div to accommodate
       // card carousel without distorting aspect ratio
-      var space = senderIFrame.parentElement;
-      space.style.paddingBottom = "".concat(event.data.data[0].bottom, "px");
+      const space = senderIFrame.parentElement;
+      space.style.paddingBottom = `${event.data.data[0].bottom}px`;
     }
   };
   window.addEventListener('message', onMessage);
@@ -1553,25 +985,25 @@ function resizeEmbeds() {
  * @return {void}
  */
 function initAppendVideoMetadata() {
-  var parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
+  let parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
   //  Prevent execution if users include the player.js script multiple times.
   if (window.VimeoSeoMetadataAppended) {
     return;
   }
   window.VimeoSeoMetadataAppended = true;
-  var onMessage = function onMessage(event) {
+  const onMessage = event => {
     if (!isVimeoUrl(event.origin)) {
       return;
     }
-    var data = parseMessageData(event.data);
+    const data = parseMessageData(event.data);
     if (!data || data.event !== 'ready') {
       return;
     }
-    var senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
+    const senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
 
     // Initiate appendVideoMetadata if iframe is a Vimeo embed
     if (senderIFrame && isVimeoEmbed(senderIFrame.src)) {
-      var player = new Player(senderIFrame);
+      const player = new Player(senderIFrame);
       player.callMethod('appendVideoMetadata', window.location.href);
     }
   };
@@ -1585,32 +1017,32 @@ function initAppendVideoMetadata() {
  * @return {void}
  */
 function checkUrlTimeParam() {
-  var parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
+  let parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
   //  Prevent execution if users include the player.js script multiple times.
   if (window.VimeoCheckedUrlTimeParam) {
     return;
   }
   window.VimeoCheckedUrlTimeParam = true;
-  var handleError = function handleError(error) {
+  const handleError = error => {
     if ('console' in window && console.error) {
-      console.error("There was an error getting video Id: ".concat(error));
+      console.error(`There was an error getting video Id: ${error}`);
     }
   };
-  var onMessage = function onMessage(event) {
+  const onMessage = event => {
     if (!isVimeoUrl(event.origin)) {
       return;
     }
-    var data = parseMessageData(event.data);
+    const data = parseMessageData(event.data);
     if (!data || data.event !== 'ready') {
       return;
     }
-    var senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
+    const senderIFrame = event.source ? findIframeBySourceWindow(event.source, parent) : null;
     if (senderIFrame && isVimeoEmbed(senderIFrame.src)) {
-      var player = new Player(senderIFrame);
-      player.getVideoId().then(function (videoId) {
-        var matches = new RegExp("[?&]vimeo_t_".concat(videoId, "=([^&#]*)")).exec(window.location.href);
+      const player = new Player(senderIFrame);
+      player.getVideoId().then(videoId => {
+        const matches = new RegExp(`[?&]vimeo_t_${videoId}=([^&#]*)`).exec(window.location.href);
         if (matches && matches[1]) {
-          var sec = decodeURI(matches[1]);
+          const sec = decodeURI(matches[1]);
           player.setCurrentTime(sec);
         }
         return;
@@ -1637,26 +1069,26 @@ function updateDRMEmbeds() {
    * Handle message events for DRM initialization failures
    * @param {MessageEvent} event - The message event from the iframe
    */
-  var onMessage = function onMessage(event) {
+  const onMessage = event => {
     if (!isVimeoUrl(event.origin)) {
       return;
     }
-    var data = parseMessageData(event.data);
+    const data = parseMessageData(event.data);
     if (!data || data.event !== 'drminitfailed') {
       return;
     }
-    var senderIFrame = event.source ? findIframeBySourceWindow(event.source) : null;
+    const senderIFrame = event.source ? findIframeBySourceWindow(event.source) : null;
     if (!senderIFrame) {
       return;
     }
-    var currentAllow = senderIFrame.getAttribute('allow') || '';
-    var allowSupportsDRM = currentAllow.includes('encrypted-media');
+    const currentAllow = senderIFrame.getAttribute('allow') || '';
+    const allowSupportsDRM = currentAllow.includes('encrypted-media');
     if (!allowSupportsDRM) {
       // For DRM playback to successfully occur, the iframe `allow` attribute must include 'encrypted-media'.
       // If the video requires DRM but doesn't have the attribute, we try to add on behalf of the embed owner
       // as a temporary measure to enable playback until they're able to update their embeds.
-      senderIFrame.setAttribute('allow', "".concat(currentAllow, "; encrypted-media"));
-      var currentUrl = new URL(senderIFrame.getAttribute('src'));
+      senderIFrame.setAttribute('allow', `${currentAllow}; encrypted-media`);
+      const currentUrl = new URL(senderIFrame.getAttribute('src'));
 
       // Adding this forces the embed to reload once `allow` has been updated with `encrypted-media`.
       currentUrl.searchParams.set('forcereload', 'drm');
@@ -1679,16 +1111,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 Terms */
 
 function initializeScreenfull() {
-  var fn = function () {
-    var val;
-    var fnMap = [['requestFullscreen', 'exitFullscreen', 'fullscreenElement', 'fullscreenEnabled', 'fullscreenchange', 'fullscreenerror'],
+  const fn = function () {
+    let val;
+    const fnMap = [['requestFullscreen', 'exitFullscreen', 'fullscreenElement', 'fullscreenEnabled', 'fullscreenchange', 'fullscreenerror'],
     // New WebKit
     ['webkitRequestFullscreen', 'webkitExitFullscreen', 'webkitFullscreenElement', 'webkitFullscreenEnabled', 'webkitfullscreenchange', 'webkitfullscreenerror'],
     // Old WebKit
     ['webkitRequestFullScreen', 'webkitCancelFullScreen', 'webkitCurrentFullScreenElement', 'webkitCancelFullScreen', 'webkitfullscreenchange', 'webkitfullscreenerror'], ['mozRequestFullScreen', 'mozCancelFullScreen', 'mozFullScreenElement', 'mozFullScreenEnabled', 'mozfullscreenchange', 'mozfullscreenerror'], ['msRequestFullscreen', 'msExitFullscreen', 'msFullscreenElement', 'msFullscreenEnabled', 'MSFullscreenChange', 'MSFullscreenError']];
-    var i = 0;
-    var l = fnMap.length;
-    var ret = {};
+    let i = 0;
+    const l = fnMap.length;
+    const ret = {};
     for (; i < l; i++) {
       val = fnMap[i];
       if (val && val[1] in document) {
@@ -1700,50 +1132,50 @@ function initializeScreenfull() {
     }
     return false;
   }();
-  var eventNameMap = {
+  const eventNameMap = {
     fullscreenchange: fn.fullscreenchange,
     fullscreenerror: fn.fullscreenerror
   };
-  var screenfull = {
-    request: function request(element) {
-      return new Promise(function (resolve, reject) {
-        var onFullScreenEntered = function onFullScreenEntered() {
+  const screenfull = {
+    request(element) {
+      return new Promise((resolve, reject) => {
+        const onFullScreenEntered = function () {
           screenfull.off('fullscreenchange', onFullScreenEntered);
           resolve();
         };
         screenfull.on('fullscreenchange', onFullScreenEntered);
         element = element || document.documentElement;
-        var returnPromise = element[fn.requestFullscreen]();
+        const returnPromise = element[fn.requestFullscreen]();
         if (returnPromise instanceof Promise) {
           returnPromise.then(onFullScreenEntered).catch(reject);
         }
       });
     },
-    exit: function exit() {
-      return new Promise(function (resolve, reject) {
+    exit() {
+      return new Promise((resolve, reject) => {
         if (!screenfull.isFullscreen) {
           resolve();
           return;
         }
-        var onFullScreenExit = function onFullScreenExit() {
+        const onFullScreenExit = function () {
           screenfull.off('fullscreenchange', onFullScreenExit);
           resolve();
         };
         screenfull.on('fullscreenchange', onFullScreenExit);
-        var returnPromise = document[fn.exitFullscreen]();
+        const returnPromise = document[fn.exitFullscreen]();
         if (returnPromise instanceof Promise) {
           returnPromise.then(onFullScreenExit).catch(reject);
         }
       });
     },
-    on: function on(event, callback) {
-      var eventName = eventNameMap[event];
+    on(event, callback) {
+      const eventName = eventNameMap[event];
       if (eventName) {
         document.addEventListener(eventName, callback);
       }
     },
-    off: function off(event, callback) {
-      var eventName = eventNameMap[event];
+    off(event, callback) {
+      const eventName = eventNameMap[event];
       if (eventName) {
         document.removeEventListener(eventName, callback);
       }
@@ -1751,19 +1183,19 @@ function initializeScreenfull() {
   };
   Object.defineProperties(screenfull, {
     isFullscreen: {
-      get: function get() {
+      get() {
         return Boolean(document[fn.fullscreenElement]);
       }
     },
     element: {
       enumerable: true,
-      get: function get() {
+      get() {
         return document[fn.fullscreenElement];
       }
     },
     isEnabled: {
       enumerable: true,
-      get: function get() {
+      get() {
         // Coerce to boolean in case of old WebKit
         return Boolean(document[fn.fullscreenEnabled]);
       }
@@ -1783,7 +1215,7 @@ function initializeScreenfull() {
  *
  * For details on these properties and their effects, see the typescript definition referenced above.
  */
-var defaultOptions = {
+const defaultOptions = {
   role: 'viewer',
   autoPlayMuted: true,
   allowedDrift: 0.3,
@@ -1810,406 +1242,199 @@ var defaultOptions = {
  * 4. `timingObjectUpdater` which listens to the player events of seeked, play and pause and will respond by calling `updateTimingObject()`.
  * 5. `maintainPlaybackPosition` this is code that constantly monitors the player to make sure it's always in sync with the TimingObject. This is needed because videos will generally not play with precise time accuracy and there will be some drift which becomes more noticeable over longer periods (as noted in the timing-object spec). More details on this method below.
  */
-var TimingSrcConnector = /*#__PURE__*/function (_EventTarget) {
-  _inherits(TimingSrcConnector, _EventTarget);
-  var _super = _createSuper(TimingSrcConnector);
+class TimingSrcConnector extends EventTarget {
+  logger;
+
   /**
    * @param {PlayerControls} player
    * @param {TimingObject} timingObject
    * @param {TimingSrcConnectorOptions} options
    * @param {Logger} logger
    */
-  function TimingSrcConnector(_player, timingObject) {
-    var _this;
-    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    var logger = arguments.length > 3 ? arguments[3] : undefined;
-    _classCallCheck(this, TimingSrcConnector);
-    _this = _super.call(this);
-    _defineProperty(_assertThisInitialized(_this), "logger", void 0);
-    _defineProperty(_assertThisInitialized(_this), "speedAdjustment", 0);
-    /**
-     * @param {PlayerControls} player
-     * @param {number} newAdjustment
-     * @return {Promise<void>}
-     */
-    _defineProperty(_assertThisInitialized(_this), "adjustSpeed", /*#__PURE__*/function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(player, newAdjustment) {
-        var newPlaybackRate;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              if (!(_this.speedAdjustment === newAdjustment)) {
-                _context.next = 2;
-                break;
-              }
-              return _context.abrupt("return");
-            case 2:
-              _context.next = 4;
-              return player.getPlaybackRate();
-            case 4:
-              _context.t0 = _context.sent;
-              _context.t1 = _this.speedAdjustment;
-              _context.t2 = _context.t0 - _context.t1;
-              _context.t3 = newAdjustment;
-              newPlaybackRate = _context.t2 + _context.t3;
-              _this.log("New playbackRate:  ".concat(newPlaybackRate));
-              _context.next = 12;
-              return player.setPlaybackRate(newPlaybackRate);
-            case 12:
-              _this.speedAdjustment = newAdjustment;
-            case 13:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee);
-      }));
-      return function (_x, _x2) {
-        return _ref.apply(this, arguments);
-      };
-    }());
-    _this.logger = logger;
-    _this.init(timingObject, _player, _objectSpread2(_objectSpread2({}, defaultOptions), options));
-    return _this;
+  constructor(player, timingObject) {
+    let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    let logger = arguments.length > 3 ? arguments[3] : undefined;
+    super();
+    this.logger = logger;
+    this.init(timingObject, player, {
+      ...defaultOptions,
+      ...options
+    });
   }
-  _createClass(TimingSrcConnector, [{
-    key: "disconnect",
-    value: function disconnect() {
-      this.dispatchEvent(new Event('disconnect'));
-    }
+  disconnect() {
+    this.dispatchEvent(new Event('disconnect'));
+  }
 
-    /**
-     * @param {TimingObject} timingObject
-     * @param {PlayerControls} player
-     * @param {TimingSrcConnectorOptions} options
-     * @return {Promise<void>}
-     */
-  }, {
-    key: "init",
-    value: function () {
-      var _init = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(timingObject, player, options) {
-        var _this2 = this;
-        var playerUpdater, positionSync, timingObjectUpdater;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return this.waitForTOReadyState(timingObject, 'open');
-            case 2:
-              if (!(options.role === 'viewer')) {
-                _context2.next = 10;
-                break;
-              }
-              _context2.next = 5;
-              return this.updatePlayer(timingObject, player, options);
-            case 5:
-              playerUpdater = subscribe(timingObject, 'change', function () {
-                return _this2.updatePlayer(timingObject, player, options);
-              });
-              positionSync = this.maintainPlaybackPosition(timingObject, player, options);
-              this.addEventListener('disconnect', function () {
-                positionSync.cancel();
-                playerUpdater.cancel();
-              });
-              _context2.next = 14;
-              break;
-            case 10:
-              _context2.next = 12;
-              return this.updateTimingObject(timingObject, player);
-            case 12:
-              timingObjectUpdater = subscribe(player, ['seeked', 'play', 'pause', 'ratechange'], function () {
-                return _this2.updateTimingObject(timingObject, player);
-              }, 'on', 'off');
-              this.addEventListener('disconnect', function () {
-                return timingObjectUpdater.cancel();
-              });
-            case 14:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2, this);
-      }));
-      function init(_x3, _x4, _x5) {
-        return _init.apply(this, arguments);
-      }
-      return init;
-    }()
-    /**
-     * Sets the TimingObject's state to reflect that of the player
-     *
-     * @param {TimingObject} timingObject
-     * @param {PlayerControls} player
-     * @return {Promise<void>}
-     */
-  }, {
-    key: "updateTimingObject",
-    value: function () {
-      var _updateTimingObject = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(timingObject, player) {
-        var _yield$Promise$all, _yield$Promise$all2, position, isPaused, playbackRate;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
-            case 0:
-              _context3.next = 2;
-              return Promise.all([player.getCurrentTime(), player.getPaused(), player.getPlaybackRate()]);
-            case 2:
-              _yield$Promise$all = _context3.sent;
-              _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
-              position = _yield$Promise$all2[0];
-              isPaused = _yield$Promise$all2[1];
-              playbackRate = _yield$Promise$all2[2];
-              timingObject.update({
-                position: position,
-                velocity: isPaused ? 0 : playbackRate
-              });
-            case 8:
-            case "end":
-              return _context3.stop();
-          }
-        }, _callee3);
-      }));
-      function updateTimingObject(_x6, _x7) {
-        return _updateTimingObject.apply(this, arguments);
-      }
-      return updateTimingObject;
-    }()
-    /**
-     * Sets the player's timing state to reflect that of the TimingObject
-     *
-     * @param {TimingObject} timingObject
-     * @param {PlayerControls} player
-     * @param {TimingSrcConnectorOptions} options
-     * @return {Promise<void>}
-     */
-  }, {
-    key: "updatePlayer",
-    value: function () {
-      var _updatePlayer = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(timingObject, player, options) {
-        var _timingObject$query, position, velocity;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) switch (_context5.prev = _context5.next) {
-            case 0:
-              _timingObject$query = timingObject.query(), position = _timingObject$query.position, velocity = _timingObject$query.velocity;
-              if (typeof position === 'number') {
-                player.setCurrentTime(position);
-              }
-              if (!(typeof velocity === 'number')) {
-                _context5.next = 25;
-                break;
-              }
-              if (!(velocity === 0)) {
-                _context5.next = 11;
-                break;
-              }
-              _context5.next = 6;
-              return player.getPaused();
-            case 6:
-              _context5.t0 = _context5.sent;
-              if (!(_context5.t0 === false)) {
-                _context5.next = 9;
-                break;
-              }
-              player.pause();
-            case 9:
-              _context5.next = 25;
-              break;
-            case 11:
-              if (!(velocity > 0)) {
-                _context5.next = 25;
-                break;
-              }
-              _context5.next = 14;
-              return player.getPaused();
-            case 14:
-              _context5.t1 = _context5.sent;
-              if (!(_context5.t1 === true)) {
-                _context5.next = 19;
-                break;
-              }
-              _context5.next = 18;
-              return player.play().catch( /*#__PURE__*/function () {
-                var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(err) {
-                  return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-                    while (1) switch (_context4.prev = _context4.next) {
-                      case 0:
-                        if (!(err.name === 'NotAllowedError' && options.autoPlayMuted)) {
-                          _context4.next = 5;
-                          break;
-                        }
-                        _context4.next = 3;
-                        return player.setMuted(true);
-                      case 3:
-                        _context4.next = 5;
-                        return player.play().catch(function (err2) {
-                          return console.error('Couldn\'t play the video from TimingSrcConnector. Error:', err2);
-                        });
-                      case 5:
-                      case "end":
-                        return _context4.stop();
-                    }
-                  }, _callee4);
-                }));
-                return function (_x11) {
-                  return _ref2.apply(this, arguments);
-                };
-              }());
-            case 18:
-              this.updatePlayer(timingObject, player, options);
-            case 19:
-              _context5.next = 21;
-              return player.getPlaybackRate();
-            case 21:
-              _context5.t2 = _context5.sent;
-              _context5.t3 = velocity;
-              if (!(_context5.t2 !== _context5.t3)) {
-                _context5.next = 25;
-                break;
-              }
-              player.setPlaybackRate(velocity);
-            case 25:
-            case "end":
-              return _context5.stop();
-          }
-        }, _callee5, this);
-      }));
-      function updatePlayer(_x8, _x9, _x10) {
-        return _updatePlayer.apply(this, arguments);
-      }
-      return updatePlayer;
-    }()
-    /**
-     * Since video players do not play with 100% time precision, we need to closely monitor
-     * our player to be sure it remains in sync with the TimingObject.
-     *
-     * If out of sync, we use the current conditions and the options provided to determine
-     * whether to re-sync via setting currentTime or adjusting the playbackRate
-     *
-     * @param {TimingObject} timingObject
-     * @param {PlayerControls} player
-     * @param {TimingSrcConnectorOptions} options
-     * @return {{cancel: (function(): void)}}
-     */
-  }, {
-    key: "maintainPlaybackPosition",
-    value: function maintainPlaybackPosition(timingObject, player, options) {
-      var _this3 = this;
-      var allowedDrift = options.allowedDrift,
-        maxAllowedDrift = options.maxAllowedDrift,
-        minCheckInterval = options.minCheckInterval,
-        maxRateAdjustment = options.maxRateAdjustment,
-        maxTimeToCatchUp = options.maxTimeToCatchUp;
-      var syncInterval = Math.min(maxTimeToCatchUp, Math.max(minCheckInterval, maxAllowedDrift)) * 1000;
-      var check = /*#__PURE__*/function () {
-        var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-          var diff, diffAbs, min, max, adjustment;
-          return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-            while (1) switch (_context6.prev = _context6.next) {
-              case 0:
-                _context6.t0 = timingObject.query().velocity === 0;
-                if (_context6.t0) {
-                  _context6.next = 6;
-                  break;
-                }
-                _context6.next = 4;
-                return player.getPaused();
-              case 4:
-                _context6.t1 = _context6.sent;
-                _context6.t0 = _context6.t1 === true;
-              case 6:
-                if (!_context6.t0) {
-                  _context6.next = 8;
-                  break;
-                }
-                return _context6.abrupt("return");
-              case 8:
-                _context6.t2 = timingObject.query().position;
-                _context6.next = 11;
-                return player.getCurrentTime();
-              case 11:
-                _context6.t3 = _context6.sent;
-                diff = _context6.t2 - _context6.t3;
-                diffAbs = Math.abs(diff);
-                _this3.log("Drift: ".concat(diff));
-                if (!(diffAbs > maxAllowedDrift)) {
-                  _context6.next = 22;
-                  break;
-                }
-                _context6.next = 18;
-                return _this3.adjustSpeed(player, 0);
-              case 18:
-                player.setCurrentTime(timingObject.query().position);
-                _this3.log('Resync by currentTime');
-                _context6.next = 29;
-                break;
-              case 22:
-                if (!(diffAbs > allowedDrift)) {
-                  _context6.next = 29;
-                  break;
-                }
-                min = diffAbs / maxTimeToCatchUp;
-                max = maxRateAdjustment;
-                adjustment = min < max ? (max - min) / 2 : max;
-                _context6.next = 28;
-                return _this3.adjustSpeed(player, adjustment * Math.sign(diff));
-              case 28:
-                _this3.log('Resync by playbackRate');
-              case 29:
-              case "end":
-                return _context6.stop();
+  /**
+   * @param {TimingObject} timingObject
+   * @param {PlayerControls} player
+   * @param {TimingSrcConnectorOptions} options
+   * @return {Promise<void>}
+   */
+  async init(timingObject, player, options) {
+    await this.waitForTOReadyState(timingObject, 'open');
+    if (options.role === 'viewer') {
+      await this.updatePlayer(timingObject, player, options);
+      const playerUpdater = subscribe(timingObject, 'change', () => this.updatePlayer(timingObject, player, options));
+      const positionSync = this.maintainPlaybackPosition(timingObject, player, options);
+      this.addEventListener('disconnect', () => {
+        positionSync.cancel();
+        playerUpdater.cancel();
+      });
+    } else {
+      await this.updateTimingObject(timingObject, player);
+      const timingObjectUpdater = subscribe(player, ['seeked', 'play', 'pause', 'ratechange'], () => this.updateTimingObject(timingObject, player), 'on', 'off');
+      this.addEventListener('disconnect', () => timingObjectUpdater.cancel());
+    }
+  }
+
+  /**
+   * Sets the TimingObject's state to reflect that of the player
+   *
+   * @param {TimingObject} timingObject
+   * @param {PlayerControls} player
+   * @return {Promise<void>}
+   */
+  async updateTimingObject(timingObject, player) {
+    const [position, isPaused, playbackRate] = await Promise.all([player.getCurrentTime(), player.getPaused(), player.getPlaybackRate()]);
+    timingObject.update({
+      position,
+      velocity: isPaused ? 0 : playbackRate
+    });
+  }
+
+  /**
+   * Sets the player's timing state to reflect that of the TimingObject
+   *
+   * @param {TimingObject} timingObject
+   * @param {PlayerControls} player
+   * @param {TimingSrcConnectorOptions} options
+   * @return {Promise<void>}
+   */
+  async updatePlayer(timingObject, player, options) {
+    const {
+      position,
+      velocity
+    } = timingObject.query();
+    if (typeof position === 'number') {
+      player.setCurrentTime(position);
+    }
+    if (typeof velocity === 'number') {
+      if (velocity === 0) {
+        if ((await player.getPaused()) === false) {
+          player.pause();
+        }
+      } else if (velocity > 0) {
+        if ((await player.getPaused()) === true) {
+          await player.play().catch(async err => {
+            if (err.name === 'NotAllowedError' && options.autoPlayMuted) {
+              await player.setMuted(true);
+              await player.play().catch(err2 => console.error('Couldn\'t play the video from TimingSrcConnector. Error:', err2));
             }
-          }, _callee6);
-        }));
-        return function check() {
-          return _ref3.apply(this, arguments);
-        };
-      }();
-      var interval = setInterval(function () {
-        return check();
-      }, syncInterval);
-      return {
-        cancel: function cancel() {
-          return clearInterval(interval);
+          });
+          this.updatePlayer(timingObject, player, options);
+        }
+        if ((await player.getPlaybackRate()) !== velocity) {
+          player.setPlaybackRate(velocity);
+        }
+      }
+    }
+  }
+
+  /**
+   * Since video players do not play with 100% time precision, we need to closely monitor
+   * our player to be sure it remains in sync with the TimingObject.
+   *
+   * If out of sync, we use the current conditions and the options provided to determine
+   * whether to re-sync via setting currentTime or adjusting the playbackRate
+   *
+   * @param {TimingObject} timingObject
+   * @param {PlayerControls} player
+   * @param {TimingSrcConnectorOptions} options
+   * @return {{cancel: (function(): void)}}
+   */
+  maintainPlaybackPosition(timingObject, player, options) {
+    const {
+      allowedDrift,
+      maxAllowedDrift,
+      minCheckInterval,
+      maxRateAdjustment,
+      maxTimeToCatchUp
+    } = options;
+    const syncInterval = Math.min(maxTimeToCatchUp, Math.max(minCheckInterval, maxAllowedDrift)) * 1000;
+    const check = async () => {
+      if (timingObject.query().velocity === 0 || (await player.getPaused()) === true) {
+        return;
+      }
+      const diff = timingObject.query().position - (await player.getCurrentTime());
+      const diffAbs = Math.abs(diff);
+      this.log(`Drift: ${diff}`);
+      if (diffAbs > maxAllowedDrift) {
+        await this.adjustSpeed(player, 0);
+        player.setCurrentTime(timingObject.query().position);
+        this.log('Resync by currentTime');
+      } else if (diffAbs > allowedDrift) {
+        const min = diffAbs / maxTimeToCatchUp;
+        const max = maxRateAdjustment;
+        const adjustment = min < max ? (max - min) / 2 : max;
+        await this.adjustSpeed(player, adjustment * Math.sign(diff));
+        this.log('Resync by playbackRate');
+      }
+    };
+    const interval = setInterval(() => check(), syncInterval);
+    return {
+      cancel: () => clearInterval(interval)
+    };
+  }
+
+  /**
+   * @param {string} msg
+   */
+  log(msg) {
+    this.logger?.(`TimingSrcConnector: ${msg}`);
+  }
+  speedAdjustment = 0;
+
+  /**
+   * @param {PlayerControls} player
+   * @param {number} newAdjustment
+   * @return {Promise<void>}
+   */
+  adjustSpeed = async (player, newAdjustment) => {
+    if (this.speedAdjustment === newAdjustment) {
+      return;
+    }
+    const newPlaybackRate = (await player.getPlaybackRate()) - this.speedAdjustment + newAdjustment;
+    this.log(`New playbackRate:  ${newPlaybackRate}`);
+    await player.setPlaybackRate(newPlaybackRate);
+    this.speedAdjustment = newAdjustment;
+  };
+
+  /**
+   * @param {TimingObject} timingObject
+   * @param {TConnectionState} state
+   * @return {Promise<void>}
+   */
+  waitForTOReadyState(timingObject, state) {
+    return new Promise(resolve => {
+      const check = () => {
+        if (timingObject.readyState === state) {
+          resolve();
+        } else {
+          timingObject.addEventListener('readystatechange', check, {
+            once: true
+          });
         }
       };
-    }
+      check();
+    });
+  }
+}
 
-    /**
-     * @param {string} msg
-     */
-  }, {
-    key: "log",
-    value: function log(msg) {
-      var _this$logger;
-      (_this$logger = this.logger) === null || _this$logger === void 0 ? void 0 : _this$logger.call(this, "TimingSrcConnector: ".concat(msg));
-    }
-  }, {
-    key: "waitForTOReadyState",
-    value:
-    /**
-     * @param {TimingObject} timingObject
-     * @param {TConnectionState} state
-     * @return {Promise<void>}
-     */
-    function waitForTOReadyState(timingObject, state) {
-      return new Promise(function (resolve) {
-        var check = function check() {
-          if (timingObject.readyState === state) {
-            resolve();
-          } else {
-            timingObject.addEventListener('readystatechange', check, {
-              once: true
-            });
-          }
-        };
-        check();
-      });
-    }
-  }]);
-  return TimingSrcConnector;
-}( /*#__PURE__*/_wrapNativeSuper(EventTarget));
-
-var playerMap = new WeakMap();
-var readyMap = new WeakMap();
-var screenfull = {};
-var Player = /*#__PURE__*/function () {
+const playerMap = new WeakMap();
+const readyMap = new WeakMap();
+let screenfull = {};
+class Player {
   /**
    * Create a Player.
    *
@@ -2218,10 +1443,8 @@ var Player = /*#__PURE__*/function () {
    * @param {object} [options] oEmbed parameters to use when creating an embed in the element.
    * @return {Player}
    */
-  function Player(element) {
-    var _this = this;
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    _classCallCheck(this, Player);
+  constructor(element) {
+    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     /* global jQuery */
     if (window.jQuery && element instanceof jQuery) {
       if (element.length > 1 && window.console && console.warn) {
@@ -2242,7 +1465,7 @@ var Player = /*#__PURE__*/function () {
 
     // Already initialized an embed in this div, so grab the iframe
     if (element.nodeName !== 'IFRAME') {
-      var iframe = element.querySelector('iframe');
+      const iframe = element.querySelector('iframe');
       if (iframe) {
         element = iframe;
       }
@@ -2260,44 +1483,44 @@ var Player = /*#__PURE__*/function () {
     this._window = element.ownerDocument.defaultView;
     this.element = element;
     this.origin = '*';
-    var readyPromise = new npo_src(function (resolve, reject) {
-      _this._onMessage = function (event) {
-        if (!isVimeoUrl(event.origin) || _this.element.contentWindow !== event.source) {
+    const readyPromise = new npo_src((resolve, reject) => {
+      this._onMessage = event => {
+        if (!isVimeoUrl(event.origin) || this.element.contentWindow !== event.source) {
           return;
         }
-        if (_this.origin === '*') {
-          _this.origin = event.origin;
+        if (this.origin === '*') {
+          this.origin = event.origin;
         }
-        var data = parseMessageData(event.data);
-        var isError = data && data.event === 'error';
-        var isReadyError = isError && data.data && data.data.method === 'ready';
+        const data = parseMessageData(event.data);
+        const isError = data && data.event === 'error';
+        const isReadyError = isError && data.data && data.data.method === 'ready';
         if (isReadyError) {
-          var error = new Error(data.data.message);
+          const error = new Error(data.data.message);
           error.name = data.data.name;
           reject(error);
           return;
         }
-        var isReadyEvent = data && data.event === 'ready';
-        var isPingResponse = data && data.method === 'ping';
+        const isReadyEvent = data && data.event === 'ready';
+        const isPingResponse = data && data.method === 'ping';
         if (isReadyEvent || isPingResponse) {
-          _this.element.setAttribute('data-ready', 'true');
+          this.element.setAttribute('data-ready', 'true');
           resolve();
           return;
         }
-        processData(_this, data);
+        processData(this, data);
       };
-      _this._window.addEventListener('message', _this._onMessage);
-      if (_this.element.nodeName !== 'IFRAME') {
-        var params = getOEmbedParameters(element, options);
-        var url = getVimeoUrl(params);
-        getOEmbedData(url, params, element).then(function (data) {
-          var iframe = createEmbed(data, element);
+      this._window.addEventListener('message', this._onMessage);
+      if (this.element.nodeName !== 'IFRAME') {
+        const params = getOEmbedParameters(element, options);
+        const url = getVimeoUrl(params);
+        getOEmbedData(url, params, element).then(data => {
+          const iframe = createEmbed(data, element);
           // Overwrite element with the new iframe,
           // but store reference to the original element
-          _this.element = iframe;
-          _this._originalElement = element;
+          this.element = iframe;
+          this._originalElement = element;
           swapCallbacks(element, iframe);
-          playerMap.set(_this.element, _this);
+          playerMap.set(this.element, this);
           return data;
         }).catch(reject);
       }
@@ -2313,18 +1536,16 @@ var Player = /*#__PURE__*/function () {
       postMessage(this, 'ping');
     }
     if (screenfull.isEnabled) {
-      var exitFullscreen = function exitFullscreen() {
-        return screenfull.exit();
-      };
-      this.fullscreenchangeHandler = function () {
+      const exitFullscreen = () => screenfull.exit();
+      this.fullscreenchangeHandler = () => {
         if (screenfull.isFullscreen) {
-          storeCallback(_this, 'event:exitFullscreen', exitFullscreen);
+          storeCallback(this, 'event:exitFullscreen', exitFullscreen);
         } else {
-          removeCallback(_this, 'event:exitFullscreen', exitFullscreen);
+          removeCallback(this, 'event:exitFullscreen', exitFullscreen);
         }
         // eslint-disable-next-line
-        _this.ready().then(function () {
-          postMessage(_this, 'fullscreenchange', screenfull.isFullscreen);
+        this.ready().then(() => {
+          postMessage(this, 'fullscreenchange', screenfull.isFullscreen);
         });
       };
       screenfull.on('fullscreenchange', this.fullscreenchangeHandler);
@@ -2338,1430 +1559,1261 @@ var Player = /*#__PURE__*/function () {
    * @param {string} url The URL string.
    * @return {boolean}
    */
-  _createClass(Player, [{
-    key: "callMethod",
-    value:
-    /**
-     * Get a promise for a method.
-     *
-     * @param {string} name The API method to call.
-     * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
-     * @return {Promise}
-     */
-    function callMethod(name) {
-      var _this2 = this;
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-      if (name === undefined || name === null) {
-        throw new TypeError('You must pass a method name.');
-      }
-      return new npo_src(function (resolve, reject) {
-        // We are storing the resolve/reject handlers to call later, so we
-        // can’t return here.
-        return _this2.ready().then(function () {
-          storeCallback(_this2, name, {
-            resolve: resolve,
-            reject: reject
-          });
-          if (args.length === 0) {
-            args = {};
-          } else if (args.length === 1) {
-            args = args[0];
-          }
-          postMessage(_this2, name, args);
-        }).catch(reject);
-      });
+  static isVimeoUrl(url) {
+    return isVimeoUrl(url);
+  }
+
+  /**
+   * Get a promise for a method.
+   *
+   * @param {string} name The API method to call.
+   * @param {...(string|number|object|Array)} args Arguments to send via postMessage.
+   * @return {Promise}
+   */
+  callMethod(name) {
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
     }
-    /**
-     * Get a promise for the value of a player property.
-     *
-     * @param {string} name The property name
-     * @return {Promise}
-     */
-  }, {
-    key: "get",
-    value: function get(name) {
-      var _this3 = this;
-      return new npo_src(function (resolve, reject) {
-        name = getMethodName(name, 'get');
-
-        // We are storing the resolve/reject handlers to call later, so we
-        // can’t return here.
-        return _this3.ready().then(function () {
-          storeCallback(_this3, name, {
-            resolve: resolve,
-            reject: reject
-          });
-          postMessage(_this3, name);
-        }).catch(reject);
-      });
+    if (name === undefined || name === null) {
+      throw new TypeError('You must pass a method name.');
     }
-
-    /**
-     * Get a promise for setting the value of a player property.
-     *
-     * @param {string} name The API method to call.
-     * @param {mixed} value The value to set.
-     * @return {Promise}
-     */
-  }, {
-    key: "set",
-    value: function set(name, value) {
-      var _this4 = this;
-      return new npo_src(function (resolve, reject) {
-        name = getMethodName(name, 'set');
-        if (value === undefined || value === null) {
-          throw new TypeError('There must be a value to set.');
-        }
-
-        // We are storing the resolve/reject handlers to call later, so we
-        // can’t return here.
-        return _this4.ready().then(function () {
-          storeCallback(_this4, name, {
-            resolve: resolve,
-            reject: reject
-          });
-          postMessage(_this4, name, value);
-        }).catch(reject);
-      });
-    }
-
-    /**
-     * Add an event listener for the specified event. Will call the
-     * callback with a single parameter, `data`, that contains the data for
-     * that event.
-     *
-     * @param {string} eventName The name of the event.
-     * @param {function(*)} callback The function to call when the event fires.
-     * @return {void}
-     */
-  }, {
-    key: "on",
-    value: function on(eventName, callback) {
-      if (!eventName) {
-        throw new TypeError('You must pass an event name.');
-      }
-      if (!callback) {
-        throw new TypeError('You must pass a callback function.');
-      }
-      if (typeof callback !== 'function') {
-        throw new TypeError('The callback must be a function.');
-      }
-      var callbacks = getCallbacks(this, "event:".concat(eventName));
-      if (callbacks.length === 0) {
-        this.callMethod('addEventListener', eventName).catch(function () {
-          // Ignore the error. There will be an error event fired that
-          // will trigger the error callback if they are listening.
+    return new npo_src((resolve, reject) => {
+      // We are storing the resolve/reject handlers to call later, so we
+      // can’t return here.
+      return this.ready().then(() => {
+        storeCallback(this, name, {
+          resolve,
+          reject
         });
-      }
-      storeCallback(this, "event:".concat(eventName), callback);
-    }
-
-    /**
-     * Remove an event listener for the specified event. Will remove all
-     * listeners for that event if a `callback` isn’t passed, or only that
-     * specific callback if it is passed.
-     *
-     * @param {string} eventName The name of the event.
-     * @param {function} [callback] The specific callback to remove.
-     * @return {void}
-     */
-  }, {
-    key: "off",
-    value: function off(eventName, callback) {
-      if (!eventName) {
-        throw new TypeError('You must pass an event name.');
-      }
-      if (callback && typeof callback !== 'function') {
-        throw new TypeError('The callback must be a function.');
-      }
-      var lastCallback = removeCallback(this, "event:".concat(eventName), callback);
-
-      // If there are no callbacks left, remove the listener
-      if (lastCallback) {
-        this.callMethod('removeEventListener', eventName).catch(function (e) {
-          // Ignore the error. There will be an error event fired that
-          // will trigger the error callback if they are listening.
-        });
-      }
-    }
-
-    /**
-     * A promise to load a new video.
-     *
-     * @promise LoadVideoPromise
-     * @fulfill {number} The video with this id or url successfully loaded.
-     * @reject {TypeError} The id was not a number.
-     */
-    /**
-     * Load a new video into this embed. The promise will be resolved if
-     * the video is successfully loaded, or it will be rejected if it could
-     * not be loaded.
-     *
-     * @param {number|string|object} options The id of the video, the url of the video, or an object with embed options.
-     * @return {LoadVideoPromise}
-     */
-  }, {
-    key: "loadVideo",
-    value: function loadVideo(options) {
-      return this.callMethod('loadVideo', options);
-    }
-
-    /**
-     * A promise to perform an action when the Player is ready.
-     *
-     * @todo document errors
-     * @promise LoadVideoPromise
-     * @fulfill {void}
-     */
-    /**
-     * Trigger a function when the player iframe has initialized. You do not
-     * need to wait for `ready` to trigger to begin adding event listeners
-     * or calling other methods.
-     *
-     * @return {ReadyPromise}
-     */
-  }, {
-    key: "ready",
-    value: function ready() {
-      var readyPromise = readyMap.get(this) || new npo_src(function (resolve, reject) {
-        reject(new Error('Unknown player. Probably unloaded.'));
-      });
-      return npo_src.resolve(readyPromise);
-    }
-
-    /**
-     * A promise to add a cue point to the player.
-     *
-     * @promise AddCuePointPromise
-     * @fulfill {string} The id of the cue point to use for removeCuePoint.
-     * @reject {RangeError} the time was less than 0 or greater than the
-     *         video’s duration.
-     * @reject {UnsupportedError} Cue points are not supported with the current
-     *         player or browser.
-     */
-    /**
-     * Add a cue point to the player.
-     *
-     * @param {number} time The time for the cue point.
-     * @param {object} [data] Arbitrary data to be returned with the cue point.
-     * @return {AddCuePointPromise}
-     */
-  }, {
-    key: "addCuePoint",
-    value: function addCuePoint(time) {
-      var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      return this.callMethod('addCuePoint', {
-        time: time,
-        data: data
-      });
-    }
-
-    /**
-     * A promise to remove a cue point from the player.
-     *
-     * @promise AddCuePointPromise
-     * @fulfill {string} The id of the cue point that was removed.
-     * @reject {InvalidCuePoint} The cue point with the specified id was not
-     *         found.
-     * @reject {UnsupportedError} Cue points are not supported with the current
-     *         player or browser.
-     */
-    /**
-     * Remove a cue point from the video.
-     *
-     * @param {string} id The id of the cue point to remove.
-     * @return {RemoveCuePointPromise}
-     */
-  }, {
-    key: "removeCuePoint",
-    value: function removeCuePoint(id) {
-      return this.callMethod('removeCuePoint', id);
-    }
-
-    /**
-     * A representation of a text track on a video.
-     *
-     * @typedef {Object} VimeoTextTrack
-     * @property {string} language The ISO language code.
-     * @property {string} kind The kind of track it is (captions or subtitles).
-     * @property {string} label The human‐readable label for the track.
-     */
-    /**
-     * A promise to enable a text track.
-     *
-     * @promise EnableTextTrackPromise
-     * @fulfill {VimeoTextTrack} The text track that was enabled.
-     * @reject {InvalidTrackLanguageError} No track was available with the
-     *         specified language.
-     * @reject {InvalidTrackError} No track was available with the specified
-     *         language and kind.
-     */
-    /**
-     * Enable the text track with the specified language, and optionally the
-     * specified kind (captions or subtitles).
-     *
-     * When set via the API, the track language will not change the viewer’s
-     * stored preference.
-     *
-     * @param {string} language The two‐letter language code.
-     * @param {string} [kind] The kind of track to enable (captions or subtitles).
-     * @param {boolean} [showing] Whether to enable display of closed captions for enabled text track within the player.
-     * @return {EnableTextTrackPromise}
-     */
-  }, {
-    key: "enableTextTrack",
-    value: function enableTextTrack(language) {
-      var kind = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-      var showing = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      if (!language) {
-        throw new TypeError('You must pass a language.');
-      }
-      return this.callMethod('enableTextTrack', {
-        language: language,
-        kind: kind,
-        showing: showing
-      });
-    }
-
-    /**
-     * A promise to disable the active text track.
-     *
-     * @promise DisableTextTrackPromise
-     * @fulfill {void} The track was disabled.
-     */
-    /**
-     * Disable the currently-active text track.
-     *
-     * @return {DisableTextTrackPromise}
-     */
-  }, {
-    key: "disableTextTrack",
-    value: function disableTextTrack() {
-      return this.callMethod('disableTextTrack');
-    }
-
-    /** @typedef {import('../types/formats.js').VimeoAudioTrack} VimeoAudioTrack */
-    /** @typedef {import('../types/formats.js').AudioLanguage} AudioLanguage */
-    /** @typedef {import('../types/formats.js').AudioKind} AudioKind */
-    /**
-     * A promise to enable an audio track.
-     *
-     * @promise SelectAudioTrackPromise
-     * @fulfill {VimeoAudioTrack} The audio track that was enabled.
-     * @reject {NoAudioTracksError} No audio exists for the video.
-     * @reject {NoAlternateAudioTracksError} No alternate audio tracks exist for the video.
-     * @reject {NoMatchingAudioTrackError} No track was available with the specified
-     *         language and kind.
-     */
-    /**
-     * Enable the audio track with the specified language, and optionally the
-     * specified kind (main, translation, descriptions, or commentary).
-     *
-     * When set via the API, the track language will not change the viewer’s
-     * stored preference.
-     *
-     * @param {AudioLanguage} language The two‐letter language code.
-     * @param {AudioKind} [kind] The kind of track to enable (main, translation, descriptions, commentary).
-     * @return {SelectAudioTrackPromise}
-     */
-  }, {
-    key: "selectAudioTrack",
-    value: function selectAudioTrack(language, kind) {
-      if (!language) {
-        throw new TypeError('You must pass a language.');
-      }
-      return this.callMethod('selectAudioTrack', {
-        language: language,
-        kind: kind
-      });
-    }
-
-    /**
-     * Enable the main audio track for the video.
-     *
-     * @return {SelectAudioTrackPromise}
-     */
-  }, {
-    key: "selectDefaultAudioTrack",
-    value: function selectDefaultAudioTrack() {
-      return this.callMethod('selectDefaultAudioTrack');
-    }
-
-    /**
-     * A promise to pause the video.
-     *
-     * @promise PausePromise
-     * @fulfill {void} The video was paused.
-     */
-    /**
-     * Pause the video if it’s playing.
-     *
-     * @return {PausePromise}
-     */
-  }, {
-    key: "pause",
-    value: function pause() {
-      return this.callMethod('pause');
-    }
-
-    /**
-     * A promise to play the video.
-     *
-     * @promise PlayPromise
-     * @fulfill {void} The video was played.
-     */
-    /**
-     * Play the video if it’s paused. **Note:** on iOS and some other
-     * mobile devices, you cannot programmatically trigger play. Once the
-     * viewer has tapped on the play button in the player, however, you
-     * will be able to use this function.
-     *
-     * @return {PlayPromise}
-     */
-  }, {
-    key: "play",
-    value: function play() {
-      return this.callMethod('play');
-    }
-
-    /**
-     * Request that the player enters fullscreen.
-     * @return {Promise}
-     */
-  }, {
-    key: "requestFullscreen",
-    value: function requestFullscreen() {
-      if (screenfull.isEnabled) {
-        return screenfull.request(this.element);
-      }
-      return this.callMethod('requestFullscreen');
-    }
-
-    /**
-     * Request that the player exits fullscreen.
-     * @return {Promise}
-     */
-  }, {
-    key: "exitFullscreen",
-    value: function exitFullscreen() {
-      if (screenfull.isEnabled) {
-        return screenfull.exit();
-      }
-      return this.callMethod('exitFullscreen');
-    }
-
-    /**
-     * Returns true if the player is currently fullscreen.
-     * @return {Promise}
-     */
-  }, {
-    key: "getFullscreen",
-    value: function getFullscreen() {
-      if (screenfull.isEnabled) {
-        return npo_src.resolve(screenfull.isFullscreen);
-      }
-      return this.get('fullscreen');
-    }
-
-    /**
-     * Request that the player enters picture-in-picture.
-     * @return {Promise}
-     */
-  }, {
-    key: "requestPictureInPicture",
-    value: function requestPictureInPicture() {
-      return this.callMethod('requestPictureInPicture');
-    }
-
-    /**
-     * Request that the player exits picture-in-picture.
-     * @return {Promise}
-     */
-  }, {
-    key: "exitPictureInPicture",
-    value: function exitPictureInPicture() {
-      return this.callMethod('exitPictureInPicture');
-    }
-
-    /**
-     * Returns true if the player is currently picture-in-picture.
-     * @return {Promise}
-     */
-  }, {
-    key: "getPictureInPicture",
-    value: function getPictureInPicture() {
-      return this.get('pictureInPicture');
-    }
-
-    /**
-     * A promise to prompt the viewer to initiate remote playback.
-     *
-     * @promise RemotePlaybackPromptPromise
-     * @fulfill {void}
-     * @reject {NotFoundError} No remote playback device is available.
-     */
-    /**
-     * Request to prompt the user to initiate remote playback.
-     *
-     * @return {RemotePlaybackPromptPromise}
-     */
-  }, {
-    key: "remotePlaybackPrompt",
-    value: function remotePlaybackPrompt() {
-      return this.callMethod('remotePlaybackPrompt');
-    }
-
-    /**
-     * A promise to unload the video.
-     *
-     * @promise UnloadPromise
-     * @fulfill {void} The video was unloaded.
-     */
-    /**
-     * Return the player to its initial state.
-     *
-     * @return {UnloadPromise}
-     */
-  }, {
-    key: "unload",
-    value: function unload() {
-      return this.callMethod('unload');
-    }
-
-    /**
-     * Cleanup the player and remove it from the DOM
-     *
-     * It won't be usable and a new one should be constructed
-     *  in order to do any operations.
-     *
-     * @return {Promise}
-     */
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      var _this5 = this;
-      return new npo_src(function (resolve) {
-        readyMap.delete(_this5);
-        playerMap.delete(_this5.element);
-        if (_this5._originalElement) {
-          playerMap.delete(_this5._originalElement);
-          _this5._originalElement.removeAttribute('data-vimeo-initialized');
+        if (args.length === 0) {
+          args = {};
+        } else if (args.length === 1) {
+          args = args[0];
         }
-        if (_this5.element && _this5.element.nodeName === 'IFRAME' && _this5.element.parentNode) {
+        postMessage(this, name, args);
+      }).catch(reject);
+    });
+  }
+  /**
+   * Get a promise for the value of a player property.
+   *
+   * @param {string} name The property name
+   * @return {Promise}
+   */
+  get(name) {
+    return new npo_src((resolve, reject) => {
+      name = getMethodName(name, 'get');
+
+      // We are storing the resolve/reject handlers to call later, so we
+      // can’t return here.
+      return this.ready().then(() => {
+        storeCallback(this, name, {
+          resolve,
+          reject
+        });
+        postMessage(this, name);
+      }).catch(reject);
+    });
+  }
+
+  /**
+   * Get a promise for setting the value of a player property.
+   *
+   * @param {string} name The API method to call.
+   * @param {mixed} value The value to set.
+   * @return {Promise}
+   */
+  set(name, value) {
+    return new npo_src((resolve, reject) => {
+      name = getMethodName(name, 'set');
+      if (value === undefined || value === null) {
+        throw new TypeError('There must be a value to set.');
+      }
+
+      // We are storing the resolve/reject handlers to call later, so we
+      // can’t return here.
+      return this.ready().then(() => {
+        storeCallback(this, name, {
+          resolve,
+          reject
+        });
+        postMessage(this, name, value);
+      }).catch(reject);
+    });
+  }
+
+  /**
+   * Add an event listener for the specified event. Will call the
+   * callback with a single parameter, `data`, that contains the data for
+   * that event.
+   *
+   * @param {string} eventName The name of the event.
+   * @param {function(*)} callback The function to call when the event fires.
+   * @return {void}
+   */
+  on(eventName, callback) {
+    if (!eventName) {
+      throw new TypeError('You must pass an event name.');
+    }
+    if (!callback) {
+      throw new TypeError('You must pass a callback function.');
+    }
+    if (typeof callback !== 'function') {
+      throw new TypeError('The callback must be a function.');
+    }
+    const callbacks = getCallbacks(this, `event:${eventName}`);
+    if (callbacks.length === 0) {
+      this.callMethod('addEventListener', eventName).catch(() => {
+        // Ignore the error. There will be an error event fired that
+        // will trigger the error callback if they are listening.
+      });
+    }
+    storeCallback(this, `event:${eventName}`, callback);
+  }
+
+  /**
+   * Remove an event listener for the specified event. Will remove all
+   * listeners for that event if a `callback` isn’t passed, or only that
+   * specific callback if it is passed.
+   *
+   * @param {string} eventName The name of the event.
+   * @param {function} [callback] The specific callback to remove.
+   * @return {void}
+   */
+  off(eventName, callback) {
+    if (!eventName) {
+      throw new TypeError('You must pass an event name.');
+    }
+    if (callback && typeof callback !== 'function') {
+      throw new TypeError('The callback must be a function.');
+    }
+    const lastCallback = removeCallback(this, `event:${eventName}`, callback);
+
+    // If there are no callbacks left, remove the listener
+    if (lastCallback) {
+      this.callMethod('removeEventListener', eventName).catch(e => {
+        // Ignore the error. There will be an error event fired that
+        // will trigger the error callback if they are listening.
+      });
+    }
+  }
+
+  /**
+   * A promise to load a new video.
+   *
+   * @promise LoadVideoPromise
+   * @fulfill {number} The video with this id or url successfully loaded.
+   * @reject {TypeError} The id was not a number.
+   */
+  /**
+   * Load a new video into this embed. The promise will be resolved if
+   * the video is successfully loaded, or it will be rejected if it could
+   * not be loaded.
+   *
+   * @param {number|string|object} options The id of the video, the url of the video, or an object with embed options.
+   * @return {LoadVideoPromise}
+   */
+  loadVideo(options) {
+    return this.callMethod('loadVideo', options);
+  }
+
+  /**
+   * A promise to perform an action when the Player is ready.
+   *
+   * @todo document errors
+   * @promise LoadVideoPromise
+   * @fulfill {void}
+   */
+  /**
+   * Trigger a function when the player iframe has initialized. You do not
+   * need to wait for `ready` to trigger to begin adding event listeners
+   * or calling other methods.
+   *
+   * @return {ReadyPromise}
+   */
+  ready() {
+    const readyPromise = readyMap.get(this) || new npo_src((resolve, reject) => {
+      reject(new Error('Unknown player. Probably unloaded.'));
+    });
+    return npo_src.resolve(readyPromise);
+  }
+
+  /**
+   * A promise to add a cue point to the player.
+   *
+   * @promise AddCuePointPromise
+   * @fulfill {string} The id of the cue point to use for removeCuePoint.
+   * @reject {RangeError} the time was less than 0 or greater than the
+   *         video’s duration.
+   * @reject {UnsupportedError} Cue points are not supported with the current
+   *         player or browser.
+   */
+  /**
+   * Add a cue point to the player.
+   *
+   * @param {number} time The time for the cue point.
+   * @param {object} [data] Arbitrary data to be returned with the cue point.
+   * @return {AddCuePointPromise}
+   */
+  addCuePoint(time) {
+    let data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    return this.callMethod('addCuePoint', {
+      time,
+      data
+    });
+  }
+
+  /**
+   * A promise to remove a cue point from the player.
+   *
+   * @promise AddCuePointPromise
+   * @fulfill {string} The id of the cue point that was removed.
+   * @reject {InvalidCuePoint} The cue point with the specified id was not
+   *         found.
+   * @reject {UnsupportedError} Cue points are not supported with the current
+   *         player or browser.
+   */
+  /**
+   * Remove a cue point from the video.
+   *
+   * @param {string} id The id of the cue point to remove.
+   * @return {RemoveCuePointPromise}
+   */
+  removeCuePoint(id) {
+    return this.callMethod('removeCuePoint', id);
+  }
+
+  /**
+   * A representation of a text track on a video.
+   *
+   * @typedef {Object} VimeoTextTrack
+   * @property {string} language The ISO language code.
+   * @property {string} kind The kind of track it is (captions or subtitles).
+   * @property {string} label The human‐readable label for the track.
+   */
+  /**
+   * A promise to enable a text track.
+   *
+   * @promise EnableTextTrackPromise
+   * @fulfill {VimeoTextTrack} The text track that was enabled.
+   * @reject {InvalidTrackLanguageError} No track was available with the
+   *         specified language.
+   * @reject {InvalidTrackError} No track was available with the specified
+   *         language and kind.
+   */
+  /**
+   * Enable the text track with the specified language, and optionally the
+   * specified kind (captions or subtitles).
+   *
+   * When set via the API, the track language will not change the viewer’s
+   * stored preference.
+   *
+   * @param {string} language The two‐letter language code.
+   * @param {string} [kind] The kind of track to enable (captions or subtitles).
+   * @param {boolean} [showing] Whether to enable display of closed captions for enabled text track within the player.
+   * @return {EnableTextTrackPromise}
+   */
+  enableTextTrack(language) {
+    let kind = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    let showing = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+    if (!language) {
+      throw new TypeError('You must pass a language.');
+    }
+    return this.callMethod('enableTextTrack', {
+      language,
+      kind,
+      showing
+    });
+  }
+
+  /**
+   * A promise to disable the active text track.
+   *
+   * @promise DisableTextTrackPromise
+   * @fulfill {void} The track was disabled.
+   */
+  /**
+   * Disable the currently-active text track.
+   *
+   * @return {DisableTextTrackPromise}
+   */
+  disableTextTrack() {
+    return this.callMethod('disableTextTrack');
+  }
+
+  /** @typedef {import('../types/formats.js').VimeoAudioTrack} VimeoAudioTrack */
+  /** @typedef {import('../types/formats.js').AudioLanguage} AudioLanguage */
+  /** @typedef {import('../types/formats.js').AudioKind} AudioKind */
+  /**
+   * A promise to enable an audio track.
+   *
+   * @promise SelectAudioTrackPromise
+   * @fulfill {VimeoAudioTrack} The audio track that was enabled.
+   * @reject {NoAudioTracksError} No audio exists for the video.
+   * @reject {NoAlternateAudioTracksError} No alternate audio tracks exist for the video.
+   * @reject {NoMatchingAudioTrackError} No track was available with the specified
+   *         language and kind.
+   */
+  /**
+   * Enable the audio track with the specified language, and optionally the
+   * specified kind (main, translation, descriptions, or commentary).
+   *
+   * When set via the API, the track language will not change the viewer’s
+   * stored preference.
+   *
+   * @param {AudioLanguage} language The two‐letter language code.
+   * @param {AudioKind} [kind] The kind of track to enable (main, translation, descriptions, commentary).
+   * @return {SelectAudioTrackPromise}
+   */
+  selectAudioTrack(language, kind) {
+    if (!language) {
+      throw new TypeError('You must pass a language.');
+    }
+    return this.callMethod('selectAudioTrack', {
+      language,
+      kind
+    });
+  }
+
+  /**
+   * Enable the main audio track for the video.
+   *
+   * @return {SelectAudioTrackPromise}
+   */
+  selectDefaultAudioTrack() {
+    return this.callMethod('selectDefaultAudioTrack');
+  }
+
+  /**
+   * A promise to pause the video.
+   *
+   * @promise PausePromise
+   * @fulfill {void} The video was paused.
+   */
+  /**
+   * Pause the video if it’s playing.
+   *
+   * @return {PausePromise}
+   */
+  pause() {
+    return this.callMethod('pause');
+  }
+
+  /**
+   * A promise to play the video.
+   *
+   * @promise PlayPromise
+   * @fulfill {void} The video was played.
+   */
+  /**
+   * Play the video if it’s paused. **Note:** on iOS and some other
+   * mobile devices, you cannot programmatically trigger play. Once the
+   * viewer has tapped on the play button in the player, however, you
+   * will be able to use this function.
+   *
+   * @return {PlayPromise}
+   */
+  play() {
+    return this.callMethod('play');
+  }
+
+  /**
+   * Request that the player enters fullscreen.
+   * @return {Promise}
+   */
+  requestFullscreen() {
+    if (screenfull.isEnabled) {
+      return screenfull.request(this.element);
+    }
+    return this.callMethod('requestFullscreen');
+  }
+
+  /**
+   * Request that the player exits fullscreen.
+   * @return {Promise}
+   */
+  exitFullscreen() {
+    if (screenfull.isEnabled) {
+      return screenfull.exit();
+    }
+    return this.callMethod('exitFullscreen');
+  }
+
+  /**
+   * Returns true if the player is currently fullscreen.
+   * @return {Promise}
+   */
+  getFullscreen() {
+    if (screenfull.isEnabled) {
+      return npo_src.resolve(screenfull.isFullscreen);
+    }
+    return this.get('fullscreen');
+  }
+
+  /**
+   * Request that the player enters picture-in-picture.
+   * @return {Promise}
+   */
+  requestPictureInPicture() {
+    return this.callMethod('requestPictureInPicture');
+  }
+
+  /**
+   * Request that the player exits picture-in-picture.
+   * @return {Promise}
+   */
+  exitPictureInPicture() {
+    return this.callMethod('exitPictureInPicture');
+  }
+
+  /**
+   * Returns true if the player is currently picture-in-picture.
+   * @return {Promise}
+   */
+  getPictureInPicture() {
+    return this.get('pictureInPicture');
+  }
+
+  /**
+   * A promise to prompt the viewer to initiate remote playback.
+   *
+   * @promise RemotePlaybackPromptPromise
+   * @fulfill {void}
+   * @reject {NotFoundError} No remote playback device is available.
+   */
+  /**
+   * Request to prompt the user to initiate remote playback.
+   *
+   * @return {RemotePlaybackPromptPromise}
+   */
+  remotePlaybackPrompt() {
+    return this.callMethod('remotePlaybackPrompt');
+  }
+
+  /**
+   * A promise to unload the video.
+   *
+   * @promise UnloadPromise
+   * @fulfill {void} The video was unloaded.
+   */
+  /**
+   * Return the player to its initial state.
+   *
+   * @return {UnloadPromise}
+   */
+  unload() {
+    return this.callMethod('unload');
+  }
+
+  /**
+   * Cleanup the player and remove it from the DOM
+   *
+   * It won't be usable and a new one should be constructed
+   *  in order to do any operations.
+   *
+   * @return {Promise}
+   */
+  destroy() {
+    return new npo_src(resolve => {
+      readyMap.delete(this);
+      playerMap.delete(this.element);
+      if (this._originalElement) {
+        playerMap.delete(this._originalElement);
+        this._originalElement.removeAttribute('data-vimeo-initialized');
+      }
+      if (this.element && this.element.nodeName === 'IFRAME' && this.element.parentNode) {
+        // If we've added an additional wrapper div, remove that from the DOM.
+        // If not, just remove the iframe element.
+        if (this.element.parentNode.parentNode && this._originalElement && this._originalElement !== this.element.parentNode) {
+          this.element.parentNode.parentNode.removeChild(this.element.parentNode);
+        } else {
+          this.element.parentNode.removeChild(this.element);
+        }
+      }
+
+      // If the clip is private there is a case where the element stays the
+      // div element. Destroy should reset the div and remove the iframe child.
+      if (this.element && this.element.nodeName === 'DIV' && this.element.parentNode) {
+        this.element.removeAttribute('data-vimeo-initialized');
+        const iframe = this.element.querySelector('iframe');
+        if (iframe && iframe.parentNode) {
           // If we've added an additional wrapper div, remove that from the DOM.
           // If not, just remove the iframe element.
-          if (_this5.element.parentNode.parentNode && _this5._originalElement && _this5._originalElement !== _this5.element.parentNode) {
-            _this5.element.parentNode.parentNode.removeChild(_this5.element.parentNode);
+          if (iframe.parentNode.parentNode && this._originalElement && this._originalElement !== iframe.parentNode) {
+            iframe.parentNode.parentNode.removeChild(iframe.parentNode);
           } else {
-            _this5.element.parentNode.removeChild(_this5.element);
+            iframe.parentNode.removeChild(iframe);
           }
         }
-
-        // If the clip is private there is a case where the element stays the
-        // div element. Destroy should reset the div and remove the iframe child.
-        if (_this5.element && _this5.element.nodeName === 'DIV' && _this5.element.parentNode) {
-          _this5.element.removeAttribute('data-vimeo-initialized');
-          var iframe = _this5.element.querySelector('iframe');
-          if (iframe && iframe.parentNode) {
-            // If we've added an additional wrapper div, remove that from the DOM.
-            // If not, just remove the iframe element.
-            if (iframe.parentNode.parentNode && _this5._originalElement && _this5._originalElement !== iframe.parentNode) {
-              iframe.parentNode.parentNode.removeChild(iframe.parentNode);
-            } else {
-              iframe.parentNode.removeChild(iframe);
-            }
-          }
-        }
-        _this5._window.removeEventListener('message', _this5._onMessage);
-        if (screenfull.isEnabled) {
-          screenfull.off('fullscreenchange', _this5.fullscreenchangeHandler);
-        }
-        resolve();
-      });
-    }
-
-    /**
-     * A promise to get the autopause behavior of the video.
-     *
-     * @promise GetAutopausePromise
-     * @fulfill {boolean} Whether autopause is turned on or off.
-     * @reject {UnsupportedError} Autopause is not supported with the current
-     *         player or browser.
-     */
-    /**
-     * Get the autopause behavior for this player.
-     *
-     * @return {GetAutopausePromise}
-     */
-  }, {
-    key: "getAutopause",
-    value: function getAutopause() {
-      return this.get('autopause');
-    }
-
-    /**
-     * A promise to set the autopause behavior of the video.
-     *
-     * @promise SetAutopausePromise
-     * @fulfill {boolean} Whether autopause is turned on or off.
-     * @reject {UnsupportedError} Autopause is not supported with the current
-     *         player or browser.
-     */
-    /**
-     * Enable or disable the autopause behavior of this player.
-     *
-     * By default, when another video is played in the same browser, this
-     * player will automatically pause. Unless you have a specific reason
-     * for doing so, we recommend that you leave autopause set to the
-     * default (`true`).
-     *
-     * @param {boolean} autopause
-     * @return {SetAutopausePromise}
-     */
-  }, {
-    key: "setAutopause",
-    value: function setAutopause(autopause) {
-      return this.set('autopause', autopause);
-    }
-
-    /**
-     * A promise to get the buffered property of the video.
-     *
-     * @promise GetBufferedPromise
-     * @fulfill {Array} Buffered Timeranges converted to an Array.
-     */
-    /**
-     * Get the buffered property of the video.
-     *
-     * @return {GetBufferedPromise}
-     */
-  }, {
-    key: "getBuffered",
-    value: function getBuffered() {
-      return this.get('buffered');
-    }
-
-    /**
-     * @typedef {Object} CameraProperties
-     * @prop {number} props.yaw - Number between 0 and 360.
-     * @prop {number} props.pitch - Number between -90 and 90.
-     * @prop {number} props.roll - Number between -180 and 180.
-     * @prop {number} props.fov - The field of view in degrees.
-     */
-    /**
-     * A promise to get the camera properties of the player.
-     *
-     * @promise GetCameraPromise
-     * @fulfill {CameraProperties} The camera properties.
-     */
-    /**
-     * For 360° videos get the camera properties for this player.
-     *
-     * @return {GetCameraPromise}
-     */
-  }, {
-    key: "getCameraProps",
-    value: function getCameraProps() {
-      return this.get('cameraProps');
-    }
-
-    /**
-     * A promise to set the camera properties of the player.
-     *
-     * @promise SetCameraPromise
-     * @fulfill {Object} The camera was successfully set.
-     * @reject {RangeError} The range was out of bounds.
-     */
-    /**
-     * For 360° videos set the camera properties for this player.
-     *
-     * @param {CameraProperties} camera The camera properties
-     * @return {SetCameraPromise}
-     */
-  }, {
-    key: "setCameraProps",
-    value: function setCameraProps(camera) {
-      return this.set('cameraProps', camera);
-    }
-
-    /**
-     * A representation of a chapter.
-     *
-     * @typedef {Object} VimeoChapter
-     * @property {number} startTime The start time of the chapter.
-     * @property {object} title The title of the chapter.
-     * @property {number} index The place in the order of Chapters. Starts at 1.
-     */
-    /**
-     * A promise to get chapters for the video.
-     *
-     * @promise GetChaptersPromise
-     * @fulfill {VimeoChapter[]} The chapters for the video.
-     */
-    /**
-     * Get an array of all the chapters for the video.
-     *
-     * @return {GetChaptersPromise}
-     */
-  }, {
-    key: "getChapters",
-    value: function getChapters() {
-      return this.get('chapters');
-    }
-
-    /**
-     * A promise to get the currently active chapter.
-     *
-     * @promise GetCurrentChaptersPromise
-     * @fulfill {VimeoChapter|undefined} The current chapter for the video.
-     */
-    /**
-     * Get the currently active chapter for the video.
-     *
-     * @return {GetCurrentChaptersPromise}
-     */
-  }, {
-    key: "getCurrentChapter",
-    value: function getCurrentChapter() {
-      return this.get('currentChapter');
-    }
-
-    /**
-     * A promise to get the accent color of the player.
-     *
-     * @promise GetColorPromise
-     * @fulfill {string} The hex color of the player.
-     */
-    /**
-     * Get the accent color for this player. Note this is deprecated in place of `getColorTwo`.
-     *
-     * @return {GetColorPromise}
-     */
-  }, {
-    key: "getColor",
-    value: function getColor() {
-      return this.get('color');
-    }
-
-    /**
-     * A promise to get all colors for the player in an array.
-     *
-     * @promise GetColorsPromise
-     * @fulfill {string[]} The hex colors of the player.
-     */
-    /**
-     * Get all the colors for this player in an array: [colorOne, colorTwo, colorThree, colorFour]
-     *
-     * @return {GetColorPromise}
-     */
-  }, {
-    key: "getColors",
-    value: function getColors() {
-      return npo_src.all([this.get('colorOne'), this.get('colorTwo'), this.get('colorThree'), this.get('colorFour')]);
-    }
-
-    /**
-     * A promise to set the accent color of the player.
-     *
-     * @promise SetColorPromise
-     * @fulfill {string} The color was successfully set.
-     * @reject {TypeError} The string was not a valid hex or rgb color.
-     * @reject {ContrastError} The color was set, but the contrast is
-     *         outside of the acceptable range.
-     * @reject {EmbedSettingsError} The owner of the player has chosen to
-     *         use a specific color.
-     */
-    /**
-     * Set the accent color of this player to a hex or rgb string. Setting the
-     * color may fail if the owner of the video has set their embed
-     * preferences to force a specific color.
-     * Note this is deprecated in place of `setColorTwo`.
-     *
-     * @param {string} color The hex or rgb color string to set.
-     * @return {SetColorPromise}
-     */
-  }, {
-    key: "setColor",
-    value: function setColor(color) {
-      return this.set('color', color);
-    }
-
-    /**
-     * A promise to set all colors for the player.
-     *
-     * @promise SetColorsPromise
-     * @fulfill {string[]} The colors were successfully set.
-     * @reject {TypeError} The string was not a valid hex or rgb color.
-     * @reject {ContrastError} The color was set, but the contrast is
-     *         outside of the acceptable range.
-     * @reject {EmbedSettingsError} The owner of the player has chosen to
-     *         use a specific color.
-     */
-    /**
-     * Set the colors of this player to a hex or rgb string. Setting the
-     * color may fail if the owner of the video has set their embed
-     * preferences to force a specific color.
-     * The colors should be passed in as an array: [colorOne, colorTwo, colorThree, colorFour].
-     * If a color should not be set, the index in the array can be left as null.
-     *
-     * @param {string[]} colors Array of the hex or rgb color strings to set.
-     * @return {SetColorsPromise}
-     */
-  }, {
-    key: "setColors",
-    value: function setColors(colors) {
-      if (!Array.isArray(colors)) {
-        return new npo_src(function (resolve, reject) {
-          return reject(new TypeError('Argument must be an array.'));
-        });
       }
-      var nullPromise = new npo_src(function (resolve) {
-        return resolve(null);
-      });
-      var colorPromises = [colors[0] ? this.set('colorOne', colors[0]) : nullPromise, colors[1] ? this.set('colorTwo', colors[1]) : nullPromise, colors[2] ? this.set('colorThree', colors[2]) : nullPromise, colors[3] ? this.set('colorFour', colors[3]) : nullPromise];
-      return npo_src.all(colorPromises);
-    }
-
-    /**
-     * A representation of a cue point.
-     *
-     * @typedef {Object} VimeoCuePoint
-     * @property {number} time The time of the cue point.
-     * @property {object} data The data passed when adding the cue point.
-     * @property {string} id The unique id for use with removeCuePoint.
-     */
-    /**
-     * A promise to get the cue points of a video.
-     *
-     * @promise GetCuePointsPromise
-     * @fulfill {VimeoCuePoint[]} The cue points added to the video.
-     * @reject {UnsupportedError} Cue points are not supported with the current
-     *         player or browser.
-     */
-    /**
-     * Get an array of the cue points added to the video.
-     *
-     * @return {GetCuePointsPromise}
-     */
-  }, {
-    key: "getCuePoints",
-    value: function getCuePoints() {
-      return this.get('cuePoints');
-    }
-
-    /**
-     * A promise to get the current time of the video.
-     *
-     * @promise GetCurrentTimePromise
-     * @fulfill {number} The current time in seconds.
-     */
-    /**
-     * Get the current playback position in seconds.
-     *
-     * @return {GetCurrentTimePromise}
-     */
-  }, {
-    key: "getCurrentTime",
-    value: function getCurrentTime() {
-      return this.get('currentTime');
-    }
-
-    /**
-     * A promise to set the current time of the video.
-     *
-     * @promise SetCurrentTimePromise
-     * @fulfill {number} The actual current time that was set.
-     * @reject {RangeError} the time was less than 0 or greater than the
-     *         video’s duration.
-     */
-    /**
-     * Set the current playback position in seconds. If the player was
-     * paused, it will remain paused. Likewise, if the player was playing,
-     * it will resume playing once the video has buffered.
-     *
-     * You can provide an accurate time and the player will attempt to seek
-     * to as close to that time as possible. The exact time will be the
-     * fulfilled value of the promise.
-     *
-     * @param {number} currentTime
-     * @return {SetCurrentTimePromise}
-     */
-  }, {
-    key: "setCurrentTime",
-    value: function setCurrentTime(currentTime) {
-      return this.set('currentTime', currentTime);
-    }
-
-    /**
-     * A promise to get the duration of the video.
-     *
-     * @promise GetDurationPromise
-     * @fulfill {number} The duration in seconds.
-     */
-    /**
-     * Get the duration of the video in seconds. It will be rounded to the
-     * nearest second before playback begins, and to the nearest thousandth
-     * of a second after playback begins.
-     *
-     * @return {GetDurationPromise}
-     */
-  }, {
-    key: "getDuration",
-    value: function getDuration() {
-      return this.get('duration');
-    }
-
-    /**
-     * A promise to get the ended state of the video.
-     *
-     * @promise GetEndedPromise
-     * @fulfill {boolean} Whether or not the video has ended.
-     */
-    /**
-     * Get the ended state of the video. The video has ended if
-     * `currentTime === duration`.
-     *
-     * @return {GetEndedPromise}
-     */
-  }, {
-    key: "getEnded",
-    value: function getEnded() {
-      return this.get('ended');
-    }
-
-    /**
-     * A promise to get the loop state of the player.
-     *
-     * @promise GetLoopPromise
-     * @fulfill {boolean} Whether or not the player is set to loop.
-     */
-    /**
-     * Get the loop state of the player.
-     *
-     * @return {GetLoopPromise}
-     */
-  }, {
-    key: "getLoop",
-    value: function getLoop() {
-      return this.get('loop');
-    }
-
-    /**
-     * A promise to set the loop state of the player.
-     *
-     * @promise SetLoopPromise
-     * @fulfill {boolean} The loop state that was set.
-     */
-    /**
-     * Set the loop state of the player. When set to `true`, the player
-     * will start over immediately once playback ends.
-     *
-     * @param {boolean} loop
-     * @return {SetLoopPromise}
-     */
-  }, {
-    key: "setLoop",
-    value: function setLoop(loop) {
-      return this.set('loop', loop);
-    }
-
-    /**
-     * A promise to set the muted state of the player.
-     *
-     * @promise SetMutedPromise
-     * @fulfill {boolean} The muted state that was set.
-     */
-    /**
-     * Set the muted state of the player. When set to `true`, the player
-     * volume will be muted.
-     *
-     * @param {boolean} muted
-     * @return {SetMutedPromise}
-     */
-  }, {
-    key: "setMuted",
-    value: function setMuted(muted) {
-      return this.set('muted', muted);
-    }
-
-    /**
-     * A promise to get the muted state of the player.
-     *
-     * @promise GetMutedPromise
-     * @fulfill {boolean} Whether or not the player is muted.
-     */
-    /**
-     * Get the muted state of the player.
-     *
-     * @return {GetMutedPromise}
-     */
-  }, {
-    key: "getMuted",
-    value: function getMuted() {
-      return this.get('muted');
-    }
-
-    /**
-     * A promise to get the paused state of the player.
-     *
-     * @promise GetLoopPromise
-     * @fulfill {boolean} Whether or not the video is paused.
-     */
-    /**
-     * Get the paused state of the player.
-     *
-     * @return {GetLoopPromise}
-     */
-  }, {
-    key: "getPaused",
-    value: function getPaused() {
-      return this.get('paused');
-    }
-
-    /**
-     * A promise to get the playback rate of the player.
-     *
-     * @promise GetPlaybackRatePromise
-     * @fulfill {number} The playback rate of the player on a scale from 0 to 2.
-     */
-    /**
-     * Get the playback rate of the player on a scale from `0` to `2`.
-     *
-     * @return {GetPlaybackRatePromise}
-     */
-  }, {
-    key: "getPlaybackRate",
-    value: function getPlaybackRate() {
-      return this.get('playbackRate');
-    }
-
-    /**
-     * A promise to set the playbackrate of the player.
-     *
-     * @promise SetPlaybackRatePromise
-     * @fulfill {number} The playback rate was set.
-     * @reject {RangeError} The playback rate was less than 0 or greater than 2.
-     */
-    /**
-     * Set the playback rate of the player on a scale from `0` to `2`. When set
-     * via the API, the playback rate will not be synchronized to other
-     * players or stored as the viewer's preference.
-     *
-     * @param {number} playbackRate
-     * @return {SetPlaybackRatePromise}
-     */
-  }, {
-    key: "setPlaybackRate",
-    value: function setPlaybackRate(playbackRate) {
-      return this.set('playbackRate', playbackRate);
-    }
-
-    /**
-     * A promise to get the played property of the video.
-     *
-     * @promise GetPlayedPromise
-     * @fulfill {Array} Played Timeranges converted to an Array.
-     */
-    /**
-     * Get the played property of the video.
-     *
-     * @return {GetPlayedPromise}
-     */
-  }, {
-    key: "getPlayed",
-    value: function getPlayed() {
-      return this.get('played');
-    }
-
-    /**
-     * A promise to get the qualities available of the current video.
-     *
-     * @promise GetQualitiesPromise
-     * @fulfill {Array} The qualities of the video.
-     */
-    /**
-     * Get the qualities of the current video.
-     *
-     * @return {GetQualitiesPromise}
-     */
-  }, {
-    key: "getQualities",
-    value: function getQualities() {
-      return this.get('qualities');
-    }
-
-    /**
-     * A promise to get the current set quality of the video.
-     *
-     * @promise GetQualityPromise
-     * @fulfill {string} The current set quality.
-     */
-    /**
-     * Get the current set quality of the video.
-     *
-     * @return {GetQualityPromise}
-     */
-  }, {
-    key: "getQuality",
-    value: function getQuality() {
-      return this.get('quality');
-    }
-
-    /**
-     * A promise to set the video quality.
-     *
-     * @promise SetQualityPromise
-     * @fulfill {number} The quality was set.
-     * @reject {RangeError} The quality is not available.
-     */
-    /**
-     * Set a video quality.
-     *
-     * @param {string} quality
-     * @return {SetQualityPromise}
-     */
-  }, {
-    key: "setQuality",
-    value: function setQuality(quality) {
-      return this.set('quality', quality);
-    }
-
-    /**
-     * A promise to get the remote playback availability.
-     *
-     * @promise RemotePlaybackAvailabilityPromise
-     * @fulfill {boolean} Whether remote playback is available.
-     */
-    /**
-     * Get the availability of remote playback.
-     *
-     * @return {RemotePlaybackAvailabilityPromise}
-     */
-  }, {
-    key: "getRemotePlaybackAvailability",
-    value: function getRemotePlaybackAvailability() {
-      return this.get('remotePlaybackAvailability');
-    }
-
-    /**
-     * A promise to get the current remote playback state.
-     *
-     * @promise RemotePlaybackStatePromise
-     * @fulfill {string} The state of the remote playback: connecting, connected, or disconnected.
-     */
-    /**
-     * Get the current remote playback state.
-     *
-     * @return {RemotePlaybackStatePromise}
-     */
-  }, {
-    key: "getRemotePlaybackState",
-    value: function getRemotePlaybackState() {
-      return this.get('remotePlaybackState');
-    }
-
-    /**
-     * A promise to get the seekable property of the video.
-     *
-     * @promise GetSeekablePromise
-     * @fulfill {Array} Seekable Timeranges converted to an Array.
-     */
-    /**
-     * Get the seekable property of the video.
-     *
-     * @return {GetSeekablePromise}
-     */
-  }, {
-    key: "getSeekable",
-    value: function getSeekable() {
-      return this.get('seekable');
-    }
-
-    /**
-     * A promise to get the seeking property of the player.
-     *
-     * @promise GetSeekingPromise
-     * @fulfill {boolean} Whether or not the player is currently seeking.
-     */
-    /**
-     * Get if the player is currently seeking.
-     *
-     * @return {GetSeekingPromise}
-     */
-  }, {
-    key: "getSeeking",
-    value: function getSeeking() {
-      return this.get('seeking');
-    }
-
-    /**
-     * A promise to get the text tracks of a video.
-     *
-     * @promise GetTextTracksPromise
-     * @fulfill {VimeoTextTrack[]} The text tracks associated with the video.
-     */
-    /**
-     * Get an array of the text tracks that exist for the video.
-     *
-     * @return {GetTextTracksPromise}
-     */
-  }, {
-    key: "getTextTracks",
-    value: function getTextTracks() {
-      return this.get('textTracks');
-    }
-
-    /**
-     * A promise to get the audio tracks of a video.
-     *
-     * @promise GetAudioTracksPromise
-     * @fulfill {VimeoAudioTrack[]} The audio tracks associated with the video.
-     */
-    /**
-     * Get an array of the audio tracks that exist for the video.
-     *
-     * @return {GetAudioTracksPromise}
-     */
-  }, {
-    key: "getAudioTracks",
-    value: function getAudioTracks() {
-      return this.get('audioTracks');
-    }
-
-    /**
-     * A promise to get the enabled audio track of a video.
-     *
-     * @promise GetAudioTrackPromise
-     * @fulfill {VimeoAudioTrack} The enabled audio track.
-     */
-    /**
-     * Get the enabled audio track for a video.
-     *
-     * @return {GetAudioTrackPromise}
-     */
-  }, {
-    key: "getEnabledAudioTrack",
-    value: function getEnabledAudioTrack() {
-      return this.get('enabledAudioTrack');
-    }
-
-    /**
-     * Get the main audio track for a video.
-     *
-     * @return {GetAudioTrackPromise}
-     */
-  }, {
-    key: "getDefaultAudioTrack",
-    value: function getDefaultAudioTrack() {
-      return this.get('defaultAudioTrack');
-    }
-
-    /**
-     * A promise to get the embed code for the video.
-     *
-     * @promise GetVideoEmbedCodePromise
-     * @fulfill {string} The `<iframe>` embed code for the video.
-     */
-    /**
-     * Get the `<iframe>` embed code for the video.
-     *
-     * @return {GetVideoEmbedCodePromise}
-     */
-  }, {
-    key: "getVideoEmbedCode",
-    value: function getVideoEmbedCode() {
-      return this.get('videoEmbedCode');
-    }
-
-    /**
-     * A promise to get the id of the video.
-     *
-     * @promise GetVideoIdPromise
-     * @fulfill {number} The id of the video.
-     */
-    /**
-     * Get the id of the video.
-     *
-     * @return {GetVideoIdPromise}
-     */
-  }, {
-    key: "getVideoId",
-    value: function getVideoId() {
-      return this.get('videoId');
-    }
-
-    /**
-     * A promise to get the title of the video.
-     *
-     * @promise GetVideoTitlePromise
-     * @fulfill {number} The title of the video.
-     */
-    /**
-     * Get the title of the video.
-     *
-     * @return {GetVideoTitlePromise}
-     */
-  }, {
-    key: "getVideoTitle",
-    value: function getVideoTitle() {
-      return this.get('videoTitle');
-    }
-
-    /**
-     * A promise to get the native width of the video.
-     *
-     * @promise GetVideoWidthPromise
-     * @fulfill {number} The native width of the video.
-     */
-    /**
-     * Get the native width of the currently‐playing video. The width of
-     * the highest‐resolution available will be used before playback begins.
-     *
-     * @return {GetVideoWidthPromise}
-     */
-  }, {
-    key: "getVideoWidth",
-    value: function getVideoWidth() {
-      return this.get('videoWidth');
-    }
-
-    /**
-     * A promise to get the native height of the video.
-     *
-     * @promise GetVideoHeightPromise
-     * @fulfill {number} The native height of the video.
-     */
-    /**
-     * Get the native height of the currently‐playing video. The height of
-     * the highest‐resolution available will be used before playback begins.
-     *
-     * @return {GetVideoHeightPromise}
-     */
-  }, {
-    key: "getVideoHeight",
-    value: function getVideoHeight() {
-      return this.get('videoHeight');
-    }
-
-    /**
-     * A promise to get the vimeo.com url for the video.
-     *
-     * @promise GetVideoUrlPromise
-     * @fulfill {number} The vimeo.com url for the video.
-     * @reject {PrivacyError} The url isn’t available because of the video’s privacy setting.
-     */
-    /**
-     * Get the vimeo.com url for the video.
-     *
-     * @return {GetVideoUrlPromise}
-     */
-  }, {
-    key: "getVideoUrl",
-    value: function getVideoUrl() {
-      return this.get('videoUrl');
-    }
-
-    /**
-     * A promise to get the volume level of the player.
-     *
-     * @promise GetVolumePromise
-     * @fulfill {number} The volume level of the player on a scale from 0 to 1.
-     */
-    /**
-     * Get the current volume level of the player on a scale from `0` to `1`.
-     *
-     * Most mobile devices do not support an independent volume from the
-     * system volume. In those cases, this method will always return `1`.
-     *
-     * @return {GetVolumePromise}
-     */
-  }, {
-    key: "getVolume",
-    value: function getVolume() {
-      return this.get('volume');
-    }
-
-    /**
-     * A promise to set the volume level of the player.
-     *
-     * @promise SetVolumePromise
-     * @fulfill {number} The volume was set.
-     * @reject {RangeError} The volume was less than 0 or greater than 1.
-     */
-    /**
-     * Set the volume of the player on a scale from `0` to `1`. When set
-     * via the API, the volume level will not be synchronized to other
-     * players or stored as the viewer’s preference.
-     *
-     * Most mobile devices do not support setting the volume. An error will
-     * *not* be triggered in that situation.
-     *
-     * @param {number} volume
-     * @return {SetVolumePromise}
-     */
-  }, {
-    key: "setVolume",
-    value: function setVolume(volume) {
-      return this.set('volume', volume);
-    }
-
-    /** @typedef {import('timing-object').ITimingObject} TimingObject */
-    /** @typedef {import('./lib/timing-src-connector.types').TimingSrcConnectorOptions} TimingSrcConnectorOptions */
-    /** @typedef {import('./lib/timing-src-connector').TimingSrcConnector} TimingSrcConnector */
-
-    /**
-     * Connects a TimingObject to the video player (https://webtiming.github.io/timingobject/)
-     *
-     * @param {TimingObject} timingObject
-     * @param {TimingSrcConnectorOptions} options
-     *
-     * @return {Promise<TimingSrcConnector>}
-     */
-  }, {
-    key: "setTimingSrc",
-    value: function () {
-      var _setTimingSrc = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(timingObject, options) {
-        var _this6 = this;
-        var connector;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              if (timingObject) {
-                _context.next = 2;
-                break;
-              }
-              throw new TypeError('A Timing Object must be provided.');
-            case 2:
-              _context.next = 4;
-              return this.ready();
-            case 4:
-              connector = new TimingSrcConnector(this, timingObject, options);
-              postMessage(this, 'notifyTimingObjectConnect');
-              connector.addEventListener('disconnect', function () {
-                return postMessage(_this6, 'notifyTimingObjectDisconnect');
-              });
-              return _context.abrupt("return", connector);
-            case 8:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee, this);
-      }));
-      function setTimingSrc(_x, _x2) {
-        return _setTimingSrc.apply(this, arguments);
+      this._window.removeEventListener('message', this._onMessage);
+      if (screenfull.isEnabled) {
+        screenfull.off('fullscreenchange', this.fullscreenchangeHandler);
       }
-      return setTimingSrc;
-    }()
-  }], [{
-    key: "isVimeoUrl",
-    value: function isVimeoUrl$1(url) {
-      return isVimeoUrl(url);
+      resolve();
+    });
+  }
+
+  /**
+   * A promise to get the autopause behavior of the video.
+   *
+   * @promise GetAutopausePromise
+   * @fulfill {boolean} Whether autopause is turned on or off.
+   * @reject {UnsupportedError} Autopause is not supported with the current
+   *         player or browser.
+   */
+  /**
+   * Get the autopause behavior for this player.
+   *
+   * @return {GetAutopausePromise}
+   */
+  getAutopause() {
+    return this.get('autopause');
+  }
+
+  /**
+   * A promise to set the autopause behavior of the video.
+   *
+   * @promise SetAutopausePromise
+   * @fulfill {boolean} Whether autopause is turned on or off.
+   * @reject {UnsupportedError} Autopause is not supported with the current
+   *         player or browser.
+   */
+  /**
+   * Enable or disable the autopause behavior of this player.
+   *
+   * By default, when another video is played in the same browser, this
+   * player will automatically pause. Unless you have a specific reason
+   * for doing so, we recommend that you leave autopause set to the
+   * default (`true`).
+   *
+   * @param {boolean} autopause
+   * @return {SetAutopausePromise}
+   */
+  setAutopause(autopause) {
+    return this.set('autopause', autopause);
+  }
+
+  /**
+   * A promise to get the buffered property of the video.
+   *
+   * @promise GetBufferedPromise
+   * @fulfill {Array} Buffered Timeranges converted to an Array.
+   */
+  /**
+   * Get the buffered property of the video.
+   *
+   * @return {GetBufferedPromise}
+   */
+  getBuffered() {
+    return this.get('buffered');
+  }
+
+  /**
+   * @typedef {Object} CameraProperties
+   * @prop {number} props.yaw - Number between 0 and 360.
+   * @prop {number} props.pitch - Number between -90 and 90.
+   * @prop {number} props.roll - Number between -180 and 180.
+   * @prop {number} props.fov - The field of view in degrees.
+   */
+  /**
+   * A promise to get the camera properties of the player.
+   *
+   * @promise GetCameraPromise
+   * @fulfill {CameraProperties} The camera properties.
+   */
+  /**
+   * For 360° videos get the camera properties for this player.
+   *
+   * @return {GetCameraPromise}
+   */
+  getCameraProps() {
+    return this.get('cameraProps');
+  }
+
+  /**
+   * A promise to set the camera properties of the player.
+   *
+   * @promise SetCameraPromise
+   * @fulfill {Object} The camera was successfully set.
+   * @reject {RangeError} The range was out of bounds.
+   */
+  /**
+   * For 360° videos set the camera properties for this player.
+   *
+   * @param {CameraProperties} camera The camera properties
+   * @return {SetCameraPromise}
+   */
+  setCameraProps(camera) {
+    return this.set('cameraProps', camera);
+  }
+
+  /**
+   * A representation of a chapter.
+   *
+   * @typedef {Object} VimeoChapter
+   * @property {number} startTime The start time of the chapter.
+   * @property {object} title The title of the chapter.
+   * @property {number} index The place in the order of Chapters. Starts at 1.
+   */
+  /**
+   * A promise to get chapters for the video.
+   *
+   * @promise GetChaptersPromise
+   * @fulfill {VimeoChapter[]} The chapters for the video.
+   */
+  /**
+   * Get an array of all the chapters for the video.
+   *
+   * @return {GetChaptersPromise}
+   */
+  getChapters() {
+    return this.get('chapters');
+  }
+
+  /**
+   * A promise to get the currently active chapter.
+   *
+   * @promise GetCurrentChaptersPromise
+   * @fulfill {VimeoChapter|undefined} The current chapter for the video.
+   */
+  /**
+   * Get the currently active chapter for the video.
+   *
+   * @return {GetCurrentChaptersPromise}
+   */
+  getCurrentChapter() {
+    return this.get('currentChapter');
+  }
+
+  /**
+   * A promise to get the accent color of the player.
+   *
+   * @promise GetColorPromise
+   * @fulfill {string} The hex color of the player.
+   */
+  /**
+   * Get the accent color for this player. Note this is deprecated in place of `getColorTwo`.
+   *
+   * @return {GetColorPromise}
+   */
+  getColor() {
+    return this.get('color');
+  }
+
+  /**
+   * A promise to get all colors for the player in an array.
+   *
+   * @promise GetColorsPromise
+   * @fulfill {string[]} The hex colors of the player.
+   */
+  /**
+   * Get all the colors for this player in an array: [colorOne, colorTwo, colorThree, colorFour]
+   *
+   * @return {GetColorPromise}
+   */
+  getColors() {
+    return npo_src.all([this.get('colorOne'), this.get('colorTwo'), this.get('colorThree'), this.get('colorFour')]);
+  }
+
+  /**
+   * A promise to set the accent color of the player.
+   *
+   * @promise SetColorPromise
+   * @fulfill {string} The color was successfully set.
+   * @reject {TypeError} The string was not a valid hex or rgb color.
+   * @reject {ContrastError} The color was set, but the contrast is
+   *         outside of the acceptable range.
+   * @reject {EmbedSettingsError} The owner of the player has chosen to
+   *         use a specific color.
+   */
+  /**
+   * Set the accent color of this player to a hex or rgb string. Setting the
+   * color may fail if the owner of the video has set their embed
+   * preferences to force a specific color.
+   * Note this is deprecated in place of `setColorTwo`.
+   *
+   * @param {string} color The hex or rgb color string to set.
+   * @return {SetColorPromise}
+   */
+  setColor(color) {
+    return this.set('color', color);
+  }
+
+  /**
+   * A promise to set all colors for the player.
+   *
+   * @promise SetColorsPromise
+   * @fulfill {string[]} The colors were successfully set.
+   * @reject {TypeError} The string was not a valid hex or rgb color.
+   * @reject {ContrastError} The color was set, but the contrast is
+   *         outside of the acceptable range.
+   * @reject {EmbedSettingsError} The owner of the player has chosen to
+   *         use a specific color.
+   */
+  /**
+   * Set the colors of this player to a hex or rgb string. Setting the
+   * color may fail if the owner of the video has set their embed
+   * preferences to force a specific color.
+   * The colors should be passed in as an array: [colorOne, colorTwo, colorThree, colorFour].
+   * If a color should not be set, the index in the array can be left as null.
+   *
+   * @param {string[]} colors Array of the hex or rgb color strings to set.
+   * @return {SetColorsPromise}
+   */
+  setColors(colors) {
+    if (!Array.isArray(colors)) {
+      return new npo_src((resolve, reject) => reject(new TypeError('Argument must be an array.')));
     }
-  }]);
-  return Player;
-}(); // Setup embed only if this is not a server runtime
+    const nullPromise = new npo_src(resolve => resolve(null));
+    const colorPromises = [colors[0] ? this.set('colorOne', colors[0]) : nullPromise, colors[1] ? this.set('colorTwo', colors[1]) : nullPromise, colors[2] ? this.set('colorThree', colors[2]) : nullPromise, colors[3] ? this.set('colorFour', colors[3]) : nullPromise];
+    return npo_src.all(colorPromises);
+  }
+
+  /**
+   * A representation of a cue point.
+   *
+   * @typedef {Object} VimeoCuePoint
+   * @property {number} time The time of the cue point.
+   * @property {object} data The data passed when adding the cue point.
+   * @property {string} id The unique id for use with removeCuePoint.
+   */
+  /**
+   * A promise to get the cue points of a video.
+   *
+   * @promise GetCuePointsPromise
+   * @fulfill {VimeoCuePoint[]} The cue points added to the video.
+   * @reject {UnsupportedError} Cue points are not supported with the current
+   *         player or browser.
+   */
+  /**
+   * Get an array of the cue points added to the video.
+   *
+   * @return {GetCuePointsPromise}
+   */
+  getCuePoints() {
+    return this.get('cuePoints');
+  }
+
+  /**
+   * A promise to get the current time of the video.
+   *
+   * @promise GetCurrentTimePromise
+   * @fulfill {number} The current time in seconds.
+   */
+  /**
+   * Get the current playback position in seconds.
+   *
+   * @return {GetCurrentTimePromise}
+   */
+  getCurrentTime() {
+    return this.get('currentTime');
+  }
+
+  /**
+   * A promise to set the current time of the video.
+   *
+   * @promise SetCurrentTimePromise
+   * @fulfill {number} The actual current time that was set.
+   * @reject {RangeError} the time was less than 0 or greater than the
+   *         video’s duration.
+   */
+  /**
+   * Set the current playback position in seconds. If the player was
+   * paused, it will remain paused. Likewise, if the player was playing,
+   * it will resume playing once the video has buffered.
+   *
+   * You can provide an accurate time and the player will attempt to seek
+   * to as close to that time as possible. The exact time will be the
+   * fulfilled value of the promise.
+   *
+   * @param {number} currentTime
+   * @return {SetCurrentTimePromise}
+   */
+  setCurrentTime(currentTime) {
+    return this.set('currentTime', currentTime);
+  }
+
+  /**
+   * A promise to get the duration of the video.
+   *
+   * @promise GetDurationPromise
+   * @fulfill {number} The duration in seconds.
+   */
+  /**
+   * Get the duration of the video in seconds. It will be rounded to the
+   * nearest second before playback begins, and to the nearest thousandth
+   * of a second after playback begins.
+   *
+   * @return {GetDurationPromise}
+   */
+  getDuration() {
+    return this.get('duration');
+  }
+
+  /**
+   * A promise to get the ended state of the video.
+   *
+   * @promise GetEndedPromise
+   * @fulfill {boolean} Whether or not the video has ended.
+   */
+  /**
+   * Get the ended state of the video. The video has ended if
+   * `currentTime === duration`.
+   *
+   * @return {GetEndedPromise}
+   */
+  getEnded() {
+    return this.get('ended');
+  }
+
+  /**
+   * A promise to get the loop state of the player.
+   *
+   * @promise GetLoopPromise
+   * @fulfill {boolean} Whether or not the player is set to loop.
+   */
+  /**
+   * Get the loop state of the player.
+   *
+   * @return {GetLoopPromise}
+   */
+  getLoop() {
+    return this.get('loop');
+  }
+
+  /**
+   * A promise to set the loop state of the player.
+   *
+   * @promise SetLoopPromise
+   * @fulfill {boolean} The loop state that was set.
+   */
+  /**
+   * Set the loop state of the player. When set to `true`, the player
+   * will start over immediately once playback ends.
+   *
+   * @param {boolean} loop
+   * @return {SetLoopPromise}
+   */
+  setLoop(loop) {
+    return this.set('loop', loop);
+  }
+
+  /**
+   * A promise to set the muted state of the player.
+   *
+   * @promise SetMutedPromise
+   * @fulfill {boolean} The muted state that was set.
+   */
+  /**
+   * Set the muted state of the player. When set to `true`, the player
+   * volume will be muted.
+   *
+   * @param {boolean} muted
+   * @return {SetMutedPromise}
+   */
+  setMuted(muted) {
+    return this.set('muted', muted);
+  }
+
+  /**
+   * A promise to get the muted state of the player.
+   *
+   * @promise GetMutedPromise
+   * @fulfill {boolean} Whether or not the player is muted.
+   */
+  /**
+   * Get the muted state of the player.
+   *
+   * @return {GetMutedPromise}
+   */
+  getMuted() {
+    return this.get('muted');
+  }
+
+  /**
+   * A promise to get the paused state of the player.
+   *
+   * @promise GetLoopPromise
+   * @fulfill {boolean} Whether or not the video is paused.
+   */
+  /**
+   * Get the paused state of the player.
+   *
+   * @return {GetLoopPromise}
+   */
+  getPaused() {
+    return this.get('paused');
+  }
+
+  /**
+   * A promise to get the playback rate of the player.
+   *
+   * @promise GetPlaybackRatePromise
+   * @fulfill {number} The playback rate of the player on a scale from 0 to 2.
+   */
+  /**
+   * Get the playback rate of the player on a scale from `0` to `2`.
+   *
+   * @return {GetPlaybackRatePromise}
+   */
+  getPlaybackRate() {
+    return this.get('playbackRate');
+  }
+
+  /**
+   * A promise to set the playbackrate of the player.
+   *
+   * @promise SetPlaybackRatePromise
+   * @fulfill {number} The playback rate was set.
+   * @reject {RangeError} The playback rate was less than 0 or greater than 2.
+   */
+  /**
+   * Set the playback rate of the player on a scale from `0` to `2`. When set
+   * via the API, the playback rate will not be synchronized to other
+   * players or stored as the viewer's preference.
+   *
+   * @param {number} playbackRate
+   * @return {SetPlaybackRatePromise}
+   */
+  setPlaybackRate(playbackRate) {
+    return this.set('playbackRate', playbackRate);
+  }
+
+  /**
+   * A promise to get the played property of the video.
+   *
+   * @promise GetPlayedPromise
+   * @fulfill {Array} Played Timeranges converted to an Array.
+   */
+  /**
+   * Get the played property of the video.
+   *
+   * @return {GetPlayedPromise}
+   */
+  getPlayed() {
+    return this.get('played');
+  }
+
+  /**
+   * A promise to get the qualities available of the current video.
+   *
+   * @promise GetQualitiesPromise
+   * @fulfill {Array} The qualities of the video.
+   */
+  /**
+   * Get the qualities of the current video.
+   *
+   * @return {GetQualitiesPromise}
+   */
+  getQualities() {
+    return this.get('qualities');
+  }
+
+  /**
+   * A promise to get the current set quality of the video.
+   *
+   * @promise GetQualityPromise
+   * @fulfill {string} The current set quality.
+   */
+  /**
+   * Get the current set quality of the video.
+   *
+   * @return {GetQualityPromise}
+   */
+  getQuality() {
+    return this.get('quality');
+  }
+
+  /**
+   * A promise to set the video quality.
+   *
+   * @promise SetQualityPromise
+   * @fulfill {number} The quality was set.
+   * @reject {RangeError} The quality is not available.
+   */
+  /**
+   * Set a video quality.
+   *
+   * @param {string} quality
+   * @return {SetQualityPromise}
+   */
+  setQuality(quality) {
+    return this.set('quality', quality);
+  }
+
+  /**
+   * A promise to get the remote playback availability.
+   *
+   * @promise RemotePlaybackAvailabilityPromise
+   * @fulfill {boolean} Whether remote playback is available.
+   */
+  /**
+   * Get the availability of remote playback.
+   *
+   * @return {RemotePlaybackAvailabilityPromise}
+   */
+  getRemotePlaybackAvailability() {
+    return this.get('remotePlaybackAvailability');
+  }
+
+  /**
+   * A promise to get the current remote playback state.
+   *
+   * @promise RemotePlaybackStatePromise
+   * @fulfill {string} The state of the remote playback: connecting, connected, or disconnected.
+   */
+  /**
+   * Get the current remote playback state.
+   *
+   * @return {RemotePlaybackStatePromise}
+   */
+  getRemotePlaybackState() {
+    return this.get('remotePlaybackState');
+  }
+
+  /**
+   * A promise to get the seekable property of the video.
+   *
+   * @promise GetSeekablePromise
+   * @fulfill {Array} Seekable Timeranges converted to an Array.
+   */
+  /**
+   * Get the seekable property of the video.
+   *
+   * @return {GetSeekablePromise}
+   */
+  getSeekable() {
+    return this.get('seekable');
+  }
+
+  /**
+   * A promise to get the seeking property of the player.
+   *
+   * @promise GetSeekingPromise
+   * @fulfill {boolean} Whether or not the player is currently seeking.
+   */
+  /**
+   * Get if the player is currently seeking.
+   *
+   * @return {GetSeekingPromise}
+   */
+  getSeeking() {
+    return this.get('seeking');
+  }
+
+  /**
+   * A promise to get the text tracks of a video.
+   *
+   * @promise GetTextTracksPromise
+   * @fulfill {VimeoTextTrack[]} The text tracks associated with the video.
+   */
+  /**
+   * Get an array of the text tracks that exist for the video.
+   *
+   * @return {GetTextTracksPromise}
+   */
+  getTextTracks() {
+    return this.get('textTracks');
+  }
+
+  /**
+   * A promise to get the audio tracks of a video.
+   *
+   * @promise GetAudioTracksPromise
+   * @fulfill {VimeoAudioTrack[]} The audio tracks associated with the video.
+   */
+  /**
+   * Get an array of the audio tracks that exist for the video.
+   *
+   * @return {GetAudioTracksPromise}
+   */
+  getAudioTracks() {
+    return this.get('audioTracks');
+  }
+
+  /**
+   * A promise to get the enabled audio track of a video.
+   *
+   * @promise GetAudioTrackPromise
+   * @fulfill {VimeoAudioTrack} The enabled audio track.
+   */
+  /**
+   * Get the enabled audio track for a video.
+   *
+   * @return {GetAudioTrackPromise}
+   */
+  getEnabledAudioTrack() {
+    return this.get('enabledAudioTrack');
+  }
+
+  /**
+   * Get the main audio track for a video.
+   *
+   * @return {GetAudioTrackPromise}
+   */
+  getDefaultAudioTrack() {
+    return this.get('defaultAudioTrack');
+  }
+
+  /**
+   * A promise to get the embed code for the video.
+   *
+   * @promise GetVideoEmbedCodePromise
+   * @fulfill {string} The `<iframe>` embed code for the video.
+   */
+  /**
+   * Get the `<iframe>` embed code for the video.
+   *
+   * @return {GetVideoEmbedCodePromise}
+   */
+  getVideoEmbedCode() {
+    return this.get('videoEmbedCode');
+  }
+
+  /**
+   * A promise to get the id of the video.
+   *
+   * @promise GetVideoIdPromise
+   * @fulfill {number} The id of the video.
+   */
+  /**
+   * Get the id of the video.
+   *
+   * @return {GetVideoIdPromise}
+   */
+  getVideoId() {
+    return this.get('videoId');
+  }
+
+  /**
+   * A promise to get the title of the video.
+   *
+   * @promise GetVideoTitlePromise
+   * @fulfill {number} The title of the video.
+   */
+  /**
+   * Get the title of the video.
+   *
+   * @return {GetVideoTitlePromise}
+   */
+  getVideoTitle() {
+    return this.get('videoTitle');
+  }
+
+  /**
+   * A promise to get the native width of the video.
+   *
+   * @promise GetVideoWidthPromise
+   * @fulfill {number} The native width of the video.
+   */
+  /**
+   * Get the native width of the currently‐playing video. The width of
+   * the highest‐resolution available will be used before playback begins.
+   *
+   * @return {GetVideoWidthPromise}
+   */
+  getVideoWidth() {
+    return this.get('videoWidth');
+  }
+
+  /**
+   * A promise to get the native height of the video.
+   *
+   * @promise GetVideoHeightPromise
+   * @fulfill {number} The native height of the video.
+   */
+  /**
+   * Get the native height of the currently‐playing video. The height of
+   * the highest‐resolution available will be used before playback begins.
+   *
+   * @return {GetVideoHeightPromise}
+   */
+  getVideoHeight() {
+    return this.get('videoHeight');
+  }
+
+  /**
+   * A promise to get the vimeo.com url for the video.
+   *
+   * @promise GetVideoUrlPromise
+   * @fulfill {number} The vimeo.com url for the video.
+   * @reject {PrivacyError} The url isn’t available because of the video’s privacy setting.
+   */
+  /**
+   * Get the vimeo.com url for the video.
+   *
+   * @return {GetVideoUrlPromise}
+   */
+  getVideoUrl() {
+    return this.get('videoUrl');
+  }
+
+  /**
+   * A promise to get the volume level of the player.
+   *
+   * @promise GetVolumePromise
+   * @fulfill {number} The volume level of the player on a scale from 0 to 1.
+   */
+  /**
+   * Get the current volume level of the player on a scale from `0` to `1`.
+   *
+   * Most mobile devices do not support an independent volume from the
+   * system volume. In those cases, this method will always return `1`.
+   *
+   * @return {GetVolumePromise}
+   */
+  getVolume() {
+    return this.get('volume');
+  }
+
+  /**
+   * A promise to set the volume level of the player.
+   *
+   * @promise SetVolumePromise
+   * @fulfill {number} The volume was set.
+   * @reject {RangeError} The volume was less than 0 or greater than 1.
+   */
+  /**
+   * Set the volume of the player on a scale from `0` to `1`. When set
+   * via the API, the volume level will not be synchronized to other
+   * players or stored as the viewer’s preference.
+   *
+   * Most mobile devices do not support setting the volume. An error will
+   * *not* be triggered in that situation.
+   *
+   * @param {number} volume
+   * @return {SetVolumePromise}
+   */
+  setVolume(volume) {
+    return this.set('volume', volume);
+  }
+
+  /** @typedef {import('timing-object').ITimingObject} TimingObject */
+  /** @typedef {import('./lib/timing-src-connector.types').TimingSrcConnectorOptions} TimingSrcConnectorOptions */
+  /** @typedef {import('./lib/timing-src-connector').TimingSrcConnector} TimingSrcConnector */
+
+  /**
+   * Connects a TimingObject to the video player (https://webtiming.github.io/timingobject/)
+   *
+   * @param {TimingObject} timingObject
+   * @param {TimingSrcConnectorOptions} options
+   *
+   * @return {Promise<TimingSrcConnector>}
+   */
+  async setTimingSrc(timingObject, options) {
+    if (!timingObject) {
+      throw new TypeError('A Timing Object must be provided.');
+    }
+    await this.ready();
+    const connector = new TimingSrcConnector(this, timingObject, options);
+    postMessage(this, 'notifyTimingObjectConnect');
+    connector.addEventListener('disconnect', () => postMessage(this, 'notifyTimingObjectDisconnect'));
+    return connector;
+  }
+}
+
+// Setup embed only if this is not a server runtime
 if (!isServerRuntime) {
   screenfull = initializeScreenfull();
   initializeEmbeds();
