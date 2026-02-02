@@ -1446,6 +1446,53 @@ class Player {
 
         return connector;
     }
+
+    /**
+     * Get the current subtitle/caption style.
+     * TODO: Requires iframe support to implement.
+     * @returns {Promise<Object|null>}
+     *
+     * Vimeo Caption Style Example
+     *
+     * This is an example of the full caption styling structure based on the Vimeo player UI:
+     *
+     * {
+     *   font: {
+     *     family: "Proportional Sans-Serif",   // or: Monospace Serif, etc.
+     *     color: "#FFFFFF",                    // white
+     *     size: "100%",                        // one of: 50%, 100%, 150%, 200%
+     *     opacity: "100%",                     // 25%, 50%, 75%, 100%
+     *     edgeStyle: "none"                    // none, drop-shadow, raised, depressed, outline
+     *   },
+     *   background: {
+     *     color: "#000000",                    // black
+     *     opacity: "100%"                      // 0%, 25%, 50%, 75%, 100%
+     *   },
+     *   window: {
+     *     color: "#000000",                    // black
+     *     opacity: "0%"                        // 0%, 25%, 50%, 75%, 100%
+     *   }
+     * }
+     */
+    async getTextTrackStyle() {
+        // Placeholder for future implementation
+        return Promise.resolve(null);
+    }
+
+    /**
+     * Set the subtitle/caption style.
+     * TODO: Requires iframe support to implement.
+     * @param {Object} style
+     * @param {string} [style.color]
+     * @param {string} [style.fontSize]
+     * @param {string} [style.backgroundColor]
+     * @param {string} [style.fontFamily]
+     * @returns {Promise<void>}
+     */
+    async setTextTrackStyle(style) {
+        // Placeholder for future implementation
+        return Promise.resolve();
+    }
 }
 
 // Setup embed only if this is not a server runtime
