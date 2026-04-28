@@ -21,6 +21,7 @@ const oEmbedParameters = [
     'color',
     'colors',
     'controls',
+    'disable_context_menu',
     'dnt',
     'end_time',
     'fullscreen',

@@ -143,6 +143,12 @@ export type VimeoEmbedParameters = {
     controls?: boolean;
 
     /**
+     * Whether to disable the custom right-click context menu (which shows options like "Open debug panel", "Copy debug info", etc.)
+     * @default false
+     */
+    disable_context_menu?: boolean;
+
+    /**
      * Whether to prevent the player from tracking session data, including setting cookies
      * @default false
      */
