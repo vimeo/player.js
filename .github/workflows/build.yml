@@ -4,44 +4,44 @@ jobs:
     run:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
             - name: Set Node.js 18.x
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
               with:
                   node-version: 18.x
 
             - name: Install packages
-              uses: borales/actions-yarn@v4
+              uses: borales/actions-yarn@97ba8bebfe5b549bb7999261698a52a81fd62f1b # v4
               with:
                   cmd: install --frozen-lockfile
 
             - name: Build production bundle
-              uses: borales/actions-yarn@v4
+              uses: borales/actions-yarn@97ba8bebfe5b549bb7999261698a52a81fd62f1b # v4
               with:
                   cmd: build
 
             - name: Lint
-              uses: borales/actions-yarn@v4
+              uses: borales/actions-yarn@97ba8bebfe5b549bb7999261698a52a81fd62f1b # v4
               with:
                   cmd: lint
 
             - name: Check types
-              uses: borales/actions-yarn@v4
+              uses: borales/actions-yarn@97ba8bebfe5b549bb7999261698a52a81fd62f1b # v4
               with:
                   cmd: check-types
 
             - name: Test
-              uses: borales/actions-yarn@v4
+              uses: borales/actions-yarn@97ba8bebfe5b549bb7999261698a52a81fd62f1b # v4
               with:
                   cmd: test
 
             - name: Generate test coverage
-              uses: borales/actions-yarn@v4
+              uses: borales/actions-yarn@97ba8bebfe5b549bb7999261698a52a81fd62f1b # v4
               with:
                   cmd: report-coverage
 
             - name: Upload coverage reports to Codecov
-              uses: codecov/codecov-action@v5
+              uses: codecov/codecov-action@75cd11691c0faa626561e295848008c8a7dddffe # v5
               with:
                   token: ${{ secrets.CODECOV_TOKEN }}
