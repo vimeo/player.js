@@ -73,7 +73,9 @@ export function processData(player, data) {
 
             promises.forEach((promise) => {
                 const error = new Error(data.data.message);
-                error.name = data.data.name;
+                if (data.data.name) {
+                    error.name = data.data.name;
+                }
 
                 promise.reject(error);
                 removeCallback(player, data.data.method, promise);
