@@ -164,3 +164,27 @@ test('processData rejects a method promise on an error event', async (t) => {
     t.is(error.name, 'TypeError');
     t.is(error.message, 'The color should be 3- or 6-digit hex value.');
 });
+
+test('processData keeps the default error name when the event omits it', async (t) => {
+    const player = { element: {} };
+    const callback = {};
+    const methodPromise = new Promise((resolve, reject) => {
+        callback.resolve = resolve;
+        callback.reject = reject;
+    });
+
+    storeCallback(player, 'getColor', callback);
+
+    processData(player, {
+        event: 'error',
+        data: {
+            method: 'getColor',
+            message: 'The player returned an incomplete error event.'
+        }
+    });
+
+    t.true(getCallbacks(player, 'getColor').length === 0);
+    const error = await t.throwsAsync(methodPromise);
+    t.is(error.name, 'Error');
+    t.is(error.message, 'The player returned an incomplete error event.');
+});
