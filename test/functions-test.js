@@ -1,6 +1,55 @@
 import test from 'ava';
+import vm from 'node:vm';
+import { versions } from 'node:process';
+import { rollup } from 'rollup';
 import html from './helpers/html';
 import { getMethodName, isDomElement, isInteger, isVimeoUrl, isVimeoEmbed, getVimeoUrl, getOembedDomain, findIframeBySourceWindow } from '../src/lib/functions';
+
+async function createRuntimeLoader() {
+    const bundle = await rollup({ input: 'src/lib/functions.js' });
+    const { output } = await bundle.generate({ format: 'iife', name: 'runtimeFlags' });
+    await bundle.close();
+    const runtimeCode = output[0].code;
+
+    return (processValue, documentValue) => {
+        const context = vm.createContext({
+            process: processValue,
+            document: documentValue,
+            caches: {},
+            WebSocketPair: undefined
+        });
+
+        context.global = context;
+        vm.runInContext(runtimeCode, context);
+
+        return {
+            globalTag: vm.runInContext('Object.prototype.toString.call(global)', context),
+            isNode: context.runtimeFlags.isNode,
+            isServerRuntime: context.runtimeFlags.isServerRuntime
+        };
+    };
+}
+
+test('isNode detects Node inside VM contexts without matching browser shims', async (t) => {
+    const loadRuntimeFlags = await createRuntimeLoader();
+    const nodeVm = loadRuntimeFlags({ versions });
+    const browser = loadRuntimeFlags(undefined);
+    const browserShim = loadRuntimeFlags({ browser: true, versions: {} });
+    const minimalBrowserShim = loadRuntimeFlags({ browser: true });
+    const hybridRenderer = loadRuntimeFlags({ versions }, {});
+
+    t.is(nodeVm.globalTag, '[object Object]');
+    t.true(nodeVm.isNode);
+    t.true(nodeVm.isServerRuntime);
+    t.false(browser.isNode);
+    t.false(browser.isServerRuntime);
+    t.false(browserShim.isNode);
+    t.false(browserShim.isServerRuntime);
+    t.false(minimalBrowserShim.isNode);
+    t.false(minimalBrowserShim.isServerRuntime);
+    t.true(hybridRenderer.isNode);
+    t.false(hybridRenderer.isServerRuntime);
+});
 
 test('getMethodName properly formats the method name', (t) => {
     t.true(getMethodName('color', 'get') === 'getColor');
