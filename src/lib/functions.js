@@ -6,9 +6,9 @@
  * Check to see this is a Node environment.
  * @type {boolean}
  */
-/* global global */
-export const isNode = typeof global !== 'undefined' &&
-  ({}).toString.call(global) === '[object global]';
+/* global document, process */
+export const isNode = typeof process !== 'undefined' &&
+  process.versions != null && process.versions.node != null;
 
 /**
  * Check to see if this is a Bun environment.
@@ -35,7 +35,8 @@ export const isCloudflareWorker = typeof WebSocketPair === 'function' && typeof 
  * Check if this is a server runtime
  * @type {boolean}
  */
-export const isServerRuntime = isNode || isBun || isDeno || isCloudflareWorker;
+export const isServerRuntime = typeof document === 'undefined' &&
+  (isNode || isBun || isDeno || isCloudflareWorker);
 
 /**
  * Get the name of the method for a given getter or setter.
